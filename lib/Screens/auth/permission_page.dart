@@ -11,6 +11,7 @@ import 'package:loan112_app/Utils/Debugprint.dart';
 import 'package:loan112_app/Utils/MysharePrefenceClass.dart';
 import 'package:loan112_app/Utils/snackbarMassage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:widgets_easier/widgets_easier.dart';
 import '../../Constant/FontConstant/FontConstant.dart';
 import '../../Cubit/auth_cubit/AuthCubit.dart';
 import '../../Cubit/auth_cubit/AuthState.dart';
@@ -117,37 +118,6 @@ class _PermissionPage extends State<PermissionPage> {
                               ),
 
                               /// Bottom Section
-                              SafeArea(
-                                bottom: true,
-                                child: Column(
-                                  children: [
-                                    consentBoxUI(context),
-                                    const SizedBox(height: 24.0),
-                                    BlocBuilder<AuthCubit, AuthState>(
-                                      builder: (context, state) {
-                                        final authCubit = context.read<AuthCubit>();
-                                        bool checked = authCubit.isPermissionGiven;
-
-                                        if (state is PermissionCheckboxState) {
-                                          checked = state.isChecked;
-                                        }
-
-                                        return Loan112Button(
-                                          onPressed: () {
-                                            if (checked) {
-                                              takeAllRequiredPermission(context);
-                                            } else {
-                                              openSnackBar(context,
-                                                  "Please accept our Terms & Conditions and Privacy Policy.");
-                                            }
-                                          },
-                                          text: "Continue",
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ],
                           ),
                         ),
@@ -160,10 +130,49 @@ class _PermissionPage extends State<PermissionPage> {
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        color: ColorConstant.whiteColor,
+        child: SafeArea(
+          bottom: true,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 12.0,
+                ),
+                consentBoxUI(context),
+                const SizedBox(height: 24.0),
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    final authCubit = context.read<AuthCubit>();
+                    bool checked = authCubit.isPermissionGiven;
+
+                    if (state is PermissionCheckboxState) {
+                      checked = state.isChecked;
+                    }
+
+                    return Loan112Button(
+                      onPressed: () {
+                        if (checked) {
+                          takeAllRequiredPermission(context);
+                        } else {
+                          openSnackBar(context,
+                              "Please accept our Terms & Conditions and Privacy Policy.");
+                        }
+                      },
+                      text: "Continue",
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
-
-
 
   void takeAllRequiredPermission(BuildContext context) async{
     final cameraPermission = await Permission.camera.request();
@@ -199,17 +208,11 @@ class _PermissionPage extends State<PermissionPage> {
       children: [
         Container(
           margin: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: ColorConstant.appThemeColor.withOpacity(0.2),
-                spreadRadius: 0,
-                blurRadius: 8,
-                offset: const Offset(0, 4), // x: 0, y: 4 => shadow below only
-              ),
-            ],
+          decoration: ShapeDecoration(
+            shape: DashedBorder(
+                width: 0.5,
+                color: ColorConstant.greyTextColor
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.only(
@@ -281,32 +284,46 @@ class _PermissionPage extends State<PermissionPage> {
               title: 'Location',
               subtitle:
               'This app collects location details one-time to fetch your current location (latitude/longitude) to identify serviceability, verify your current address expediting the KYC process and prevent fraud. We do not collect location when the app is in the background.',
-              imagePath: ImageConstants.permissionScreenLocation,
+              imagePath: ImageConstants.rotPermissionScreenLocation,
             ),
             SizedBox(height: 12),
             permissionTypeWidget(
               context,
-              title: 'Device',
+              title: 'Phone State',
               subtitle:
               'To call Company customer care executive directly through the application, allow us to make and manage phone/video calls. With this permission, the customer is able to call (Phone/Video) Company customer care executive directly through the application.',
-              imagePath: ImageConstants.permissionScreenDevice,
+              imagePath: ImageConstants.rotPermissionScreenPhoneState,
             ),
             SizedBox(height: 12),
-            if(Platform.isAndroid)...[
+           // if(Platform.isAndroid)...[
               permissionTypeWidget(
                 context,
                 title: 'SMS',
                 subtitle: 'The app periodically collects and transmits SMS data like sender names, SMS body and received time to our servers and third parties. This data is used to assess your income, spending patterns and your loan affordability. This helps us in quick credit assessment and help us in facilitating best offers to customers easily and at the same time prevent fraud.',
-                imagePath: ImageConstants.permissionScreenSMS,
+                imagePath: ImageConstants.rotPermissionScreenSMS,
               ),
               SizedBox(height: 12),
-            ],
+           // ],
             permissionTypeWidget(
               context,
               title: 'Camera',
               subtitle:
               'Grant access so you can take some selfies for verification',
-              imagePath: ImageConstants.permissionScreenCamera,
+              imagePath: ImageConstants.rotPermissionScreenCamera,
+            ),
+            SizedBox(height: 12),
+            permissionTypeWidget(
+              context,
+              title: 'Apps',
+              subtitle: 'This app collects and uploads the list of installed and system applications on your device to our trusted partner, Credeau (via https://devicesync.credeau.com), who provides device intelligence services. This data is used to detect potential fraud-such as the presence of VPNs, gaming, or other high-risk apps-and to assess your risk profile more accurately. These insights help us enable faster credit approvals and offer more suitable credit limits. The data is collected only after your explicit consent and is handled securely in accordance with applicable privacy policies.',
+              imagePath: ImageConstants.rotPermissionScreenApp,
+            ),
+            SizedBox(height: 12),
+            permissionTypeWidget(
+              context,
+              title: 'Device Metadata',
+              subtitle: 'This app collects and monitors specific information about your device like device brand, model, OS and version, user profile information, Network and SIM Information, Mac Address for the device to ensure that customer identity is not compromised and we can prevent organized fraud. We do not collect any unique device identifiers like IMEI and serial number.',
+              imagePath: ImageConstants.rotPermissionScreenDeviceMetaData,
             ),
             SizedBox(height: 16.0),
           ],
@@ -330,6 +347,8 @@ class _PermissionPage extends State<PermissionPage> {
           children: [
             Checkbox(
               value: checked,
+              checkColor: ColorConstant.whiteColor,
+              activeColor: ColorConstant.appThemeColor,
               onChanged: (val) {
                 context.read<AuthCubit>()
                     .toggleCheckbox(val);

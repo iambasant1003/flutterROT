@@ -72,137 +72,130 @@ class _LogInPageState extends State<LogInPage> {
               children: [
                 /// Background image
                 Positioned.fill(
-                  child: Image.asset(
-                    ImageConstants.logInScreenBackGround,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Container(
+                    color: ColorConstant.appThemeColor,
+                  )
                 ),
 
                 /// Form + Button
                 SafeArea(
-                  bottom: true,
                   top: true,
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                ImageConstants.loan112AppNameIcon,
-                                height: 76,
-                                width: 76,
-                              ),
-                            ],
-                          ),
-                        ),
-                        /// Scrollable form content
-                        Expanded(
-                          child: SingleChildScrollView(
-                            padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(height: 48.0),
-                                Image.asset(
-                                  ImageConstants.logInPageIcon,
-                                  width: 200,
-                                  height: 143,
-                                ),
-                                SizedBox(height: 40),
-                                Text(
-                                  "To Register / Login your Account",
-                                  style: TextStyle(
-                                    fontSize: FontConstants.f20,
-                                    fontWeight: FontConstants.w800,
-                                    fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.blackTextColor,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: ColorConstant.whiteColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(54.0),
+                        topLeft:  Radius.circular(54.0),
+                      )
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          /// Scrollable form content
+                          Expanded(
+                            child: SingleChildScrollView(
+                              padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 59),
+                                  Text(
+                                    "Log In / Sign Up Your Account",
+                                    style: TextStyle(
+                                      fontSize: FontConstants.f20,
+                                      fontWeight: FontConstants.w800,
+                                      fontFamily: FontConstants.fontFamily,
+                                      color: ColorConstant.blackTextColor,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 43),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Please enter your Mobile number",
-                                      style: TextStyle(
-                                        color: ColorConstant.greyTextColor,
-                                        fontSize: FontConstants.f16,
-                                        fontFamily: FontConstants.fontFamily,
-                                        fontWeight: FontConstants.w600,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          child: CommonTextField(
-                                            controller: mobileController,
-                                            hintText: "Enter your Mobile number",
-                                            maxLength: 10,
-                                            //keyboardType: TextInputType.phone,
-                                            //textInputAction: TextInputAction.done,
-                                            keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-                                            textInputAction: TextInputAction.done,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.digitsOnly,
-                                            ],
-                                            validator: (value) {
-                                              return validateMobileNumber(value);
-                                            },
-                                            onEditingComplete: (){
-                                              mobileNumberToPass = mobileController.text.trim();
-                                            },
-                                            onChanged: (val) {
-                                              print("Value is Changing");
-                                            },
-                                          ),
+                                  SizedBox(height: 24),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Please enter your Mobile number",
+                                        style: TextStyle(
+                                          color: ColorConstant.greyTextColor,
+                                          fontSize: FontConstants.f16,
+                                          fontFamily: FontConstants.fontFamily,
+                                          fontWeight: FontConstants.w600,
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 20), // space before button
-                                  ],
-                                ),
-                              ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: CommonTextField(
+                                              controller: mobileController,
+                                              hintText: "Enter your Mobile number",
+                                              maxLength: 10,
+                                              //keyboardType: TextInputType.phone,
+                                              //textInputAction: TextInputAction.done,
+                                              keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
+                                              textInputAction: TextInputAction.done,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter.digitsOnly,
+                                              ],
+                                              validator: (value) {
+                                                return validateMobileNumber(value);
+                                              },
+                                              onEditingComplete: (){
+                                                mobileNumberToPass = mobileController.text.trim();
+                                              },
+                                              onChanged: (val) {
+                                                print("Value is Changing");
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 20), // space before button
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
 
-                        /// Button pinned at bottom
-                        Padding(
-                          padding: EdgeInsets.all(FontConstants.horizontalPadding),
-                          child: Loan112Button(
-                            onPressed: () {
-                              if(_formKey.currentState!.validate()){
-                                mobileNumberToPass = mobileController.text.trim();
-                                final phone = mobileController.text.trim();
-                                if (phone.isNotEmpty) {
-                                  DebugPrint.prt("LogIn Method Called $phone");
-                                  CleverTapPlugin.onUserLogin({
-                                    'Identity': phone,
-                                  });
-                                  context.read<AuthCubit>().sendBothOtp(phone);
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text("Enter phone number")),
-                                  );
+                          /// Button pinned at bottom
+                          Padding(
+                            padding: EdgeInsets.all(FontConstants.horizontalPadding),
+                            child: Loan112Button(
+                              onPressed: () {
+                                if(_formKey.currentState!.validate()){
+                                  mobileNumberToPass = mobileController.text.trim();
+                                  final phone = mobileController.text.trim();
+                                  if (phone.isNotEmpty) {
+                                    DebugPrint.prt("LogIn Method Called $phone");
+                                    CleverTapPlugin.onUserLogin({
+                                      'Identity': phone,
+                                    });
+                                    context.read<AuthCubit>().sendBothOtp(phone);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text("Enter phone number")),
+                                    );
+                                  }
                                 }
-                              }
-                            },
-                            text: "LOGIN",
+                              },
+                              text: "LOGIN",
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-          )
+          ),
+          bottomNavigationBar: Container(
+            height: 10,
+            color: ColorConstant.whiteColor,
+          ),
       ),
     );
   }

@@ -57,6 +57,10 @@ class ImageConstants {
 
   /*--------------  ROT LOGO ------------------------*/
   static const String appIconLogo = "assets/rot/appIcon/rot_splash_icon.png";
-
-
+  static const String rotPermissionScreenLocation = 'assets/rot/icons/rot_permission_location.png';
+  static const String rotPermissionScreenDeviceMetaData = 'assets/rot/icons/rot_permission_meta_data.png';
+  static const String rotPermissionScreenSMS = 'assets/rot/icons/rot_permission_sms.png';
+  static const String rotPermissionScreenCamera = 'assets/rot/icons/rot_permission_camera.png';
+  static const String rotPermissionScreenPhoneState = "assets/rot/icons/rot_permission_phone_state.png";
+  static const String rotPermissionScreenApp = "assets/rot/icons/rot_permission_app_icon.png";
 }
