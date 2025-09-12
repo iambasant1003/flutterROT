@@ -1,4 +1,4 @@
-package com.example.loan112_app
+package com.personalloan.rupeeontime
 
 import io.flutter.embedding.android.FlutterActivity
 
