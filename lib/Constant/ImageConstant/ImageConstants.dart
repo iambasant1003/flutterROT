@@ -63,4 +63,5 @@ class ImageConstants {
   static const String rotPermissionScreenCamera = 'assets/rot/icons/rot_permission_camera.png';
   static const String rotPermissionScreenPhoneState = "assets/rot/icons/rot_permission_phone_state.png";
   static const String rotPermissionScreenApp = "assets/rot/icons/rot_permission_app_icon.png";
+  static const String rotLogInBoyImage = "assets/rot/images/login_boy_image.png";
 }
