@@ -1,0 +1,21 @@
+
+const String aaDarVerifyPage = "ekyc_initiated";
+const String bankStatementUpload = "bank_statement_upload";
+const String paySlipUpload = "pay_slip_upload";
+const String panUpload = "pan_upload";
+const String residenceProofUpload = "residence_proof_upload";
+const String landlineBill = "landline_bill";
+const String waterBill = "water_bill";
+const String electricityBill = "electricity_bill";
+const String gasBill = "gas_bill";
+const String creditCardStatement = "credit_card_statement";
+const String rentAgreement = "rent_agreement";
+const String bankingDetailsPage = "banking_details";
+const String pageLogin = "login";
+const String pageUploaded = "login";
+const String pageOtpVerification = "otp_verify";
+const String pagePinCodeVerification = "residence_pincode";
+const String pageIncomeDetails = "income_details";
+const String aadhaarPageVerified = "ekyc_verified";
+const String aadhaarPageUpload = "aadhaar_upload";
+const String extensionPage = "extension";
