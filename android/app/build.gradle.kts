@@ -12,7 +12,7 @@ val flutterVersionCode = project.findProperty("flutter.versionCode")?.toString()
 val flutterVersionName = project.findProperty("flutter.versionName")?.toString() ?: "1.0.0"
 
 android {
-    namespace = "com.example.loan112_app"
+    namespace = "com.personalloan.rupeeontime"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -27,7 +27,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.loan112_app"
+        applicationId = "com.personalloan.rupeeontime"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
 

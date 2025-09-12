@@ -9,7 +9,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Loan112</string>
+	<string>RupeeOnTime</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,37 +26,30 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CleverTapAccountID</key>
+	<string>RZK-947-W57Z</string>
+	<key>CleverTapRegion</key>
+	<string>in1</string>
+	<key>CleverTapToken</key>
+	<string>a4c-312</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-
-	<!-- Privacy usage descriptions -->
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to take photos and videos.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs microphone access to record audio.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to your location while in use.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to your location always.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to your location in background.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs photo library access to let you select and upload photos.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to your location always.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location while in use.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs microphone access to record audio.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app needs photo library access to save photos and videos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs photo library access to let you select and upload photos.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This app uses tracking to provide a better user experience and personalized content.</string>
-
-    <key>CleverTapAccountID</key>
-    <string>RZK-947-W57Z</string>
-
-    <key>CleverTapToken</key>
-    <string>a4c-312</string>
-
-    <key>CleverTapRegion</key>
-    <string>in1</string> <!-- Replace with your actual data center region -->
-
-
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

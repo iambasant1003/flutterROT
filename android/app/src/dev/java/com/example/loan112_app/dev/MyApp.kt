@@ -1,4 +1,4 @@
-package com.example.loan112_app.dev
+package com.personalloan.rupeeontime.dev
 
 import io.flutter.app.FlutterApplication
 import io.flutter.embedding.engine.FlutterEngine

@@ -54,4 +54,9 @@ class ImageConstants {
   static const String bankStatementUploadSuccess = "assets/images/bankstatement_upload.png";
   static const String sessionTimeOutIcon = "assets/icons/session_timeout_icon.png";
   static const String drawerMenuIcon = "assets/icons/drawer/drawer_menu_icon.png";
+
+  /*--------------  ROT LOGO ------------------------*/
+  static const String appIconLogo = "assets/rot/appIcon/rot_splash_icon.png";
+
+
 }

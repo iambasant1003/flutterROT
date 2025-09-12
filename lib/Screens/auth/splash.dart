@@ -101,16 +101,25 @@ class _SplashScreenState extends State<SplashScreen> {
             openSnackBar(context, state.appVersionResponseModel.message ?? "UnExpected Error");
           }
         },
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                ImageConstants.splashScreenPath,
-                fit: BoxFit.cover,
-              ),
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFFAFCFD), // Top color
+                Color(0xFFB9F0FD), // Bottom color
+              ],
             ),
-          ],
-        ),
+          ),
+          child: Center(
+            child: Image.asset(
+              ImageConstants.appIconLogo,
+              width: 216,
+              height: 128,
+            ),
+          ),
+        )
       ),
     );
 

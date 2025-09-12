@@ -115,6 +115,10 @@ flutter:
     - assets/fonts/
     - assets/icons/drawer/
     - assets/appIcon/
+    - assets/rot/appIcon/
+    - assets/rot/fonts/
+    - assets/rot/icons/
+    - assets/rot/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

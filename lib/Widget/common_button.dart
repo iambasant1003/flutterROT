@@ -37,6 +37,7 @@ class Loan112Button extends StatelessWidget {
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
+          /*
           gradient: const LinearGradient(
             colors: [
               Color(0xFF2B3C74),
@@ -45,10 +46,9 @@ class Loan112Button extends StatelessWidget {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          border: Border.all(
-            color: ColorConstant.whiteColor,
-            width: 2,
-          ),
+
+           */
+          color: ColorConstant.appThemeColor,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: ElevatedButton(

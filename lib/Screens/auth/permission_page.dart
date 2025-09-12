@@ -35,7 +35,6 @@ class _PermissionPage extends State<PermissionPage> {
     allowNotification();
   }
 
-
   void allowNotification() async{
     await FirebaseNotificationService().init(context);
   }
@@ -84,122 +83,87 @@ class _PermissionPage extends State<PermissionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox.expand( // background fills screen
-        child: Stack(
+      backgroundColor: ColorConstant.appThemeColor,
+      body: SizedBox.expand(
+        child: Column(
           children: [
-            Positioned.fill(
-              child: Image.asset(
-                ImageConstants.permissionScreenBackground,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Positioned(
-              top: 60,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 20), // avoid bottom cut-off
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Column(
-                      children: [
-                        const SizedBox(height: 15),
-                        permissionContainerWidget(context),
-                        //const SizedBox(height: 60), // leave space for button
-                      ],
-                    ),
-                    Positioned(
-                      top: 15,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ColorConstant.appThemeColor,
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(18.0),
-                              bottomRight: Radius.circular(18.0),
-                            ),
-                          ),
-                          width: 244,
-                          height: 40,
-                          child: Center(
-                            child: Text(
-                              "Permissions",
-                              style: TextStyle(
-                                fontSize: FontConstants.f18,
-                                fontWeight: FontConstants.w800,
-                                color: ColorConstant.whiteColor,
+            const SizedBox(height: 100),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorConstant.whiteColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(54.0),
+                    topRight: Radius.circular(54.0),
+                  ),
+                ),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: FontConstants.horizontalPadding,
+                      ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween, // 👈 pushes bottom section down
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: FontConstants.horizontalPadding,
+                                ),
+                                child: permissionContainerWidget(context),
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    /*
-                    Positioned(
-                      bottom: 40,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: SizedBox(
-                          width: 162,
-                          child: Loan112Button(
-                            onPressed: () {
-                              if (allPermissionAccepted) {
-                                takeAllRequiredPermission(context);
-                              }else{
-                                openSnackBar(context, "Please accept our Terms & Conditions and Privacy Policy.");
-                              }
-                            },
-                            text: "Allow",
-                          ),
-                        ),
-                      ),
-                    ),
 
-                     */
-                  ],
+                              /// Bottom Section
+                              SafeArea(
+                                bottom: true,
+                                child: Column(
+                                  children: [
+                                    consentBoxUI(context),
+                                    const SizedBox(height: 24.0),
+                                    BlocBuilder<AuthCubit, AuthState>(
+                                      builder: (context, state) {
+                                        final authCubit = context.read<AuthCubit>();
+                                        bool checked = authCubit.isPermissionGiven;
+
+                                        if (state is PermissionCheckboxState) {
+                                          checked = state.isChecked;
+                                        }
+
+                                        return Loan112Button(
+                                          onPressed: () {
+                                            if (checked) {
+                                              takeAllRequiredPermission(context);
+                                            } else {
+                                              openSnackBar(context,
+                                                  "Please accept our Terms & Conditions and Privacy Policy.");
+                                            }
+                                          },
+                                          text: "Continue",
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        bottom: true,
-        child: BlocBuilder<AuthCubit, AuthState>(
-          builder: (context,state){
-            final authCubit = context.read<AuthCubit>();
-            bool checked = authCubit.isPermissionGiven;
-
-            if (state is PermissionCheckboxState) {
-              checked = state.isChecked;
-            }
-            return SizedBox(
-              width: 162,
-              height: 85,
-              child: Padding(
-                padding: EdgeInsets.all(FontConstants.horizontalPadding),
-                child: Loan112Button(
-                  onPressed: () {
-                    if (checked) {
-                      takeAllRequiredPermission(context);
-                    }else{
-                      openSnackBar(context, "Please accept our Terms & Conditions and Privacy Policy.");
-                    }
-                  },
-                  text: "Allow",
-                ),
-              ),
-            );
-          },
-        ),
-      ),
     );
   }
+
+
 
   void takeAllRequiredPermission(BuildContext context) async{
     final cameraPermission = await Permission.camera.request();
@@ -298,76 +262,55 @@ class _PermissionPage extends State<PermissionPage> {
   Widget permissionContainerWidget(BuildContext context){
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(ImageConstants.permissionScreenLeftPyramid,width: 26,height: 13),
-            SizedBox(
-              width: 214,
+        Center(
+          child: Text(
+            "Enable Permissions",
+            style: TextStyle(
+              fontSize: FontConstants.f20,
+              fontWeight: FontConstants.w700,
+              color: ColorConstant.permissionPageTextColor,
             ),
-            Image.asset(ImageConstants.permissionScreenRightPyramid,width: 26,height: 13.0),
+          ),
+        ),
+        Column(
+          children: [
+            const SizedBox(height: 28),
+            // other content goes here
+            permissionTypeWidget(
+              context,
+              title: 'Location',
+              subtitle:
+              'This app collects location details one-time to fetch your current location (latitude/longitude) to identify serviceability, verify your current address expediting the KYC process and prevent fraud. We do not collect location when the app is in the background.',
+              imagePath: ImageConstants.permissionScreenLocation,
+            ),
+            SizedBox(height: 12),
+            permissionTypeWidget(
+              context,
+              title: 'Device',
+              subtitle:
+              'To call Company customer care executive directly through the application, allow us to make and manage phone/video calls. With this permission, the customer is able to call (Phone/Video) Company customer care executive directly through the application.',
+              imagePath: ImageConstants.permissionScreenDevice,
+            ),
+            SizedBox(height: 12),
+            if(Platform.isAndroid)...[
+              permissionTypeWidget(
+                context,
+                title: 'SMS',
+                subtitle: 'The app periodically collects and transmits SMS data like sender names, SMS body and received time to our servers and third parties. This data is used to assess your income, spending patterns and your loan affordability. This helps us in quick credit assessment and help us in facilitating best offers to customers easily and at the same time prevent fraud.',
+                imagePath: ImageConstants.permissionScreenSMS,
+              ),
+              SizedBox(height: 12),
+            ],
+            permissionTypeWidget(
+              context,
+              title: 'Camera',
+              subtitle:
+              'Grant access so you can take some selfies for verification',
+              imagePath: ImageConstants.permissionScreenCamera,
+            ),
+            SizedBox(height: 16.0),
           ],
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: 16,
-            //vertical: 32,
-          ),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          width: double.infinity,
-          child: Column(
-            children: [
-              const SizedBox(height: 28),
-              // other content goes here
-              permissionTypeWidget(
-                context,
-                title: 'Location',
-                subtitle:
-                'This app collects location details one-time to fetch your current location (latitude/longitude) to identify serviceability, verify your current address expediting the KYC process and prevent fraud. We do not collect location when the app is in the background.',
-                imagePath: ImageConstants.permissionScreenLocation,
-              ),
-              SizedBox(height: 12),
-              permissionTypeWidget(
-                context,
-                title: 'Device',
-                subtitle:
-                'To call Company customer care executive directly through the application, allow us to make and manage phone/video calls. With this permission, the customer is able to call (Phone/Video) Company customer care executive directly through the application.',
-                imagePath: ImageConstants.permissionScreenDevice,
-              ),
-              SizedBox(height: 12),
-              if(Platform.isAndroid)...[
-                permissionTypeWidget(
-                  context,
-                  title: 'SMS',
-                  subtitle: 'The app periodically collects and transmits SMS data like sender names, SMS body and received time to our servers and third parties. This data is used to assess your income, spending patterns and your loan affordability. This helps us in quick credit assessment and help us in facilitating best offers to customers easily and at the same time prevent fraud.',
-                  imagePath: ImageConstants.permissionScreenSMS,
-                ),
-                SizedBox(height: 12),
-              ],
-              permissionTypeWidget(
-                context,
-                title: 'Camera',
-                subtitle:
-                'Grant access so you can take some selfies for verification',
-                imagePath: ImageConstants.permissionScreenCamera,
-              ),
-              SizedBox(height: 16.0),
-              consentBoxUI(context),
-              SizedBox(height: 24.0),
-            ],
-          ),
-        )
       ],
     );
   }
@@ -407,7 +350,7 @@ class _PermissionPage extends State<PermissionPage> {
                     TextSpan(
                       text: 'Terms & Conditions',
                       style: TextStyle(
-                        color: ColorConstant.blueTextColor,
+                        color: ColorConstant.appThemeColor,
                         fontSize: FontConstants.f12,
                         fontFamily: FontConstants.fontFamily,
                         fontWeight: FontConstants.w500,
@@ -430,7 +373,7 @@ class _PermissionPage extends State<PermissionPage> {
                     TextSpan(
                       text: 'Privacy Policy',
                       style: TextStyle(
-                        color: ColorConstant.blueTextColor,
+                        color: ColorConstant.appThemeColor,
                         fontSize: FontConstants.f12,
                         fontFamily: FontConstants.fontFamily,
                         fontWeight: FontConstants.w500,
