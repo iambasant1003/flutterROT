@@ -42,11 +42,11 @@ android {
             dimension = "default"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            manifestPlaceholders["applicationName"] = "com.example.loan112_app.dev.MyApp"
+            manifestPlaceholders["applicationName"] = "com.personalloan.rupeeontime.dev.MyApp"
         }
         create("prod") {
             dimension = "default"
-            manifestPlaceholders["applicationName"] = "com.example.loan112_app.MyApp"
+            manifestPlaceholders["applicationName"] = "com.personalloan.rupeeontime.MyApp"
         }
     }
 
