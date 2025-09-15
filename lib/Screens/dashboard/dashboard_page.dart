@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loan112_app/Constant/ColorConst/ColorConstant.dart';
-import 'package:loan112_app/Cubit/dashboard_cubit/DashboardCubit.dart';
-import 'package:loan112_app/Cubit/dashboard_cubit/DashboardState.dart';
-import 'package:loan112_app/Model/DashBoarddataModel.dart';
-import 'package:loan112_app/Routes/app_router_name.dart';
-import 'package:loan112_app/Utils/snackbarMassage.dart';
+import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
+import 'package:rupeeontime/Cubit/dashboard_cubit/DashboardCubit.dart';
+import 'package:rupeeontime/Cubit/dashboard_cubit/DashboardState.dart';
+import 'package:rupeeontime/Model/DashBoarddataModel.dart';
+import 'package:rupeeontime/Routes/app_router_name.dart';
+import 'package:rupeeontime/Utils/snackbarMassage.dart';
 import '../../Constant/FontConstant/FontConstant.dart';
 import '../../Constant/ImageConstant/ImageConstants.dart';
 import '../../Utils/Debugprint.dart';
@@ -53,17 +53,31 @@ class _DashBoardPage extends State<DashBoardPage>{
                   },
                 ),
                 appBar: Loan112AppBar(
-                  leadingSpacing: 40,
+                  leadingSpacing: 55,
+                  toolbarHeight: 100,
+                  backgroundColor: ColorConstant.appThemeColor,
+                  centerTitle: true,
                   title: Builder(
                       builder: (context)=> InkWell(
                         onTap: () {
                           Scaffold.of(context).openDrawer();
                         },
-                        child: Image.asset(
-                          ImageConstants.loan112AppNameIcon,
-                          height: 76,
-                          width: 76,
-                        ),
+                        child: Container(
+                          width: 165,
+                          height: 91,
+                          decoration: BoxDecoration(
+                            color: ColorConstant.whiteColor,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16.0)
+                            )
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              ImageConstants.appIconLogo,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
                       )
                   ),
                   customLeading: Builder(
@@ -75,7 +89,7 @@ class _DashBoardPage extends State<DashBoardPage>{
                         },
                         child: Image.asset(
                           ImageConstants.drawerMenuIcon,
-                          color: ColorConstant.greyTextColor,
+                          color: ColorConstant.whiteColor,
                           width: 28,
                           height: 28,
                         ),
@@ -92,8 +106,9 @@ class _DashBoardPage extends State<DashBoardPage>{
                         },
                         child: Image.asset(
                           ImageConstants.dashBoardHeadphone,
-                          height: 24,
-                          width: 24,
+                          height: 35,
+                          width: 35,
+                          color: ColorConstant.whiteColor,
                         ),
                       ),
                     )

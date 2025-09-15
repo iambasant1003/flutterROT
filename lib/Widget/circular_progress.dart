@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loan112_app/Constant/ImageConstant/ImageConstants.dart';
+import 'package:rupeeontime/Constant/ImageConstant/ImageConstants.dart';
 
 class CircularProgressWithText extends StatelessWidget {
   final double progress; // 0.1 for 10%

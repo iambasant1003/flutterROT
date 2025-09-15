@@ -1,4 +1,4 @@
-name: loan112_app
+name: rupeeontime
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -72,8 +72,7 @@ dependencies:
   firebase_messaging:
   internet_connection_checker_plus: ^2.7.2
   appsflyer_sdk: ^6.16.21
-  clevertap_plugin: ^3.5.2
-  change_app_package_name: ^1.5.0
+  clevertap_plugin: ^1.7.0
 
 
 
@@ -117,9 +116,9 @@ flutter:
     - assets/icons/drawer/
     - assets/appIcon/
     - assets/rot/appIcon/
-#    - assets/rot/fonts/
+    - assets/rot/fonts/
     - assets/rot/icons/
-#    - assets/rot/images/
+    - assets/rot/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -131,7 +130,7 @@ flutter:
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
-  # example:
+  # personalloan:
   fonts:
     - family: Manrope
       fonts:

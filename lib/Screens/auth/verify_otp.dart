@@ -6,12 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loan112_app/Cubit/auth_cubit/AuthCubit.dart';
-import 'package:loan112_app/Cubit/auth_cubit/AuthState.dart';
-import 'package:loan112_app/Routes/app_router_name.dart';
-import 'package:loan112_app/Utils/CleverTapEventsName.dart';
-import 'package:loan112_app/Utils/MysharePrefenceClass.dart';
-import 'package:loan112_app/Utils/snackbarMassage.dart';
+import 'package:rupeeontime/Cubit/auth_cubit/AuthCubit.dart';
+import 'package:rupeeontime/Cubit/auth_cubit/AuthState.dart';
+import 'package:rupeeontime/Routes/app_router_name.dart';
+import 'package:rupeeontime/Utils/CleverTapEventsName.dart';
+import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
+import 'package:rupeeontime/Utils/snackbarMassage.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../Constant/ColorConst/ColorConstant.dart';
 import '../../Constant/FontConstant/FontConstant.dart';
@@ -58,7 +58,6 @@ class _VerifyOTP extends State<VerifyOTP>{
   @override
   void dispose() {
     _timer?.cancel();
-    otpController.dispose();
     super.dispose();
   }
 
@@ -77,10 +76,9 @@ class _VerifyOTP extends State<VerifyOTP>{
             children: [
               /// Background image
               Positioned.fill(
-                child: Image.asset(
-                  ImageConstants.logInScreenBackGround,
-                  fit: BoxFit.cover,
-                ),
+                child: Container(
+                  color: ColorConstant.appThemeColor,
+                )
               ),
 
               /// Form + Button
@@ -119,179 +117,205 @@ class _VerifyOTP extends State<VerifyOTP>{
                       openSnackBar(context, state.message);
                     }
                   },
-                  child: SafeArea(
-                   top: true,
-                   bottom: true,
-                   child: Column(
-                     children: [
-                       Padding(
-                         padding: EdgeInsets.only(bottom: 11.0,left: 0.0),
-                         child: Loan112AppBar(
-                           customLeading: InkWell(
-                             child: Icon(Icons.arrow_back_ios,
-                                 color: ColorConstant.blackTextColor),
-                             onTap: () {
-                               GoRouter.of(context).pop();
-                             },
-                           ),
-                           leadingSpacing: 30,
-                           title: Image.asset(
-                             ImageConstants.loan112AppNameIcon,
-                             height: 76,
-                             width: 76,
-                           ),
-                         ),
-                       ),
-                       /// Scrollable form content
-                       Expanded(
-                         child: SingleChildScrollView(
-                           padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                           child: Column(
-                             mainAxisSize: MainAxisSize.min,
-                             children: [
-                               SizedBox(height: 48.0),
-                               Image.asset(
-                                 ImageConstants.verifyOTP,
-                                 width: 200,
-                                 height: 143,
-                               ),
-                               SizedBox(height: 40),
-                               Text(
-                                 "Verify OTP",
-                                 style: TextStyle(
-                                   fontSize: FontConstants.f20,
-                                   fontWeight: FontConstants.w800,
-                                   fontFamily: FontConstants.fontFamily,
-                                   color: ColorConstant.blackTextColor,
-                                 ),
-                               ),
-                               SizedBox(height: 43),
-                               Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   Text(
-                                     "Please enter your OTP",
-                                     style: TextStyle(
-                                       color: ColorConstant.greyTextColor,
-                                       fontSize: FontConstants.f16,
-                                       fontFamily: FontConstants.fontFamily,
-                                       fontWeight: FontConstants.w600,
-                                     ),
-                                   ),
-                                   SizedBox(height: 12),
-                                   Align(
-                                     alignment: Alignment.centerLeft, // left align
-                                     child: ConstrainedBox(
-                                       constraints: BoxConstraints(maxWidth: (50 * 4) + (12 * 3)), // total width
-                                       child: PinCodeTextField(
-                                         appContext: context,
-                                         length: 4,
-                                         controller: otpController,
-                                         onChanged: (value) {},
-                                         keyboardType: TextInputType.number,
-                                         pinTheme: PinTheme(
-                                           shape: PinCodeFieldShape.box,
-                                           borderRadius: BorderRadius.circular(8),
-                                           fieldHeight: 50,
-                                           fieldWidth: 50,
-                                           activeColor: Colors.grey.shade400,
-                                           inactiveColor: Colors.grey.shade300,
-                                           selectedColor: Colors.blue.shade400,
-                                           activeFillColor: Colors.white,
-                                           inactiveFillColor: Colors.white,
-                                           selectedFillColor: Colors.white,
-                                           borderWidth: 1,
-                                         ),
-                                         cursorColor: Colors.blue,
-                                         animationType: AnimationType.fade,
-                                         enableActiveFill: true,
-                                         onCompleted: (otp) {
-                                           // This is called when all 4 digits are entered
-                                           debugPrint("OTP entered: $otp");
-                                           context.read<AuthCubit>().verifyOtpPhp(widget.mobileNumber,otp.trim());
-                                         },
-                                         mainAxisAlignment: MainAxisAlignment.spaceBetween, // << key
-                                       ),
-                                     ),
-                                   ),
-                                   SizedBox(height: 30),
-                                   _secondsRemaining > 0
-                                       ? Row(
-                                     children: [
-                                       Text(
-                                     "Resend OTP",
-                                     style: TextStyle(
-                                         fontFamily: FontConstants.fontFamily,
-                                         fontSize: FontConstants.f14,
-                                         fontWeight: FontConstants.w500,
-                                         color: ColorConstant.blueTextColor
-                                     ),
-                                   ),
-                                       SizedBox(
-                                         width: 4.0,
-                                       ),
-                                       Text(
-                                         "in ${_secondsRemaining}s",
-                                         style: TextStyle(
-                                             fontFamily: FontConstants.fontFamily,
-                                             fontSize: FontConstants.f14,
-                                             fontWeight: FontConstants.w500,
-                                             color: ColorConstant.blackTextColor
-                                         ),
-                                       )
-                                     ],
-                                   )
-                                       : Row(
-                                     children: [
-                                       GestureDetector(
-                                         onTap: _resendOtp,
-                                         child: Text(
-                                           "Resend OTP",
-                                           style: TextStyle(
-                                               fontFamily: FontConstants.fontFamily,
-                                               fontSize: FontConstants.f14,
-                                               fontWeight: FontConstants.w800,
-                                               color: ColorConstant.blueTextColor
-                                           ),
-                                         ),
-                                       ),
-                                       SizedBox(
-                                         width: 4.0,
-                                       ),
-                                       Text(
-                                         "You can now resend OTP",
-                                         style: TextStyle(
-                                             fontFamily: FontConstants.fontFamily,
-                                             fontSize: FontConstants.f14,
-                                             fontWeight: FontConstants.w700,
-                                             color: ColorConstant.greyTextColor
-                                         ),
-                                       )
-                                     ],
-                                   ),
-                                 ],
-                               ),
-                             ],
-                           ),
-                         ),
-                       ),
-                       /// Button pinned at bottom
-                       Padding(
-                         padding: EdgeInsets.all(FontConstants.horizontalPadding),
-                         child: Loan112Button(
-                           onPressed: () {
-                             if(otpController.text.trim() != ""){
-                               context.read<AuthCubit>().verifyOtpPhp(widget.mobileNumber,otpController.text.trim());
-                             }else{
-                               openSnackBar(context, "Please Enter OTP");
-                             }
-                           },
-                           text: "Verify otp".toUpperCase(),
-                         ),
-                       ),
-                     ],
-                   ),
-                 ),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 59.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: ColorConstant.whiteColor,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(54.0),
+                            topLeft:  Radius.circular(54.0),
+                          )
+                      ),
+                      child: SafeArea(
+                        top: true,
+                        bottom: true,
+                        child: Column(
+                          children: [
+                            /// Scrollable form content
+                            Expanded(
+                              child: SingleChildScrollView(
+                                padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(height: 48.0),
+                                    Image.asset(
+                                      ImageConstants.rotVerifyOTPIcon,
+                                      width: 52,
+                                      height: 52,
+                                    ),
+                                    SizedBox(height: 32),
+                                    Text(
+                                      "Enter the OTP",
+                                      style: TextStyle(
+                                        fontSize: FontConstants.f20,
+                                        fontWeight: FontConstants.w800,
+                                        fontFamily: FontConstants.fontFamily,
+                                        color: ColorConstant.blackTextColor,
+                                      ),
+                                    ),
+                                    SizedBox(height: 12),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "One step left — enter your OTP to continue",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: ColorConstant.greyTextColor,
+                                            fontSize: FontConstants.f16,
+                                            fontFamily: FontConstants.fontFamily,
+                                            fontWeight: FontConstants.w600,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "+91-${widget.mobileNumber}",
+                                              style: TextStyle(
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  fontSize: FontConstants.f20,
+                                                  fontWeight: FontConstants.w700,
+                                                  color: ColorConstant.appThemeColor
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 8.0,
+                                            ),
+                                            InkWell(
+                                              onTap: (){
+                                                otpController.clear();  // remove value
+                                                FocusScope.of(context).unfocus(); // close keyboard if open
+                                                context.pop();
+                                              },
+                                              child: Image.asset(
+                                                ImageConstants.rotEditMobileNumber,
+                                                height: 17,
+                                                width: 17,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 20),
+                                        PinCodeTextField(
+                                          appContext: context,
+                                          length: 4,
+                                          controller: otpController,
+                                          onChanged: (value) {},
+                                          keyboardType: TextInputType.number,
+                                          pinTheme: PinTheme(
+                                            shape: PinCodeFieldShape.box,
+                                            borderRadius: BorderRadius.circular(8),
+                                            fieldHeight: 52,
+                                            fieldWidth: 52,
+                                            activeColor: Colors.grey.shade400,
+                                            inactiveColor: Colors.grey.shade300,
+                                            selectedColor: ColorConstant.appThemeColor,
+                                            activeFillColor: Colors.white,
+                                            inactiveFillColor: Colors.white,
+                                            selectedFillColor: Colors.white,
+                                            borderWidth: 1,
+                                          ),
+                                          cursorColor: Colors.blue,
+                                          animationType: AnimationType.fade,
+                                          enableActiveFill: true,
+                                          onCompleted: (otp) {
+                                            // This is called when all 4 digits are entered
+                                            debugPrint("OTP entered: $otp");
+                                            context.read<AuthCubit>().verifyOtpPhp(widget.mobileNumber,otp.trim());
+                                          },
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween, // << key
+                                        ),
+                                        SizedBox(height: 20),
+                                        _secondsRemaining > 0?
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "OTP Will Expire",
+                                              style: TextStyle(
+                                                color: ColorConstant.greyTextColor,
+                                                fontSize: FontConstants.f14,
+                                                fontFamily: FontConstants.fontFamily,
+                                                fontWeight: FontConstants.w600,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 8.0,
+                                            ),
+                                            Text(
+                                              "00:$_secondsRemaining",
+                                              style: TextStyle(
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  fontSize: FontConstants.f14,
+                                                  fontWeight: FontConstants.w800,
+                                                  color: ColorConstant.blueTextColor
+                                              ),
+                                            ),
+                                          ],
+                                        ):
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Didn’t receive a Code?",
+                                              style: TextStyle(
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  fontSize: FontConstants.f14,
+                                                  fontWeight: FontConstants.w700,
+                                                  color: ColorConstant.greyTextColor
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 4.0,
+                                            ),
+                                            GestureDetector(
+                                              onTap: _resendOtp,
+                                              child: Text(
+                                                "Resend Code!",
+                                                style: TextStyle(
+                                                    fontFamily: FontConstants.fontFamily,
+                                                    fontSize: FontConstants.f14,
+                                                    fontWeight: FontConstants.w800,
+                                                    color: ColorConstant.blueTextColor
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 265,
+                                          child: Loan112Button(
+                                            onPressed: () {
+                                              if(otpController.text.trim() != ""){
+                                                context.read<AuthCubit>().verifyOtpPhp(widget.mobileNumber,otpController.text.trim());
+                                              }else{
+                                                openSnackBar(context, "Please Enter OTP");
+                                              }
+                                            },
+                                            text: "Verify otp".toUpperCase(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            /// Button pinned at bottom
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
               ),
             ],
           ),

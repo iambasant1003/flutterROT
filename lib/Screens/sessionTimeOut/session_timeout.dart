@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loan112_app/Screens/loanApplicationPage/loanApplicationOptions/bankStatement/newBREJourney/new_breBackground.dart';
+import 'package:rupeeontime/Screens/loanApplicationPage/loanApplicationOptions/bankStatement/newBREJourney/new_breBackground.dart';
 import '../../Constant/ColorConst/ColorConstant.dart';
 import '../../Constant/FontConstant/FontConstant.dart';
 import '../../Constant/ImageConstant/ImageConstants.dart';

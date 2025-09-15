@@ -2,18 +2,18 @@
 
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loan112_app/Cubit/dashboard_cubit/DashboardState.dart';
-import 'package:loan112_app/Cubit/safe_emit.dart';
-import 'package:loan112_app/Model/DashBoarddataModel.dart';
-import 'package:loan112_app/Model/DeleteCustomerModel.dart';
-import 'package:loan112_app/Model/SendPhpOTPModel.dart';
-import 'package:loan112_app/ParamModel/DeleteCustomerProfileModel.dart';
-import 'package:loan112_app/Repository/dashboard_repository.dart';
+import 'package:rupeeontime/Cubit/safe_emit.dart';
+import '../../Model/DashBoarddataModel.dart';
+import '../../Model/DeleteCustomerModel.dart';
 import '../../Model/DeleteProfileOTPVerifyModel.dart';
+import '../../Model/SendPhpOTPModel.dart';
+import '../../ParamModel/DeleteCustomerProfileModel.dart';
 import '../../ParamModel/DeleteVerifyOTPParamModel.dart';
+import '../../Repository/dashboard_repository.dart';
 import '../../Services/ApiResponseStatus.dart';
 import '../../Utils/Debugprint.dart';
 import '../../Utils/MysharePrefenceClass.dart';
+import 'DashboardState.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
   final DashBoardRepository dashBoardRepository;

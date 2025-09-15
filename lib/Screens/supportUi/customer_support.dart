@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:loan112_app/Constant/ColorConst/ColorConstant.dart';
-import 'package:loan112_app/Constant/FontConstant/FontConstant.dart';
-import 'package:loan112_app/Model/DashBoarddataModel.dart';
-import 'package:loan112_app/Utils/Debugprint.dart';
-import 'package:loan112_app/Utils/MysharePrefenceClass.dart';
-import 'package:loan112_app/Utils/snackbarMassage.dart';
-import 'package:loan112_app/Widget/app_bar.dart';
+import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
+import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
+import 'package:rupeeontime/Model/DashBoarddataModel.dart';
+import 'package:rupeeontime/Utils/Debugprint.dart';
+import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
+import 'package:rupeeontime/Utils/snackbarMassage.dart';
+import 'package:rupeeontime/Widget/app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomerSupportUiScreen extends StatefulWidget {

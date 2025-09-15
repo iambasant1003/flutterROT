@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loan112_app/Constant/ColorConst/ColorConstant.dart';
-import 'package:loan112_app/Constant/FontConstant/FontConstant.dart';
+import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
+import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
 
 class GetStartedSteps extends StatelessWidget {
   final List<String> stepToGetStarted;

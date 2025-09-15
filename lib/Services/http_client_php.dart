@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:loan112_app/Model/VerifyPHPOTPModel.dart';
-import 'package:loan112_app/Utils/MysharePrefenceClass.dart';
+import 'package:rupeeontime/Model/VerifyPHPOTPModel.dart';
+import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
 import '../Utils/AppConfig.dart';
 import '../Utils/Debugprint.dart';
 

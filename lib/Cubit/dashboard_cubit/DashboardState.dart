@@ -1,9 +1,10 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:loan112_app/Model/DashBoarddataModel.dart';
-import 'package:loan112_app/Model/DeleteCustomerModel.dart';
 
+
+import '../../Model/DashBoarddataModel.dart';
+import '../../Model/DeleteCustomerModel.dart';
 import '../../Model/DeleteProfileOTPVerifyModel.dart';
 
 

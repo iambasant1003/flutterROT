@@ -3,19 +3,21 @@
 import 'dart:convert';
 //import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:clevertap_plugin/clevertap_plugin.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loan112_app/Constant/ColorConst/ColorConstant.dart';
-import 'package:loan112_app/Constant/ImageConstant/ImageConstants.dart';
-import 'package:loan112_app/Routes/app_router_name.dart';
-import 'package:loan112_app/Utils/Debugprint.dart';
-import 'package:loan112_app/Utils/MysharePrefenceClass.dart';
-import 'package:loan112_app/Utils/snackbarMassage.dart';
-import 'package:loan112_app/Utils/validation.dart';
-import 'package:loan112_app/Widget/common_system_ui.dart';
+import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
+import 'package:rupeeontime/Constant/ImageConstant/ImageConstants.dart';
+import 'package:rupeeontime/Routes/app_router_name.dart';
+import 'package:rupeeontime/Utils/Debugprint.dart';
+import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
+import 'package:rupeeontime/Utils/snackbarMassage.dart';
+import 'package:rupeeontime/Utils/validation.dart';
+import 'package:rupeeontime/Widget/common_system_ui.dart';
+import '../../Constant/ApiUrlConstant/WebviewUrl.dart';
 import '../../Constant/FontConstant/FontConstant.dart';
 import '../../Cubit/auth_cubit/AuthCubit.dart';
 import '../../Cubit/auth_cubit/AuthState.dart';
@@ -123,7 +125,7 @@ class _LogInPageState extends State<LogInPage> {
                                           fontWeight: FontConstants.w600,
                                         ),
                                       ),
-                                      SizedBox(height: 10),
+                                      SizedBox(height: 24.0),
                                       Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -152,7 +154,37 @@ class _LogInPageState extends State<LogInPage> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 20), // space before button
+                                      SizedBox(height: 24.0), // space before button
+                                      consentBoxUI(context),
+                                      SizedBox(height: 24.0), // space before button
+                                      Center(
+                                        child: SizedBox(
+                                          width: 265,
+                                          child: Loan112Button(
+                                            onPressed: () {
+                                              if(_formKey.currentState!.validate()){
+                                                mobileNumberToPass = mobileController.text.trim();
+                                                final phone = mobileController.text.trim();
+                                                if (phone.isNotEmpty) {
+                                                  DebugPrint.prt("LogIn Method Called $phone");
+                                                  CleverTapPlugin.onUserLogin({
+                                                    'Identity': phone,
+                                                  });
+                                                  context.read<AuthCubit>().sendBothOtp(phone);
+                                                } else {
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    const SnackBar(content: Text("Enter phone number")),
+                                                  );
+                                                }
+                                              }
+                                            },
+                                            text: "LOGIN",
+                                          ),
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        ImageConstants.rotLogInBoyImage
+                                      )
                                     ],
                                   ),
                                 ],
@@ -161,29 +193,6 @@ class _LogInPageState extends State<LogInPage> {
                           ),
 
                           /// Button pinned at bottom
-                          Padding(
-                            padding: EdgeInsets.all(FontConstants.horizontalPadding),
-                            child: Loan112Button(
-                              onPressed: () {
-                                if(_formKey.currentState!.validate()){
-                                  mobileNumberToPass = mobileController.text.trim();
-                                  final phone = mobileController.text.trim();
-                                  if (phone.isNotEmpty) {
-                                    DebugPrint.prt("LogIn Method Called $phone");
-                                    CleverTapPlugin.onUserLogin({
-                                      'Identity': phone,
-                                    });
-                                    context.read<AuthCubit>().sendBothOtp(phone);
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text("Enter phone number")),
-                                    );
-                                  }
-                                }
-                              },
-                              text: "LOGIN",
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -197,6 +206,97 @@ class _LogInPageState extends State<LogInPage> {
             color: ColorConstant.whiteColor,
           ),
       ),
+    );
+  }
+
+  Widget consentBoxUI(BuildContext context){
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context,state){
+        final authCubit = context.read<AuthCubit>();
+        bool checked = authCubit.isPermissionGiven;
+
+        if (state is PermissionCheckboxState) {
+          checked = state.isChecked;
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Checkbox(
+              value: checked,
+              checkColor: ColorConstant.whiteColor,
+              activeColor: ColorConstant.appThemeColor,
+              onChanged: (val) {
+                context.read<AuthCubit>()
+                    .toggleCheckbox(val);
+              },
+            ),
+            Expanded(
+              child: RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  text: 'By proceeding, you agree to our ',
+                  style: TextStyle(
+                    color: ColorConstant.greyTextColor,
+                    fontSize: FontConstants.f12,
+                    fontFamily: FontConstants.fontFamily,
+                    fontWeight: FontConstants.w500,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'Terms & Conditions',
+                      style: TextStyle(
+                        color: ColorConstant.appThemeColor,
+                        fontSize: FontConstants.f12,
+                        fontFamily: FontConstants.fontFamily,
+                        fontWeight: FontConstants.w500,
+                      ),
+                      recognizer:
+                      TapGestureRecognizer()
+                        ..onTap = () {
+                          context.push(AppRouterName.termsAndConditionWebview,extra: UrlsNods.TermAndCondition);
+                        },
+                    ),
+                    TextSpan(
+                      text: ' and ',
+                      style: TextStyle(
+                        color: ColorConstant.greyTextColor,
+                        fontSize: FontConstants.f12,
+                        fontFamily: FontConstants.fontFamily,
+                        fontWeight: FontConstants.w500,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Privacy Policy',
+                      style: TextStyle(
+                        color: ColorConstant.appThemeColor,
+                        fontSize: FontConstants.f12,
+                        fontFamily: FontConstants.fontFamily,
+                        fontWeight: FontConstants.w500,
+                      ),
+                      recognizer:
+                      TapGestureRecognizer()
+                        ..onTap = () {
+                          context.push(AppRouterName.termsAndConditionWebview,extra: UrlsNods.privacy);
+                        },
+                    ),
+                    TextSpan(
+                      text:
+                      ' and consent to receive WhatsApp and email communications.',
+                      style: TextStyle(
+                        color: ColorConstant.greyTextColor,
+                        fontSize: FontConstants.f12,
+                        fontFamily: FontConstants.fontFamily,
+                        fontWeight: FontConstants.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
