@@ -16,6 +16,9 @@ class Loan112AppBar extends StatefulWidget implements PreferredSizeWidget {
   final double? leadingSpacing;
   final Color? backgroundColor;
 
+  /// 👇 control AppBar height
+  final double toolbarHeight;
+
   const Loan112AppBar({
     super.key,
     this.title,
@@ -25,13 +28,14 @@ class Loan112AppBar extends StatefulWidget implements PreferredSizeWidget {
     this.centerTitle = false,
     this.leadingSpacing,
     this.backgroundColor,
+    this.toolbarHeight = kToolbarHeight,
   });
 
   @override
   State<Loan112AppBar> createState() => _Loan112AppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(toolbarHeight);
 }
 
 class _Loan112AppBarState extends State<Loan112AppBar> {
@@ -47,35 +51,36 @@ class _Loan112AppBarState extends State<Loan112AppBar> {
   }
 
   void _listenToConnectivity() {
-    _subscription = InternetConnection().onStatusChange.listen((InternetStatus status) {
-      switch (status) {
-        case InternetStatus.connected:
-          DebugPrint.prt("Connected Internet");
-          if (!_hasInternet) {
-            setState(() {
-              _hasInternet = true;
-              _showRestoredMsg = true;
-            });
+    _subscription =
+        InternetConnection().onStatusChange.listen((InternetStatus status) {
+          switch (status) {
+            case InternetStatus.connected:
+              DebugPrint.prt("Connected Internet");
+              if (!_hasInternet) {
+                setState(() {
+                  _hasInternet = true;
+                  _showRestoredMsg = true;
+                });
 
-            _restoreTimer?.cancel();
-            _restoreTimer = Timer(const Duration(seconds: 1), () {
-              if (mounted) {
-                setState(() => _showRestoredMsg = false);
+                _restoreTimer?.cancel();
+                _restoreTimer = Timer(const Duration(seconds: 1), () {
+                  if (mounted) {
+                    setState(() => _showRestoredMsg = false);
+                  }
+                });
               }
-            });
-          }
-          break;
+              break;
 
-        case InternetStatus.disconnected:
-          DebugPrint.prt("Disconnected Internet");
-          setState(() {
-            _hasInternet = false;
-            _showRestoredMsg = false;
-          });
-          _restoreTimer?.cancel();
-          break;
-      }
-    });
+            case InternetStatus.disconnected:
+              DebugPrint.prt("Disconnected Internet");
+              setState(() {
+                _hasInternet = false;
+                _showRestoredMsg = false;
+              });
+              _restoreTimer?.cancel();
+              break;
+          }
+        });
   }
 
   @override
@@ -108,14 +113,23 @@ class _Loan112AppBarState extends State<Loan112AppBar> {
         children: [
           AppBar(
             leadingWidth: widget.leadingSpacing,
-            leading: leadingWidget != null?
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0), // 👈 change padding as needed
+            toolbarHeight: widget.toolbarHeight,
+            leading: leadingWidget != null
+                ? Padding(
+              padding: const EdgeInsets.only(left: 12.0),
               child: leadingWidget,
             )
-              : const SizedBox.shrink(),
-            title: widget.title,
-            centerTitle: widget.centerTitle,
+                : const SizedBox.shrink(),
+
+            /// 👇 Centered logo (default if title not passed)
+            title: widget.title ??
+                Image.asset(
+                  "assets/images/app_logo.png", // change to your logo path
+                  height: widget.toolbarHeight * 0.6,
+                  fit: BoxFit.contain,
+                ),
+
+            centerTitle: true, // always center
             actions: widget.actions,
             backgroundColor: widget.backgroundColor ?? Colors.transparent,
             elevation: 0,
@@ -123,10 +137,8 @@ class _Loan112AppBarState extends State<Loan112AppBar> {
           /*
           AnimatedNetworkStatus(
             isNetworkAvailable: _hasInternet,
-            //showRestored: _showRestoredMsg,
           ),
-
-           */
+          */
         ],
       ),
     );
@@ -135,6 +147,6 @@ class _Loan112AppBarState extends State<Loan112AppBar> {
   @override
   Size get preferredSize {
     double bannerHeight = (!_hasInternet || _showRestoredMsg) ? 32.0 : 0.0;
-    return Size.fromHeight(kToolbarHeight + bannerHeight);
+    return Size.fromHeight(widget.toolbarHeight + bannerHeight);
   }
 }

@@ -115,7 +115,7 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
           },
           child: Icon(
             Icons.arrow_back_ios,
-            color: ColorConstant.blackTextColor,
+            color: ColorConstant.whiteColor,
           ),
         ),
         title: Text(
@@ -124,11 +124,11 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
             fontSize: FontConstants.f18,
             fontWeight: FontConstants.w700,
             fontFamily: FontConstants.fontFamily,
-            color: ColorConstant.blackTextColor,
+            color: ColorConstant.whiteColor,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xffE7F3FF),
+        backgroundColor: ColorConstant.appThemeColor,
       ),
       body: BlocListener<LoanApplicationCubit, LoanApplicationState>(
         listenWhen: (prevState, currentState) {
@@ -190,14 +190,13 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: Image.asset(
-                    ImageConstants.permissionScreenBackground,
-                    fit: BoxFit.cover, // Optional: to scale and crop nicely
+                child:   Container(
+                    color: ColorConstant.appThemeColor, // 👈 background color
                   ),
                 ),
                 Positioned(
-                  left: 15,
-                  right: 15,
+                  left: 0,
+                  right: 0,
                   top: 20,
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -205,7 +204,7 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                     decoration: BoxDecoration(
                       color: ColorConstant.whiteColor,
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(10.0),
+                        Radius.circular(30.0),
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(
@@ -266,7 +265,10 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                           BlocBuilder<JourneyUpdateCubit, Map<String, dynamic>>(
                             builder: (context, state) {
                               DebugPrint.prt("All Step with key $state");
-                              return Expanded(
+                              return
+
+
+                                Expanded(
                                 child: ListView.builder(
                                   itemCount: stepKeys.length,
                                   itemBuilder: (context, index) {
@@ -278,7 +280,121 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                       "Status and Key $status,$stepKey",
                                     );
 
-                                    return Column(
+                                    return
+                                      JourneyStepCard(
+                                        stepNumber: index + 1,
+                                        title: step[index],
+                                        state: status!,
+                                        onTap: () {
+                                          DebugPrint.prt(
+                                            "Current Status $status",
+                                          );
+                                          if (status == null) {
+                                            if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains('eligibility')) {
+                                              context.push(AppRouterName.checkEligibilityPage,
+                                              );
+                                            }
+                                          } else {
+                                            showMessageAboutStep(status);
+                                            if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains(
+                                              'eligibility',
+                                            ) &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context.push(
+                                                AppRouterName
+                                                    .checkEligibilityPage,
+                                                extra:
+                                                getCustomerDetailsModel
+                                                    ?.data
+                                                    ?.customerDetails
+                                                    ?.existingCustomer ??
+                                                    false,
+                                              );
+                                            } else if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains('statement') &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context.push(
+                                                AppRouterName.bankStatement,
+                                              );
+                                            } else if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains('ekyc') &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context.push(
+                                                AppRouterName.aaDarKYCScreen,
+                                              );
+                                            } else if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains('selfie') &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context
+                                                  .push(
+                                                AppRouterName
+                                                    .selfieScreenPath,
+                                              )
+                                                  .then((val) {});
+                                            } else if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains("offer") &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context
+                                                  .push(
+                                                AppRouterName
+                                                    .loanOfferPage,
+                                                extra:
+                                                getCustomerDetailsModel
+                                                    ?.data
+                                                    ?.screenDetails
+                                                    ?.isEnhance,
+                                              )
+                                                  .then((val) {});
+                                            } else if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains('reference') &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context
+                                                  .push(
+                                                AppRouterName
+                                                    .addReference,
+                                              )
+                                                  .then((val) {
+                                                // getCustomerDetailsApiCall();
+                                              });
+                                            } else if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains('residence') &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context.push(
+                                                AppRouterName
+                                                    .utilityBillScreen,
+                                              );
+                                            } else if (stepKeys[index]
+                                                .toLowerCase()
+                                                .contains('bank') &&
+                                                status != 1 &&
+                                                status != 0) {
+                                              context.push(
+                                                AppRouterName
+                                                    .bankDetailsScreen,
+                                              );
+                                            }
+                                          }
+                                        },
+                                      );
+
+                                      Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -291,9 +407,7 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                               if (stepKeys[index]
                                                   .toLowerCase()
                                                   .contains('eligibility')) {
-                                                context.push(
-                                                  AppRouterName
-                                                      .checkEligibilityPage,
+                                                context.push(AppRouterName.checkEligibilityPage,
                                                 );
                                               }
                                             } else {
@@ -455,3 +569,5 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
     }
   }
 }
+
+

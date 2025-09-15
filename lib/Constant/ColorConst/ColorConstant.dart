@@ -17,6 +17,7 @@ class ColorConstant{
   static const Color brownColor = Color(0xff904936);
   static const Color containerBackground = Color(0xffF1F7FF);
   static const Color permissionPageTextColor = Color(0xff169DBD);
+  // static const Color borderColor = Color(0xff169DBD);
 }
 
 
