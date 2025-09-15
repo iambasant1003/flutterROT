@@ -1,12 +1,12 @@
 
-import 'package:loan112_app/Constant/ConstText/ConstText.dart';
-import 'package:loan112_app/Model/DashBoarddataModel.dart';
-import 'package:loan112_app/Model/DeleteCustomerModel.dart';
-import 'package:loan112_app/Services/http_client.dart';
-import 'package:loan112_app/Services/http_client_php.dart';
+
 import '../Constant/ApiUrlConstant/ApiUrlConstant.dart';
+import '../Constant/ConstText/ConstText.dart';
+import '../Model/DashBoarddataModel.dart';
+import '../Model/DeleteCustomerModel.dart';
 import '../Model/DeleteProfileOTPVerifyModel.dart';
 import '../Services/ApiResponseStatus.dart';
+import '../Services/http_client_php.dart';
 import '../Utils/Debugprint.dart';
 
 class DashBoardRepository{

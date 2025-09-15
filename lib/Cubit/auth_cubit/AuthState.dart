@@ -1,9 +1,10 @@
-import 'package:loan112_app/Model/AppVersionResponseModel.dart';
-import 'package:loan112_app/Model/SendOTPModel.dart';
-import 'package:loan112_app/Model/SendPhpOTPModel.dart';
-import 'package:loan112_app/Model/VerifyPHPOTPModel.dart';
 
+
+import '../../Model/AppVersionResponseModel.dart';
+import '../../Model/SendOTPModel.dart';
+import '../../Model/SendPhpOTPModel.dart';
 import '../../Model/VerifyOTPModel.dart';
+import '../../Model/VerifyPHPOTPModel.dart';
 
 abstract class AuthState {}
 

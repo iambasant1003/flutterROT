@@ -1,26 +1,27 @@
 
 
-import 'package:loan112_app/Model/AddReferenceModel.dart';
-import 'package:loan112_app/Model/BankAccountTypeModel.dart';
-import 'package:loan112_app/Model/CreateLeadModel.dart';
-import 'package:loan112_app/Model/CustomerKycModel.dart';
-import 'package:loan112_app/Model/EkycVerifictionModel.dart';
-import 'package:loan112_app/Model/GenerateLoanOfferModel.dart';
-import 'package:loan112_app/Model/GetCustomerDetailsModel.dart';
-import 'package:loan112_app/Model/GetLeadIdResponseModel.dart';
-import 'package:loan112_app/Model/GetPinCodeDetailsModel.dart';
-import 'package:loan112_app/Model/GetPurposeOfLoanModel.dart';
-import 'package:loan112_app/Model/GetUtilityDocTypeModel.dart';
-import 'package:loan112_app/Model/IfscCodeModel.dart';
-import 'package:loan112_app/Model/LoanAcceptanceModel.dart';
-import 'package:loan112_app/Model/UploadSelfieModel.dart';
-import 'package:loan112_app/Model/UploadUtilityDocTypeModel.dart';
+
+import '../../Model/AddReferenceModel.dart';
+import '../../Model/BankAccountTypeModel.dart';
 import '../../Model/CalculateDistanceResponseModel.dart';
 import '../../Model/CheckBankStatementStatusModel.dart';
+import '../../Model/CreateLeadModel.dart';
+import '../../Model/CustomerKycModel.dart';
+import '../../Model/EkycVerifictionModel.dart';
+import '../../Model/GenerateLoanOfferModel.dart';
+import '../../Model/GetCustomerDetailsModel.dart';
+import '../../Model/GetLeadIdResponseModel.dart';
 import '../../Model/GetLoanHistoryModel.dart';
+import '../../Model/GetPinCodeDetailsModel.dart';
+import '../../Model/GetPurposeOfLoanModel.dart';
+import '../../Model/GetUtilityDocTypeModel.dart';
+import '../../Model/IfscCodeModel.dart';
+import '../../Model/LoanAcceptanceModel.dart';
 import '../../Model/UpdateBankAccountModel.dart';
 import '../../Model/UploadBankStatementModel.dart';
 import '../../Model/UploadOnlineBankStatementModel.dart';
+import '../../Model/UploadSelfieModel.dart';
+import '../../Model/UploadUtilityDocTypeModel.dart';
 import '../../Model/VerifyBankStatementModel.dart';
 
 abstract class LoanApplicationState {}

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loan112_app/Constant/ColorConst/ColorConstant.dart';
-import 'package:loan112_app/Constant/ImageConstant/ImageConstants.dart';
-import 'package:loan112_app/Widget/app_bar.dart';
+import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
+import 'package:rupeeontime/Constant/ImageConstant/ImageConstants.dart';
+import 'package:rupeeontime/Widget/app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CustomerKycWebview extends StatefulWidget {

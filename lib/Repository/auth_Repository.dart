@@ -1,17 +1,16 @@
 
 import 'dart:convert';
-import 'package:loan112_app/Constant/ApiUrlConstant/ApiUrlConstant.dart';
-import 'package:loan112_app/Cubit/auth_cubit/AuthState.dart';
-import 'package:loan112_app/Model/SendPhpOTPModel.dart';
-import 'package:loan112_app/Model/VerifyOTPModel.dart';
-import 'package:loan112_app/Model/VerifyPHPOTPModel.dart';
-import 'package:loan112_app/Services/ApiResponseStatus.dart';
-import 'package:loan112_app/Services/http_client_php.dart';
+import '../Constant/ApiUrlConstant/ApiUrlConstant.dart';
 import '../Constant/ConstText/ConstText.dart';
 import '../Model/AppVersionResponseModel.dart';
 import '../Model/SendOTPModel.dart';
+import '../Model/SendPhpOTPModel.dart';
+import '../Model/VerifyOTPModel.dart';
+import '../Model/VerifyPHPOTPModel.dart';
 import '../Model/error_model.dart';
+import '../Services/ApiResponseStatus.dart';
 import '../Services/http_client.dart';
+import '../Services/http_client_php.dart';
 import '../Utils/Debugprint.dart';
 
 class AuthRepository {

@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "loan112_app" "\0"
+            VALUE "CompanyName", "com.personalloan" "\0"
+            VALUE "FileDescription", "rupeeontime" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "loan112_app" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "loan112_app.exe" "\0"
-            VALUE "ProductName", "loan112_app" "\0"
+            VALUE "InternalName", "rupeeontime" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.personalloan. All rights reserved." "\0"
+            VALUE "OriginalFilename", "rupeeontime.exe" "\0"
+            VALUE "ProductName", "rupeeontime" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

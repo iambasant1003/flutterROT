@@ -1,7 +1,8 @@
 
-import 'package:loan112_app/Model/CashFreePaymentResponseModel.dart';
-import 'package:loan112_app/Model/RazorPayCheckPaymentStatusModel.dart';
+
 import '../../Model/CashFreePaymentInitializationResponse.dart';
+import '../../Model/CashFreePaymentResponseModel.dart';
+import '../../Model/RazorPayCheckPaymentStatusModel.dart';
 import '../../Model/RazorPayInitiatePaymentResponseSuccessModel.dart';
 
 

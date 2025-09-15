@@ -64,4 +64,8 @@ class ImageConstants {
   static const String rotPermissionScreenPhoneState = "assets/rot/icons/rot_permission_phone_state.png";
   static const String rotPermissionScreenApp = "assets/rot/icons/rot_permission_app_icon.png";
   static const String rotLogInBoyImage = "assets/rot/images/login_boy_image.png";
+  static const String rotVerifyOTPIcon = "assets/rot/icons/rot_verify_otp_icon.png";
+  static const String rotEditMobileNumber = "assets/rot/icons/rot_edit_mobile_number.png";
+  static const String rotDashboardBackground = "assets/rot/images/dashboard_banner.png";
+  static const String rotDashboardBannerGirl = "assets/rot/images/dashboard_girl.png";
 }

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loan112_app/Cubit/dashboard_cubit/DashboardState.dart';
-import 'package:loan112_app/Model/DashBoarddataModel.dart';
-import 'package:loan112_app/Routes/app_router_name.dart';
-import 'package:loan112_app/Utils/Debugprint.dart';
-import 'package:loan112_app/Utils/MysharePrefenceClass.dart';
-import 'package:loan112_app/Utils/snackbarMassage.dart';
+import 'package:rupeeontime/Cubit/dashboard_cubit/DashboardState.dart';
+import 'package:rupeeontime/Model/DashBoarddataModel.dart';
+import 'package:rupeeontime/Routes/app_router_name.dart';
+import 'package:rupeeontime/Utils/Debugprint.dart';
+import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
+import 'package:rupeeontime/Utils/snackbarMassage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../Constant/ColorConst/ColorConstant.dart';
 import '../../Constant/FontConstant/FontConstant.dart';
@@ -98,9 +98,18 @@ class _DashBoardHome extends State<DashBoardHome> {
                 child: Stack(
                   children: [
                     Positioned.fill(
-                      child: Image.asset(
-                        ImageConstants.permissionScreenBackground,
-                        fit: BoxFit.cover, // Optional: to scale and crop nicely
+                      child: Container(
+                        color: ColorConstant.whiteColor,
+                      )
+                    ),
+                    Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: ColorConstant.appThemeColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(70.0),
+                          bottomRight: Radius.circular(70.0),
+                        )
                       ),
                     ),
                     SafeArea(
@@ -110,7 +119,130 @@ class _DashBoardHome extends State<DashBoardHome> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 37),
+                            SizedBox(height: 48),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: ColorConstant.whiteColor,
+                                    borderRadius: BorderRadius.circular(24.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        spreadRadius: 2,
+                                        blurRadius: 8,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(16.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Loan Application",
+                                                    style: TextStyle(
+                                                      fontSize: FontConstants.f18,
+                                                      fontWeight: FontConstants.w700,
+                                                      fontFamily: FontConstants.fontFamily,
+                                                      color: ColorConstant.blackTextColor,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 6),
+                                                  Text(
+                                                    "Unlock funds instantly with a smooth and simple loan process.",
+                                                    style: TextStyle(
+                                                      fontSize: FontConstants.f12,
+                                                      fontWeight: FontConstants.w400,
+                                                      fontFamily: FontConstants.fontFamily,
+                                                      color: ColorConstant.blackTextColor,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 16),
+
+                                                  // Progress bar
+                                                  ClipRRect(
+                                                    borderRadius: BorderRadius.circular(8),
+                                                    child: LinearProgressIndicator(
+                                                      value: 1.0, // 100%
+                                                      minHeight: 8,
+                                                      backgroundColor: Colors.grey.shade200,
+                                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                                        ColorConstant.appThemeColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 8),
+                                                  Align(
+                                                    alignment: Alignment.bottomRight,
+                                                    child: Text("100%"),
+                                                  ),
+
+                                                  SizedBox(height: 20),
+                                                  // Button
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Stack(
+                                            children: [
+                                              // Decorative background image in top-right
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: Image.asset(
+                                                  ImageConstants.rotDashboardBackground, // your decorative pattern
+                                                  width: 180,
+                                                  height: 120,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+
+                                              // Person image (overlapping on design)
+                                              Align(
+                                                alignment: Alignment.bottomCenter,
+                                                child: Image.asset(
+                                                  ImageConstants.rotDashboardBannerGirl, // replace with your person asset
+                                                  height: 166,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                              // Content (Text + progress bar + button)
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: FontConstants.horizontalPadding,
+                                        ),
+                                        child: Loan112Button(
+                                          onPressed: null,
+                                          text:
+                                          dashBoarddataModel
+                                              ?.data
+                                              ?.applyLoanBanner
+                                              ?.appBannerBtnText ??
+                                              "",
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 12.0,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            /*
                             Stack(
                               clipBehavior: Clip.none,
                               children: [
@@ -136,14 +268,14 @@ class _DashBoardHome extends State<DashBoardHome> {
                                       child: Center(
                                         child: Text(
                                           dashBoarddataModel
-                                                  ?.data!
-                                                  .applyLoanBanner!
-                                                  .appBannerTitle ??
+                                              ?.data!
+                                              .applyLoanBanner!
+                                              .appBannerTitle ??
                                               "",
                                           //"Easy personal Loans",
                                           style: TextStyle(
                                             fontFamily:
-                                                FontConstants.fontFamily,
+                                            FontConstants.fontFamily,
                                             fontSize: FontConstants.f18,
                                             fontWeight: FontConstants.w800,
                                             color: ColorConstant.whiteColor,
@@ -184,86 +316,88 @@ class _DashBoardHome extends State<DashBoardHome> {
                                     child: Loan112Button(
                                       onPressed: null,
                                       text:
-                                          dashBoarddataModel
-                                              ?.data
-                                              ?.applyLoanBanner
-                                              ?.appBannerBtnText ??
+                                      dashBoarddataModel
+                                          ?.data
+                                          ?.applyLoanBanner
+                                          ?.appBannerBtnText ??
                                           "",
                                     ),
                                   ),
                                 ),
                               ],
                             ),
+
+                             */
                             SizedBox(height: 10.0),
                             (dashBoarddataModel?.data?.activeLoanDetails !=
-                                        null &&
-                                    (dashBoarddataModel
-                                                ?.data
-                                                ?.activeLoanDetails
-                                                ?.loanNo !=
-                                            null ||
-                                        dashBoarddataModel
-                                                ?.data
-                                                ?.activeLoanDetails
-                                                ?.loanNo !=
-                                            ""))
+                                null &&
+                                (dashBoarddataModel
+                                    ?.data
+                                    ?.activeLoanDetails
+                                    ?.loanNo !=
+                                    null ||
+                                    dashBoarddataModel
+                                        ?.data
+                                        ?.activeLoanDetails
+                                        ?.loanNo !=
+                                        ""))
                                 ? DashboardLoanDetails(
-                                    activeLoanDetails: dashBoarddataModel
-                                        ?.data!
-                                        .activeLoanDetails,
-                                  )
+                              activeLoanDetails: dashBoarddataModel
+                                  ?.data!
+                                  .activeLoanDetails,
+                            )
                                 : (dashBoarddataModel?.data?.showLoanHistoryBtnFlag == 1)?
-                                 Padding(
-                                   padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                                   child: Column(
-                                     children: [
-                                       SizedBox(
-                                         height: 20.0,
-                                       ),
-                                       InkWell(
-                                         onTap: (){
-                                           context.push(AppRouterName.repaymentPage);
-                                         },
-                                         child: Container(
-                                           decoration: BoxDecoration(
-                                             color: Colors.white,
-                                             borderRadius: BorderRadius.circular(40),
-                                             border: Border.all(
-                                               color: Colors.blue.shade100,
-                                             ),
-                                             boxShadow: [
-                                               BoxShadow(
-                                                 color: Colors.blue.shade50,
-                                                 blurRadius: 8,
-                                                 offset: Offset(0, 2),
-                                               )
-                                             ],
-                                           ),
-                                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                                           child: Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: [
-                                               Text(
-                                                   'Check Your Loan History',
-                                                   style: TextStyle(
-                                                       fontSize: FontConstants.f14,
-                                                       fontFamily: FontConstants.fontFamily,
-                                                       fontWeight: FontConstants.w700,
-                                                       color: ColorConstant.blackTextColor
-                                                   )
-                                               ),
-                                               Icon(
-                                                 Icons.arrow_forward,
-                                                 color: ColorConstant.blueTextColor,
-                                                 size: 20,
-                                               ),
-                                             ],
-                                           ),
-                                         ),
-                                       ),
-                                     ],
-                                   ),
-                                 ):
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      context.push(AppRouterName.repaymentPage);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(40),
+                                        border: Border.all(
+                                          color: Colors.blue.shade100,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.blue.shade50,
+                                            blurRadius: 8,
+                                            offset: Offset(0, 2),
+                                          )
+                                        ],
+                                      ),
+                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              'Check Your Loan History',
+                                              style: TextStyle(
+                                                  fontSize: FontConstants.f14,
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  fontWeight: FontConstants.w700,
+                                                  color: ColorConstant.blackTextColor
+                                              )
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward,
+                                            color: ColorConstant.blueTextColor,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ):
                             SizedBox.shrink(),
                             SizedBox(height: 20.0),
                             Column(
@@ -293,10 +427,10 @@ class _DashBoardHome extends State<DashBoardHome> {
                                     child: PageView.builder(
                                       controller: _controller,
                                       itemCount:
-                                          dashBoarddataModel
-                                              ?.data
-                                              ?.appBanners
-                                              ?.length ??
+                                      dashBoarddataModel
+                                          ?.data
+                                          ?.appBanners
+                                          ?.length ??
                                           0,
                                       padEnds: false,
                                       itemBuilder: (context, index) {
@@ -312,24 +446,24 @@ class _DashBoardHome extends State<DashBoardHome> {
                                             height: 150,
                                             loadingBuilder:
                                                 (
-                                                  context,
-                                                  child,
-                                                  loadingProgress,
+                                                context,
+                                                child,
+                                                loadingProgress,
                                                 ) {
-                                                  if (loadingProgress == null)
-                                                    return child;
-                                                  return const Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  );
-                                                },
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return const Center(
+                                                child:
+                                                CircularProgressIndicator(),
+                                              );
+                                            },
                                             errorBuilder:
                                                 (context, error, stackTrace) =>
-                                                    const Center(
-                                                      child: Icon(
-                                                        Icons.broken_image,
-                                                      ),
-                                                    ),
+                                            const Center(
+                                              child: Icon(
+                                                Icons.broken_image,
+                                              ),
+                                            ),
                                           ),
                                         );
                                       },
@@ -341,10 +475,10 @@ class _DashBoardHome extends State<DashBoardHome> {
                                   child: SmoothPageIndicator(
                                     controller: _controller,
                                     count:
-                                        dashBoarddataModel
-                                            ?.data
-                                            ?.appBanners
-                                            ?.length ??
+                                    dashBoarddataModel
+                                        ?.data
+                                        ?.appBanners
+                                        ?.length ??
                                         0,
                                     effect: const WormEffect(
                                       dotHeight: 8,
