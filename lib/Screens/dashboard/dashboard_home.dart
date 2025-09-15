@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rupeeontime/Cubit/dashboard_cubit/DashboardState.dart';
-import 'package:rupeeontime/Model/DashBoarddataModel.dart';
-import 'package:rupeeontime/Routes/app_router_name.dart';
-import 'package:rupeeontime/Utils/Debugprint.dart';
-import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
-import 'package:rupeeontime/Utils/snackbarMassage.dart';
+import 'package:loan112_app/Cubit/dashboard_cubit/DashboardState.dart';
+import 'package:loan112_app/Model/DashBoarddataModel.dart';
+import 'package:loan112_app/Routes/app_router_name.dart';
+import 'package:loan112_app/Utils/Debugprint.dart';
+import 'package:loan112_app/Utils/MysharePrefenceClass.dart';
+import 'package:loan112_app/Utils/snackbarMassage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../Constant/ColorConst/ColorConstant.dart';
 import '../../Constant/FontConstant/FontConstant.dart';
@@ -208,7 +208,8 @@ class _DashBoardHome extends State<DashBoardHome> {
                                               // Person image (overlapping on design)
                                               Align(
                                                 alignment: Alignment.bottomCenter,
-                                                child: Image.asset(
+                                                child:
+                                                Image.asset(
                                                   ImageConstants.rotDashboardBannerGirl, // replace with your person asset
                                                   height: 166,
                                                   fit: BoxFit.contain,

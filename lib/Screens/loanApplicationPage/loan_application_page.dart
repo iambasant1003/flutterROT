@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
-import 'package:rupeeontime/Cubit/dashboard_cubit/DashboardState.dart';
-import 'package:rupeeontime/Cubit/loan_application_cubit/LoanApplicationCubit.dart';
-import 'package:rupeeontime/Cubit/loan_application_cubit/LoanApplicationState.dart';
-import 'package:rupeeontime/Model/SendPhpOTPModel.dart';
-import 'package:rupeeontime/Model/VerifyPHPOTPModel.dart';
-import 'package:rupeeontime/Routes/app_router_name.dart';
-import 'package:rupeeontime/Utils/Debugprint.dart';
-import 'package:rupeeontime/Utils/snackbarMassage.dart';
-import 'package:rupeeontime/Widget/app_bar.dart';
-import 'package:rupeeontime/Widget/circular_progress.dart';
+import 'package:loan112_app/Constant/FontConstant/FontConstant.dart';
+import 'package:loan112_app/Cubit/dashboard_cubit/DashboardState.dart';
+import 'package:loan112_app/Cubit/loan_application_cubit/LoanApplicationCubit.dart';
+import 'package:loan112_app/Cubit/loan_application_cubit/LoanApplicationState.dart';
+import 'package:loan112_app/Model/SendPhpOTPModel.dart';
+import 'package:loan112_app/Model/VerifyPHPOTPModel.dart';
+import 'package:loan112_app/Routes/app_router_name.dart';
+import 'package:loan112_app/Utils/Debugprint.dart';
+import 'package:loan112_app/Utils/snackbarMassage.dart';
+import 'package:loan112_app/Widget/app_bar.dart';
+import 'package:loan112_app/Widget/circular_progress.dart';
 import '../../Constant/ColorConst/ColorConstant.dart';
 import '../../Constant/ImageConstant/ImageConstants.dart';
 import '../../Cubit/dashboard_cubit/DashboardCubit.dart';
@@ -394,145 +394,6 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                         },
                                       );
 
-                                      Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            DebugPrint.prt(
-                                              "Current Status $status",
-                                            );
-                                            if (status == null) {
-                                              if (stepKeys[index]
-                                                  .toLowerCase()
-                                                  .contains('eligibility')) {
-                                                context.push(AppRouterName.checkEligibilityPage,
-                                                );
-                                              }
-                                            } else {
-                                              showMessageAboutStep(status);
-                                              if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains(
-                                                        'eligibility',
-                                                      ) &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context.push(
-                                                  AppRouterName
-                                                      .checkEligibilityPage,
-                                                  extra:
-                                                      getCustomerDetailsModel
-                                                          ?.data
-                                                          ?.customerDetails
-                                                          ?.existingCustomer ??
-                                                      false,
-                                                );
-                                              } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('statement') &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context.push(
-                                                  AppRouterName.bankStatement,
-                                                );
-                                              } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('ekyc') &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context.push(
-                                                  AppRouterName.aaDarKYCScreen,
-                                                );
-                                              } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('selfie') &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context
-                                                    .push(
-                                                      AppRouterName
-                                                          .selfieScreenPath,
-                                                    )
-                                                    .then((val) {});
-                                              } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains("offer") &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context
-                                                    .push(
-                                                      AppRouterName
-                                                          .loanOfferPage,
-                                                      extra:
-                                                          getCustomerDetailsModel
-                                                              ?.data
-                                                              ?.screenDetails
-                                                              ?.isEnhance,
-                                                    )
-                                                    .then((val) {});
-                                              } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('reference') &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context
-                                                    .push(
-                                                      AppRouterName
-                                                          .addReference,
-                                                    )
-                                                    .then((val) {
-                                                      // getCustomerDetailsApiCall();
-                                                    });
-                                              } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('residence') &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context.push(
-                                                  AppRouterName
-                                                      .utilityBillScreen,
-                                                );
-                                              } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('bank') &&
-                                                  status != 1 &&
-                                                  status != 0) {
-                                                context.push(
-                                                  AppRouterName
-                                                      .bankDetailsScreen,
-                                                );
-                                              }
-                                            }
-                                          },
-                                          child: StepItem(
-                                            title: stepKeys[index],
-                                            status: status ?? 0,
-                                          ),
-                                        ),
-                                        // add line below except for last item
-                                        if (index != stepKeys.length - 1)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 20.0,
-                                            ),
-                                            child: Container(
-                                              height: 12,
-                                              width: 2,
-                                              color: status == 1
-                                                  ? Color(
-                                                      0xFF5171DA,
-                                                    ) // completed line color
-                                                  : Colors
-                                                        .grey
-                                                        .shade300, // pending line color
-                                            ),
-                                          ),
-                                        if (index == stepKeys.length - 1)
-                                          SizedBox(height: 20),
-                                      ],
-                                    );
                                   },
                                 ),
                               );

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rupeeontime/Cubit/safe_emit.dart';
+import 'package:loan112_app/Cubit/safe_emit.dart';
 import '../../Constant/ConstText/ConstText.dart';
 import '../../Constant/PageKeyConstant/PageKeyConstant.dart';
 import '../../Model/AppVersionResponseModel.dart';

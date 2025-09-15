@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
-import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
-import 'package:rupeeontime/Widget/common_button.dart';
+import 'package:loan112_app/Constant/ColorConst/ColorConstant.dart';
+import 'package:loan112_app/Constant/FontConstant/FontConstant.dart';
+import 'package:loan112_app/Widget/common_button.dart';
 
 import '../../Model/DashBoarddataModel.dart';
 import '../../Routes/app_router_name.dart';

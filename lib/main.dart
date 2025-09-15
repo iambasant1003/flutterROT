@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rupeeontime/BlocProvider/app_repository_provider.dart';
+import 'package:loan112_app/BlocProvider/app_repository_provider.dart';
 import '../../BlocProvider/bloc_provider.dart';
 import '../../Utils/Debugprint.dart';
 import 'package:package_info_plus/package_info_plus.dart';

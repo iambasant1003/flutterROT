@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rupeeontime/Cubit/safe_emit.dart';
+import 'package:loan112_app/Cubit/safe_emit.dart';
 import '../../Model/DashBoarddataModel.dart';
 import '../../Model/DeleteCustomerModel.dart';
 import '../../Model/DeleteProfileOTPVerifyModel.dart';

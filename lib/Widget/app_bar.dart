@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
+import 'package:loan112_app/Constant/ColorConst/ColorConstant.dart';
 
 class Loan112AppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? title;
