@@ -76,3 +76,83 @@ class StepItem extends StatelessWidget {
   }
 }
 
+
+class JourneyStepCard extends StatelessWidget {
+  final int stepNumber;
+  final String title;
+  final int state; // 0 - current, 1 - done, 2 - upcoming
+  final VoidCallback? onTap;
+
+  const JourneyStepCard({
+    Key? key,
+    required this.stepNumber,
+    required this.title,
+    required this.state,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Color borderColor;
+    Color bgColor;
+    Color textColor;
+    Icon? trailingIcon;
+
+    switch (state) {
+      case 1: // Done
+        borderColor = ColorConstant.permissionPageTextColor;
+        bgColor = Colors.white;
+        textColor = Colors.black;
+        trailingIcon = const Icon(Icons.check_circle, color: ColorConstant.appThemeColor);
+        break;
+      case 2: // Current
+        borderColor = Colors.black12;
+        bgColor = Colors.white;
+        textColor = Colors.black;
+        trailingIcon = const Icon(Icons.pause_circle_filled_outlined, color: Colors.teal);
+        break;
+      default: // Upcoming
+        borderColor = Colors.grey.shade300;
+        bgColor = Colors.grey.shade200;
+        textColor = Colors.grey;
+        trailingIcon = const Icon(Icons.check_circle, color: Colors.grey);
+    }
+
+    return GestureDetector(
+      onTap: state == 0 ? onTap : null,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: borderColor),
+        ),
+        child: Row(
+          children: [
+            Text(
+              "Step: $stepNumber",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            trailingIcon,
+          ],
+        ),
+      ),
+    );
+  }
+}
+

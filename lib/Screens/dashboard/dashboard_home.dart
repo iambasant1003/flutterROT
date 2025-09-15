@@ -224,7 +224,28 @@ class _DashBoardHome extends State<DashBoardHome> {
                                             horizontal: FontConstants.horizontalPadding,
                                         ),
                                         child: Loan112Button(
-                                          onPressed: null,
+                                          onPressed: (){
+                                            var navigationData = dashBoarddataModel
+                                                ?.data
+                                                ?.applyLoanBanner
+                                                ?.appBannerBtnGotoFlag;
+                                            if (navigationData == 0 ||
+                                                navigationData == 1 ||
+                                                navigationData == 2) {
+                                              context.push(
+                                                AppRouterName.loanApplicationPage,
+                                              );
+                                            }
+                                            if (navigationData == 3) {
+                                              context.push(
+                                                AppRouterName.dashBoardStatus,
+                                              );
+                                            } else if (navigationData == 4) {
+                                              context.push(
+                                                AppRouterName.repaymentPage,
+                                              );
+                                            }
+                                          },
                                           text:
                                           dashBoarddataModel
                                               ?.data
@@ -513,10 +534,9 @@ class _DashBoardHome extends State<DashBoardHome> {
                 child: Stack(
                   children: [
                     Positioned.fill(
-                      child: Image.asset(
-                        ImageConstants.permissionScreenBackground,
-                        fit: BoxFit.cover, // Optional: to scale and crop nicely
-                      ),
+                        child: Container(
+                          color: ColorConstant.whiteColor,
+                        )
                     ),
                   ],
                 ),

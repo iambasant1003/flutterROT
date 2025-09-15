@@ -115,7 +115,7 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
           },
           child: Icon(
             Icons.arrow_back_ios,
-            color: ColorConstant.blackTextColor,
+            color: ColorConstant.whiteColor,
           ),
         ),
         title: Text(
@@ -124,11 +124,11 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
             fontSize: FontConstants.f18,
             fontWeight: FontConstants.w700,
             fontFamily: FontConstants.fontFamily,
-            color: ColorConstant.blackTextColor,
+            color: ColorConstant.whiteColor,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xffE7F3FF),
+        backgroundColor: ColorConstant.appThemeColor,
       ),
       body: BlocListener<LoanApplicationCubit, LoanApplicationState>(
         listenWhen: (prevState, currentState) {
@@ -144,12 +144,12 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
             );
             context.read<JourneyUpdateCubit>().updateJourneyTabs(
               state.getCustomerDetailsModel.data?.screenDetails!.toJson()
-                  as Map<String, dynamic>,
+              as Map<String, dynamic>,
             );
             getCustomerDetailsModel = state.getCustomerDetailsModel;
             MySharedPreferences.setEnhanceKey(
               (state.getCustomerDetailsModel.data?.screenDetails?.isEnhance ??
-                      "")
+                  "")
                   .toString(),
             );
             setState(() {});
@@ -190,14 +190,13 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: Image.asset(
-                    ImageConstants.permissionScreenBackground,
-                    fit: BoxFit.cover, // Optional: to scale and crop nicely
+                  child:   Container(
+                    color: ColorConstant.appThemeColor, // 👈 background color
                   ),
                 ),
                 Positioned(
-                  left: 15,
-                  right: 15,
+                  left: 0,
+                  right: 0,
                   top: 20,
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -205,7 +204,7 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                     decoration: BoxDecoration(
                       color: ColorConstant.whiteColor,
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(10.0),
+                        Radius.circular(30.0),
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(
@@ -225,12 +224,12 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                     width: 90,
                                     child: CircularProgressWithText(
                                       progress:
-                                          (state
-                                                  .dashBoardModel
-                                                  .data
-                                                  ?.applyLoanBanner
-                                                  ?.appBannerProgressPercent ??
-                                              0) /
+                                      (state
+                                          .dashBoardModel
+                                          .data
+                                          ?.applyLoanBanner
+                                          ?.appBannerProgressPercent ??
+                                          0) /
                                           100,
                                       isDrawer: false,
                                     ),
@@ -239,10 +238,10 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                   Expanded(
                                     child: Text(
                                       state
-                                              .dashBoardModel
-                                              .data
-                                              ?.applyLoanBanner
-                                              ?.appBannerText ??
+                                          .dashBoardModel
+                                          .data
+                                          ?.applyLoanBanner
+                                          ?.appBannerText ??
                                           "",
                                       //"Begin your journey to financial empowerment-provide the necessary details to initiate your loan application.",
                                       style: TextStyle(
@@ -266,23 +265,26 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                           BlocBuilder<JourneyUpdateCubit, Map<String, dynamic>>(
                             builder: (context, state) {
                               DebugPrint.prt("All Step with key $state");
-                              return Expanded(
-                                child: ListView.builder(
-                                  itemCount: stepKeys.length,
-                                  itemBuilder: (context, index) {
-                                    final stepKey = step[index];
-                                    final int? status = int.tryParse(
-                                      state[stepKey].toString(),
-                                    );
-                                    DebugPrint.prt(
-                                      "Status and Key $status,$stepKey",
-                                    );
+                              return
 
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        InkWell(
+
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: stepKeys.length,
+                                    itemBuilder: (context, index) {
+                                      final stepKey = step[index];
+                                      final int? status = int.tryParse(
+                                        state[stepKey].toString(),
+                                      );
+                                      DebugPrint.prt(
+                                        "Status and Key $status,$stepKey",
+                                      );
+
+                                      return
+                                        JourneyStepCard(
+                                          stepNumber: index + 1,
+                                          title: step[index],
+                                          state: status!,
                                           onTap: () {
                                             DebugPrint.prt(
                                               "Current Status $status",
@@ -291,89 +293,87 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                               if (stepKeys[index]
                                                   .toLowerCase()
                                                   .contains('eligibility')) {
-                                                context.push(
-                                                  AppRouterName
-                                                      .checkEligibilityPage,
+                                                context.push(AppRouterName.checkEligibilityPage,
                                                 );
                                               }
                                             } else {
                                               showMessageAboutStep(status);
                                               if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains(
-                                                        'eligibility',
-                                                      ) &&
+                                                  .toLowerCase()
+                                                  .contains(
+                                                'eligibility',
+                                              ) &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context.push(
                                                   AppRouterName
                                                       .checkEligibilityPage,
                                                   extra:
-                                                      getCustomerDetailsModel
-                                                          ?.data
-                                                          ?.customerDetails
-                                                          ?.existingCustomer ??
+                                                  getCustomerDetailsModel
+                                                      ?.data
+                                                      ?.customerDetails
+                                                      ?.existingCustomer ??
                                                       false,
                                                 );
                                               } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('statement') &&
+                                                  .toLowerCase()
+                                                  .contains('statement') &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context.push(
                                                   AppRouterName.bankStatement,
                                                 );
                                               } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('ekyc') &&
+                                                  .toLowerCase()
+                                                  .contains('ekyc') &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context.push(
                                                   AppRouterName.aaDarKYCScreen,
                                                 );
                                               } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('selfie') &&
+                                                  .toLowerCase()
+                                                  .contains('selfie') &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context
                                                     .push(
-                                                      AppRouterName
-                                                          .selfieScreenPath,
-                                                    )
+                                                  AppRouterName
+                                                      .selfieScreenPath,
+                                                )
                                                     .then((val) {});
                                               } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains("offer") &&
+                                                  .toLowerCase()
+                                                  .contains("offer") &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context
                                                     .push(
-                                                      AppRouterName
-                                                          .loanOfferPage,
-                                                      extra:
-                                                          getCustomerDetailsModel
-                                                              ?.data
-                                                              ?.screenDetails
-                                                              ?.isEnhance,
-                                                    )
+                                                  AppRouterName
+                                                      .loanOfferPage,
+                                                  extra:
+                                                  getCustomerDetailsModel
+                                                      ?.data
+                                                      ?.screenDetails
+                                                      ?.isEnhance,
+                                                )
                                                     .then((val) {});
                                               } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('reference') &&
+                                                  .toLowerCase()
+                                                  .contains('reference') &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context
                                                     .push(
-                                                      AppRouterName
-                                                          .addReference,
-                                                    )
+                                                  AppRouterName
+                                                      .addReference,
+                                                )
                                                     .then((val) {
-                                                      // getCustomerDetailsApiCall();
-                                                    });
+                                                  // getCustomerDetailsApiCall();
+                                                });
                                               } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('residence') &&
+                                                  .toLowerCase()
+                                                  .contains('residence') &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context.push(
@@ -381,8 +381,8 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                                       .utilityBillScreen,
                                                 );
                                               } else if (stepKeys[index]
-                                                      .toLowerCase()
-                                                      .contains('bank') &&
+                                                  .toLowerCase()
+                                                  .contains('bank') &&
                                                   status != 1 &&
                                                   status != 0) {
                                                 context.push(
@@ -392,36 +392,11 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                               }
                                             }
                                           },
-                                          child: StepItem(
-                                            title: stepKeys[index],
-                                            status: status ?? 0,
-                                          ),
-                                        ),
-                                        // add line below except for last item
-                                        if (index != stepKeys.length - 1)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 20.0,
-                                            ),
-                                            child: Container(
-                                              height: 12,
-                                              width: 2,
-                                              color: status == 1
-                                                  ? Color(
-                                                      0xFF5171DA,
-                                                    ) // completed line color
-                                                  : Colors
-                                                        .grey
-                                                        .shade300, // pending line color
-                                            ),
-                                          ),
-                                        if (index == stepKeys.length - 1)
-                                          SizedBox(height: 20),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              );
+                                        );
+
+                                    },
+                                  ),
+                                );
                             },
                           ),
                         ],
