@@ -399,7 +399,11 @@ class _DashBoardHome extends State<DashBoardHome> {
                               ),
                             ):
                             SizedBox.shrink(),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 17.0),
+                            YoutubeVideoPlayCard(
+                              onTap: () {},
+                            ),
+                            SizedBox(height: 17.0),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -491,7 +495,8 @@ class _DashBoardHome extends State<DashBoardHome> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 17.0),
+                            FraudWarningCard()
                           ],
                         ),
                       ),
@@ -607,6 +612,102 @@ class _DashBoardHome extends State<DashBoardHome> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class YoutubeVideoPlayCard extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const YoutubeVideoPlayCard({super.key, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: Colors.teal, width: 1),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Left YouTube icon
+              const Icon(Icons.play_circle_fill, color: Colors.red, size: 28),
+
+              const SizedBox(width: 12),
+
+              // Text inside gradient bubble
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: const LinearGradient(
+                    colors: [Colors.white, Color(0xFF00838F)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: [0.6, 1.0],
+                  ),
+                ),
+                child: Row(
+                  children: const [
+                    Text(
+                      "Watch  video tutorial",
+                      style: TextStyle(
+                        color: Colors.teal,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(Icons.arrow_forward, color: Colors.teal, size: 18),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FraudWarningCard extends StatelessWidget {
+  const FraudWarningCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Card(
+        color: Colors.red.shade50,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                "⚠️ Warning: Beware of fraud!",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                "Always use our secure Repayment Website for loan payments. Do not make direct bank payments. Rupee On Time is not responsible for payments made to other accounts.",
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
