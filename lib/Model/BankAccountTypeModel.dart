@@ -43,11 +43,17 @@ class BankAccountTypeParamModel {
       bankTypeName: json['bank_type_name'] as String?,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'bank_type_id': bankTypeId,
       'bank_type_name': bankTypeName,
     };
   }
+
+}
+class GenderModel {
+  final int id;
+  final String name;
+
+  GenderModel(this.id, this.name);
 }

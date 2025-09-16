@@ -111,9 +111,17 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
             context.pop();
             //await getCustomerDetailsApiCall();
           },
-          child: Icon(Icons.arrow_back_ios,color: ColorConstant.blackTextColor),
+          child: Icon(Icons.arrow_back_ios, color: ColorConstant.whiteColor),
         ),
-        backgroundColor: Color(0xffE7F3FF),
+        title: Text(
+          "Loan Offer",
+          style: TextStyle(
+            fontSize: FontConstants.f20,
+            fontWeight: FontConstants.w800,
+            fontFamily: FontConstants.fontFamily,
+            color: ColorConstant.whiteColor,
+          ),
+        ),
       ),
       body: BlocListener<LoanApplicationCubit,LoanApplicationState>(
         listenWhen: (prev,next){
@@ -186,7 +194,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
               DebugPrint.prt("Loan Accepted not Enhance");
               CleverTapLogger.logEvent(CleverTapEventsName.LOAN_QUOTE_ACCEPT, isSuccess: true);
             }
-            
+
             Future(() async {
               if (!_isActive) return;
               if(!isEnhance){
@@ -226,48 +234,20 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
           child: Stack(
             children: [
               Positioned.fill(
-                child: Image.asset(
-                  ImageConstants.permissionScreenBackground,
-                  fit: BoxFit.cover, // Optional: to scale and crop nicely
-                ),
+                  child: Container(
+                    color: ColorConstant.appThemeColor,
+                  )
               ),
               if(generateLoanOfferModel != null && getPurposeOfLoanModel != null)...[
                 Positioned(
-                  left: 15,
-                  right: 15,
+                  left: 0,
+                  right: 0,
                   top: 20,
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
                       loanOfferContainer(context),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: ColorConstant.appThemeColor,
-                              borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(18.0),
-                                bottomRight: Radius.circular(18.0),
-                              ),
-                            ),
-                            width: 244,
-                            height: 40,
-                            child: Center(
-                              child: Text(
-                                "Your Loan Offer",
-                                style: TextStyle(
-                                  fontSize: FontConstants.f18,
-                                  fontWeight: FontConstants.w800,
-                                  color: ColorConstant.whiteColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+
                     ],
                   ),
                 )
@@ -327,9 +307,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                         width: 107,
                         height: 40,
                         decoration: BoxDecoration(
-                            border: Border.all(
-                              color: ColorConstant.errorRedColor,
-                            ),
+                           color: Colors.grey.shade300,
                             borderRadius: BorderRadius.all(Radius.circular(50.0))
                         ),
                         child: Center(
@@ -372,22 +350,6 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                         ),
                       ),
                     )
-                    /*
-                      SizedBox(
-                        width: 107,
-                        height: 40,
-                        child: Loan112Button(
-                          text: "CONTINUE",
-                          fontSize: FontConstants.f14,
-                          fontWeight: FontConstants.w600,
-                          fontFamily: FontConstants.fontFamily,
-                          onPressed: () {
-                            loanAcceptanceApiCall(context, 1);
-                          },
-                        ),
-                      ),
-
-                       */
                   ],
                 ),
               ),
@@ -434,30 +396,13 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
           if(generateLoanOfferModel != null && getPurposeOfLoanModel != null){
             return Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(ImageConstants.permissionScreenLeftPyramid,width: 26,height: 13),
-                    SizedBox(
-                      width: 214,
-                    ),
-                    Image.asset(ImageConstants.permissionScreenRightPyramid,width: 26,height: 13.0),
-                  ],
-                ),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
+                  width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.9,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        ColorConstant.whiteColor,
-                        ColorConstant.whiteColor,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    color: Color(0xffD4F7FF),
                     borderRadius: const BorderRadius.all(
-                      Radius.circular(10.0),
+                      Radius.circular(24.0),
                     ),
                   ),
                   //padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
@@ -468,26 +413,12 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                            height: 46,
-                          ),
-                          Text(
-                            generateLoanOfferModel?.data?.loanQuotePageTopText ?? "",
-                            textAlign: TextAlign.center,
-                            //"Based on your provided details, we’ve calculated your loan eligibility. Select your preferred loan amount and tenure to proceed.",
-                            style: TextStyle(
-                                fontSize: FontConstants.f14,
-                                fontWeight: FontConstants.w500,
-                                fontFamily: FontConstants.fontFamily,
-                                color: ColorConstant.dashboardTextColor
-                            ),
-                          ),
-                          SizedBox(
                             height: 32,
                           ),
                           Container(
                             decoration: BoxDecoration(
-                                color: ColorConstant.containerBackground,
-                                borderRadius: BorderRadius.all(Radius.circular(16.0))
+                                color: Color(0xffD4F7FF),
+                                borderRadius: BorderRadius.all(Radius.circular(24.0))
                             ),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
@@ -496,52 +427,16 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                               ),
                               child: Column(
                                 children: [
-                                  Center(
-                                    child: Text(
-                                      "Purpose of Loan*".toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: FontConstants.f16,
-                                          fontWeight: FontConstants.w700,
-                                          fontFamily: FontConstants.fontFamily,
-                                          color: ColorConstant.blueTextColor
-                                      ),
-                                    ),
-                                  ),
                                   SizedBox(
                                     height: 6.0,
                                   ),
                                   purposeOfLoanButton(context,getPurposeOfLoanModel!),
                                   SizedBox(
-                                    height: 12.0,
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      "PRINCIPAL",
-                                      style: TextStyle(
-                                          fontSize: FontConstants.f16,
-                                          fontFamily: FontConstants.fontFamily,
-                                          fontWeight: FontConstants.w700,
-                                          color: ColorConstant.blueTextColor
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 15.0,
+                                    height: 32.0,
                                   ),
                                   principalSliderAndValue(context),
                                   SizedBox(
                                     height: 12.0,
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      "TENURE",
-                                      style: TextStyle(
-                                          fontSize: FontConstants.f16,
-                                          fontFamily: FontConstants.fontFamily,
-                                          fontWeight: FontConstants.w700,
-                                          color: ColorConstant.blueTextColor
-                                      ),
-                                    ),
                                   ),
                                   SizedBox(
                                     height: 15.0,
@@ -558,21 +453,12 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                           SizedBox(
                             height: 16,
                           ),
-                          totalLoanAmountUi(context),
+                          calculationUI(context),
+
                           SizedBox(
                             height: 16,
                           ),
-                          Text(
-                            generateLoanOfferModel?.data?.loanQuotePageBottomText ?? "",
-                            // "Thank you for expressing your interest in Loan112 and providing us with an opportunity to assist you. Please proceed with the loan details above to continue.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: FontConstants.f12,
-                                fontWeight: FontConstants.w500,
-                                fontFamily: FontConstants.fontFamily,
-                                color: ColorConstant.brownColor
-                            ),
-                          ),
+
                           SizedBox(
                             height: 220.0,
                           )
@@ -602,8 +488,8 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
           'Select Purpose of Loan*',
           style: TextStyle(
             fontSize: FontConstants.f14,
-            color: ColorConstant.blackTextColor,
-            fontWeight: FontConstants.w500,
+            color: ColorConstant.appThemeColor,
+            fontWeight: FontConstants.w700,
             fontFamily: FontConstants.fontFamily,
           ),
         ),
@@ -614,8 +500,8 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
             item.loanPurposeName ?? "",
             style: TextStyle(
               fontSize: FontConstants.f14,
-              color: ColorConstant.blackTextColor,
-              fontWeight: FontConstants.w500,
+              color: ColorConstant.appThemeColor,
+              fontWeight: FontConstants.w700,
               fontFamily: FontConstants.fontFamily,
             ),
           ),
@@ -636,7 +522,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: ColorConstant.textFieldBorderColor,
+              color: ColorConstant.appThemeColor,
             ),
             color: ColorConstant.whiteColor,
           ),
@@ -646,7 +532,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
           icon: Icon(
             Icons.keyboard_arrow_down,
             size: 20,
-            color: ColorConstant.greyTextColor,
+            color: ColorConstant.appThemeColor,
           ),
         ),
         dropdownStyleData: DropdownStyleData(
@@ -663,11 +549,53 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "PRINCIPAL",
+              style: TextStyle(
+                  fontSize: FontConstants.f12,
+                  fontFamily: FontConstants.fontFamily,
+                  fontWeight: FontConstants.w500,
+                  color: ColorConstant.blackTextColor
+              ),
+              textAlign: TextAlign.start,
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration:BoxDecoration(
+                  color: ColorConstant.whiteColor,
+                  borderRadius: BorderRadius.circular(8),
+                  border: BoxBorder.all(color: ColorConstant.appThemeColor,width: 2)
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.currency_rupee,
+                    color: ColorConstant.appThemeColor,
+                  ),
+                  Text(
+                    '| Rs. ${currentValue.toInt()}',
+                    style: TextStyle(
+                        fontSize: FontConstants.f12,
+                        fontWeight: FontConstants.w600,
+                        fontFamily: FontConstants.fontFamily,
+                        color: ColorConstant.blackTextColor
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          ],
+        ),
+
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
-            activeTrackColor: Colors.blue,
-            inactiveTrackColor: Colors.blue.shade100,
-            thumbColor: ColorConstant.blackTextColor,
+            activeTrackColor: ColorConstant.appThemeColor,
+            inactiveTrackColor: Colors.grey,
+            thumbColor: ColorConstant.appThemeColor,
             overlayColor: Colors.blue.withOpacity(0.2),
             thumbShape: CustomThumbShape(),
             trackHeight: 4,
@@ -702,7 +630,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Rs. ${currentValue.toInt()}',
+              '',
               style: TextStyle(
                   fontSize: FontConstants.f14,
                   fontWeight: FontConstants.w600,
@@ -716,7 +644,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                 fontSize: FontConstants.f14,
                 fontWeight: FontConstants.w600,
                 fontFamily: FontConstants.fontFamily,
-                color: ColorConstant.brownColor,
+                color: ColorConstant.blackTextColor,
               ),
             ),
           ],
@@ -729,11 +657,52 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "TENURE",
+              style: TextStyle(
+                  fontSize: FontConstants.f12,
+                  fontFamily: FontConstants.fontFamily,
+                  fontWeight: FontConstants.w500,
+                  color: ColorConstant.blackTextColor
+              ),
+              textAlign: TextAlign.start,
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration:BoxDecoration(
+                  color: ColorConstant.whiteColor,
+                  borderRadius: BorderRadius.circular(8),
+                  border: BoxBorder.all(color: ColorConstant.appThemeColor,width: 2)
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.calendar_month_outlined,
+                    color: ColorConstant.appThemeColor,
+                  ),
+                  Text(
+                    '| ${currentTenure.toInt()} Days',
+                    style: TextStyle(
+                        fontSize: FontConstants.f12,
+                        fontWeight: FontConstants.w600,
+                        fontFamily: FontConstants.fontFamily,
+                        color: ColorConstant.blackTextColor
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          ],
+        ),
         SliderTheme(
             data: SliderTheme.of(context).copyWith(
-              activeTrackColor: Colors.blue,
-              inactiveTrackColor: Colors.blue.shade100,
-              thumbColor: ColorConstant.blackTextColor,
+              activeTrackColor: ColorConstant.appThemeColor,
+              inactiveTrackColor: Colors.grey,
+              thumbColor: ColorConstant.appThemeColor,
               overlayColor: Colors.blue.withOpacity(0.2),
               thumbShape: CustomThumbShape(),
               trackHeight: 4,
@@ -763,7 +732,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${currentTenure.toInt()} Days',
+              '',
               style: TextStyle(
                   fontSize: FontConstants.f14,
                   fontWeight: FontConstants.w600,
@@ -777,7 +746,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                 fontSize: FontConstants.f14,
                 fontWeight: FontConstants.w600,
                 fontFamily: FontConstants.fontFamily,
-                color: ColorConstant.brownColor,
+                color: ColorConstant.blackTextColor,
               ),
             ),
           ],
@@ -793,8 +762,17 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-                color: ColorConstant.containerBackground,
-                borderRadius: BorderRadius.all(Radius.circular(6.0))
+              color: ColorConstant.containerBackground,
+              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+              gradient: const RadialGradient(
+                center: Alignment.center,   // gradient center
+                radius: 1.0,                // how far it spreads
+                colors: [
+                  // Dark teal in center
+                  Color(0xFF169DBD),
+                  Color(0xFF0A6075),// Light teal on edges
+                ],
+              ),
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -815,7 +793,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                         fontSize: FontConstants.f14,
                         fontWeight: FontConstants.w600,
                         fontFamily: FontConstants.fontFamily,
-                        color: ColorConstant.dashboardTextColor
+                        color: ColorConstant.whiteColor
                     ),
                   )
                 ],
@@ -829,8 +807,17 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-                color: ColorConstant.containerBackground,
-                borderRadius: BorderRadius.all(Radius.circular(6.0))
+              color: ColorConstant.containerBackground,
+              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+              gradient: const RadialGradient(
+                center: Alignment.center,   // gradient center
+                radius: 1.0,                // how far it spreads
+                colors: [
+                  // Dark teal in center
+                  Color(0xFF169DBD),
+                  Color(0xFF0A6075),// Light teal on edges
+                ],
+              ),
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -851,7 +838,7 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
                         fontSize: FontConstants.f14,
                         fontWeight: FontConstants.w600,
                         fontFamily: FontConstants.fontFamily,
-                        color: ColorConstant.dashboardTextColor
+                        color: ColorConstant.whiteColor
                     ),
                   )
                 ],
@@ -863,26 +850,89 @@ class _LoanOfferScreen extends State<LoanOfferScreen>{
     );
   }
 
-  Widget totalLoanAmountUi(BuildContext context){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        totalAmountUI(context,amountType: "Principal",
-            amountValue: (currentValue % 1 == 0)
-                ? currentValue.toInt().toString()
-                : currentValue.toStringAsFixed(2)
+  Widget calculationUI(BuildContext context){
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Principal Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Principal",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                 '₹ ${(currentValue % 1 == 0)
+                      ? currentValue.toInt().toString()
+                      : currentValue.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            // Interest Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Interest 1% per day",
+                  style: TextStyle(fontSize: 14),
+                ),
+                Text(
+                  '₹ $interestAmount',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+
+
+            const SizedBox(height: 12),
+            const Divider(thickness: 1),
+
+            // Total Payable Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Total Payable",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  '₹ ${totalPayableAmount}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        SizedBox(
-          width: 10,
-        ),
-        totalAmountUI(context,amountType: "Interest",amountValue: interestAmount),
-        SizedBox(
-          width: 10,
-        ),
-        totalAmountUI(context,amountType: "Total Payable",amountValue: totalPayableAmount)
-      ],
+      ),
     );
   }
+
+
 
   Widget totalAmountUI(BuildContext context,{amountType,amountValue}){
     return Container(
@@ -1052,7 +1102,7 @@ class CustomThumbShape extends SliderComponentShape {
 
     // Inner dot (dark blue)
     final Paint innerDotPaint = Paint()
-      ..color = Colors.blue[800]!
+      ..color = ColorConstant.appThemeColor
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(center, 5, innerDotPaint);

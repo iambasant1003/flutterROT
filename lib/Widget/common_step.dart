@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
-import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
+
+
+import '../Constant/ColorConst/ColorConstant.dart';
+import '../Constant/FontConstant/FontConstant.dart';
 
 class StepItem extends StatelessWidget {
   final String title;
