@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +26,7 @@ import 'package:network_info_plus/network_info_plus.dart';
 import '../../../../Constant/ColorConst/ColorConstant.dart';
 import '../../../../Constant/ImageConstant/ImageConstants.dart';
 import '../../../../Cubit/dashboard_cubit/DashboardCubit.dart';
+import '../../../../Model/BankAccountTypeModel.dart';
 import '../../../../Model/SendPhpOTPModel.dart';
 import '../../../../ParamModel/GetCityAndStateRequest.dart';
 import '../../../../Utils/CleverTapEventsName.dart';
@@ -55,6 +57,12 @@ class _CheckEligibility extends State<CheckEligibility>{
   TextEditingController panController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController companyNameController = TextEditingController();
+  final List<GenderModel> genders = [
+    GenderModel(1, "Male"),
+    GenderModel(2, "Female"),
+    GenderModel(3, "Other"),
+  ];
+  GenderModel? selectedGender;
   String dateOfBirthPassed = "";
   final _formKey = GlobalKey<FormState>();
   bool prefilledPANCard = false;
@@ -205,9 +213,8 @@ class _CheckEligibility extends State<CheckEligibility>{
           children: [
             /// Background image
             Positioned.fill(
-              child: Image.asset(
-                ImageConstants.logInScreenBackGround,
-                fit: BoxFit.cover,
+              child: Container(
+                color: ColorConstant.appThemeColor,
               ),
             ),
 
@@ -221,246 +228,233 @@ class _CheckEligibility extends State<CheckEligibility>{
                         context.pop();
                         //await getCustomerDetailsApiCall();
                       },
-                      child: Icon(Icons.arrow_back_ios, color: ColorConstant.blackTextColor),
+                      child: Icon(Icons.arrow_back_ios, color: ColorConstant.whiteColor),
+                    ),
+                    title: Text(
+                      "Check Your Eligibility",
+                      style: TextStyle(
+                        fontSize: FontConstants.f20,
+                        fontWeight: FontConstants.w800,
+                        fontFamily: FontConstants.fontFamily,
+                        color: ColorConstant.whiteColor,
+                      ),
                     ),
                   ),
                   SizedBox(height: 8.0),
-
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Check Your Eligibility",
-                          style: TextStyle(
-                            fontSize: FontConstants.f20,
-                            fontWeight: FontConstants.w800,
-                            fontFamily: FontConstants.fontFamily,
-                            color: ColorConstant.blackTextColor,
-                          ),
-                        ),
-                        SizedBox(height: 16.0),
-
-                        Text(
-                          "Ensure to provide correct information!",
-                          style: TextStyle(
-                            fontSize: FontConstants.f14,
-                            fontWeight: FontConstants.w600,
-                            fontFamily: FontConstants.fontFamily,
-                            color: ColorConstant.greyTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: 8.0),
-
                   Expanded(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                      child: Form(
-                        key: _formKey,
-                        autovalidateMode: submitted?AutovalidateMode.onUserInteraction:AutovalidateMode.disabled,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 18.0),
-
-                            labelTypeWidget("Select Employment Type"),
-                            SizedBox(height: 12.0),
-
-                            employmentTypeSelector(
-                              selectedType: employmentType,
-                              onChanged: (val) {
-                                setState(() {
-                                  employmentType = val;
-                                });
-                              },
-                            ),
-                            SizedBox(height: 12.0),
-
-                            labelTypeWidget("Net Monthly Income"),
-                            SizedBox(height: 6.0),
-
-                            CommonTextField(
-                              controller: netMonthlyIncome,
-                              hintText: "Enter your net monthly income*",
-                              keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-                              textInputAction: TextInputAction.done,
-                              maxLength: 8,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              validator: (val) {
-                                if (val == null || val.trim().isEmpty) {
-                                  return "Please enter your net monthly income";
-                                }
-
-                                final trimmedVal = val.trim();
-                                DebugPrint.prt("Value Data  $trimmedVal");
-
-                                final income = BigInt.tryParse(trimmedVal);
-                                DebugPrint.prt("Income $income");
-
-                                if (income == null) {
-                                  return "Please enter a valid number";
-                                }
-
-                                if (income <= BigInt.zero) {
-                                  return "Income must be greater than zero";
-                                }
-
-                                return null;
-                              },
-
-
-                            ),
-                            SizedBox(height: 12.0),
-                            labelTypeWidget("Company Name"),
-                            SizedBox(height: 6.0),
-
-                            CommonTextField(
-                              controller: companyNameController,
-                              hintText: "Enter your Company Name*",
-                              keyboardType: TextInputType.text,
-                              validator: (val){
-                                if(val!.trim().isEmpty){
-                                  return "Please enter your company name";
-                                }else if(val.trim().length <3){
-                                  return "Please enter minimum 3 letter";
-                                }else if(!RegExp(r"^[a-zA-Z0-9][a-zA-Z0-9 .,&'\-]*[a-zA-Z0-9.]$").hasMatch(val)){
-                                  return "Please enter valid company name";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 12.0),
-
-                            labelTypeWidget("Select Gender Type"),
-                            SizedBox(height: 6.0),
-
-                            modeOfIncomeTypeSelector(
-                              selectedType: gender,
-                              onChanged: (val) {
-                                setState(() {
-                                  gender = val;
-                                });
-                              },
-                            ),
-
-                            SizedBox(height: 12.0),
-
-                            labelTypeWidget("Next Salary Date"),
-                            SizedBox(height: 6.0),
-
-                            CommonTextField(
-                              controller: dateOfBirth,
-                              hintText: "Select your Next Salary Date*",
-                              readOnly: true,  // make it readonly, we only pick from calendar
-                              onTap: ()=>_pickNextSalaryDate(context),
-                              trailingWidget: GestureDetector(
-                                onTap: () => _pickNextSalaryDate(context),
-                                child: Icon(Icons.calendar_month, color: ColorConstant.greyTextColor, size: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white, // 👈 background for form area
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24.0),
+                          topRight: Radius.circular(24.0),
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                        child: Form(
+                          key: _formKey,
+                          autovalidateMode: submitted?AutovalidateMode.onUserInteraction:AutovalidateMode.disabled,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 16.0),
+                              Text(
+                                "Ensure to provide correct information!",
+                                style: TextStyle(
+                                  fontSize: FontConstants.f14,
+                                  fontWeight: FontConstants.w600,
+                                  fontFamily: FontConstants.fontFamily,
+                                  color: ColorConstant.blackTextColor,
+                                ),
                               ),
-                              validator: (val) => validateSalaryDate(val),
-                            ),
-                            SizedBox(height: 12.0),
+                              SizedBox(height: 18.0),
 
-                            labelTypeWidget("Pin code"),
-                            SizedBox(height: 6.0),
+                              labelTypeWidget("PAN Number"),
+                              SizedBox(height: 6.0),
 
-                            CommonTextField(
-                                controller: pinCodeController,
-                                hintText: "Enter Pin code",
-                                keyboardType: TextInputType.number,
-                                maxLength: 6,
+                              CommonTextField(
+                                controller: panController,
+                                readOnly: prefilledPANCard,
+                                enableInteractiveSelection: !prefilledPANCard,
+                                hintText: 'Enter PAN Number',
+                                keyboardType: TextInputType.text,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(10),
+                                  PanInputFormatter()
+                                ],
+                                validator: validatePanCard,
+                              ),
+                              SizedBox(height: 12.0),
+
+                              labelTypeWidget("Select Gender Type"),
+                              SizedBox(height: 6.0),
+                              genderSelector(context),
+                              SizedBox(height: 12.0),
+                              labelTypeWidget("Personal Email"),
+                              SizedBox(height: 6.0),
+
+                              CommonTextField(
+                                  controller: emailController,
+                                  hintText: "Enter your Email",
+                                  validator: (val) => validateEmail(val)
+                              ),
+                              SizedBox(height: 24.0),
+
+                              labelTypeWidget("Select Employment Type"),
+                              SizedBox(height: 12.0),
+
+                              employmentTypeSelector(
+                                selectedType: employmentType,
+                                onChanged: (val) {
+                                  setState(() {
+                                    employmentType = val;
+                                  });
+                                },
+                              ),
+                              SizedBox(height: 12.0),
+                              labelTypeWidget("Company Name"),
+                              SizedBox(height: 6.0),
+                              CommonTextField(
+                                controller: companyNameController,
+                                hintText: "Enter your Company Name*",
+                                keyboardType: TextInputType.text,
+                                validator: (val){
+                                  if(val!.trim().isEmpty){
+                                    return "Please enter your company name";
+                                  }else if(val.trim().length <3){
+                                    return "Please enter minimum 3 letter";
+                                  }else if(!RegExp(r"^[a-zA-Z0-9][a-zA-Z0-9 .,&'\-]*[a-zA-Z0-9.]$").hasMatch(val)){
+                                    return "Please enter valid company name";
+                                  }
+                                  return null;
+                                },
+                              ),
+
+                              labelTypeWidget("Net Monthly Income"),
+                              SizedBox(height: 6.0),
+
+                              CommonTextField(
+                                controller: netMonthlyIncome,
+                                hintText: "Enter your net monthly income*",
+                                keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
+                                textInputAction: TextInputAction.done,
+                                maxLength: 8,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
-                                onChanged: (val) async{
-                                  if(val.trim().length == 6){
-                                    var otpModel = await MySharedPreferences.getUserSessionDataNode();
-                                    VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
-                                    GetCityAndStateRequest getCityAndStateRequest = GetCityAndStateRequest(
-                                        custProfileId: verifyOtpModel.data?.custId ?? "",
-                                        leadId: verifyOtpModel.data?.leadId ?? "",
-                                        pincode: val.trim()
-                                    );
-                                    DebugPrint.prt("Get PinCode Data ${getCityAndStateRequest.toJson()}");
-
-                                    context.read<LoanApplicationCubit>().getPinCodeDetailsApiCall(getCityAndStateRequest.toJson());
+                                validator: (val) {
+                                  if (val == null || val.trim().isEmpty) {
+                                    return "Please enter your net monthly income";
                                   }
+
+                                  final trimmedVal = val.trim();
+                                  DebugPrint.prt("Value Data  $trimmedVal");
+
+                                  final income = BigInt.tryParse(trimmedVal);
+                                  DebugPrint.prt("Income $income");
+
+                                  if (income == null) {
+                                    return "Please enter a valid number";
+                                  }
+
+                                  if (income <= BigInt.zero) {
+                                    return "Income must be greater than zero";
+                                  }
+
+                                  return null;
                                 },
-                                validator: (val)=> validateIndianPinCode(val)
-                            ),
-                            SizedBox(height: 12.0),
 
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      labelTypeWidget("State"),
-                                      SizedBox(height: 6.0),
-                                      CommonTextField(
-                                        readOnly: true,
-                                        controller: stateController,
-                                        hintText: "Enter your State",
-                                        enableInteractiveSelection: false,
-                                      ),
-                                    ],
-                                  ),
+
+                              ),
+
+                              SizedBox(height: 12.0),
+
+                              labelTypeWidget("Next Salary Date"),
+                              SizedBox(height: 6.0),
+
+                              CommonTextField(
+                                controller: dateOfBirth,
+                                hintText: "Select your Next Salary Date*",
+                                readOnly: true,  // make it readonly, we only pick from calendar
+                                onTap: ()=>_pickNextSalaryDate(context),
+                                trailingWidget: GestureDetector(
+                                  onTap: () => _pickNextSalaryDate(context),
+                                  child: Icon(Icons.calendar_month, color: ColorConstant.greyTextColor, size: 20),
                                 ),
-                                SizedBox(width: 6.0),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      labelTypeWidget("City"),
-                                      SizedBox(height: 6.0),
-                                      CommonTextField(
-                                        readOnly: true,
-                                        controller: cityController,
-                                        hintText: "Enter your City",
-                                        enableInteractiveSelection: false,
-                                      ),
-                                    ],
+                                validator: (val) => validateSalaryDate(val),
+                              ),
+                              SizedBox(height: 12.0),
+
+                              labelTypeWidget("Pin code"),
+                              SizedBox(height: 6.0),
+
+                              CommonTextField(
+                                  controller: pinCodeController,
+                                  hintText: "Enter Pin code",
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 6,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  onChanged: (val) async{
+                                    if(val.trim().length == 6){
+                                      var otpModel = await MySharedPreferences.getUserSessionDataNode();
+                                      VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
+                                      GetCityAndStateRequest getCityAndStateRequest = GetCityAndStateRequest(
+                                          custProfileId: verifyOtpModel.data?.custId ?? "",
+                                          leadId: verifyOtpModel.data?.leadId ?? "",
+                                          pincode: val.trim()
+                                      );
+                                      DebugPrint.prt("Get PinCode Data ${getCityAndStateRequest.toJson()}");
+
+                                      context.read<LoanApplicationCubit>().getPinCodeDetailsApiCall(getCityAndStateRequest.toJson());
+                                    }
+                                  },
+                                  validator: (val)=> validateIndianPinCode(val)
+                              ),
+                              SizedBox(height: 12.0),
+
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        labelTypeWidget("State"),
+                                        SizedBox(height: 6.0),
+                                        CommonTextField(
+                                          readOnly: true,
+                                          controller: stateController,
+                                          hintText: "Enter your State",
+                                          enableInteractiveSelection: false,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 12.0),
+                                  SizedBox(width: 6.0),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        labelTypeWidget("City"),
+                                        SizedBox(height: 6.0),
+                                        CommonTextField(
+                                          readOnly: true,
+                                          controller: cityController,
+                                          hintText: "Enter your City",
+                                          enableInteractiveSelection: false,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 12.0),
 
-                            labelTypeWidget("PAN Number"),
-                            SizedBox(height: 6.0),
 
-                            CommonTextField(
-                              controller: panController,
-                              readOnly: prefilledPANCard,
-                              enableInteractiveSelection: !prefilledPANCard,
-                              hintText: 'Enter PAN Number',
-                              keyboardType: TextInputType.text,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10),
-                                PanInputFormatter()
-                              ],
-                              validator: validatePanCard,
-                            ),
-                            SizedBox(height: 12.0),
-
-                            labelTypeWidget("Personal Email"),
-                            SizedBox(height: 6.0),
-
-                            CommonTextField(
-                                controller: emailController,
-                                hintText: "Enter your Email",
-                                validator: (val) => validateEmail(val)
-                            ),
-                            SizedBox(height: 24.0),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -513,7 +507,7 @@ class _CheckEligibility extends State<CheckEligibility>{
                               ConstText.requestSource,
                               "salaryAmt": int.parse(netMonthlyIncome.text.trim()),
                               "salary_date": dateOfBirthPassed,
-                              "gender":gender,
+                              "gender":selectedGender?.id,
                               "ip_web": ip,
                               "empName": companyNameController.text.trim()
                             };
@@ -650,82 +644,173 @@ class _CheckEligibility extends State<CheckEligibility>{
     );
   }
 
+
+
+
+
+  Widget genderSelector(BuildContext context) {
+  return FormField<int>(
+  validator: (value) {
+  if (selectedGender == null) {
+  return 'Please select your gender.';
+  }
+  return null;
+  },
+  builder: (FormFieldState<int> field) {
+  return Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+  DropdownButtonHideUnderline(
+  child: DropdownButton2<GenderModel>(
+  isExpanded: true,
+  hint: Text(
+  'Select Gender*',
+  style: TextStyle(
+  fontSize: FontConstants.f14,
+  color: ColorConstant.blackTextColor,
+  fontWeight: FontConstants.w400,
+  fontFamily: FontConstants.fontFamily,),),
+  items: genders
+      .map((item) => DropdownMenuItem<GenderModel>(
+  value: item,
+  child: Text(
+  item.name,
+  style: TextStyle(
+  fontSize: FontConstants.f14,
+  color: ColorConstant.blackTextColor,
+  fontWeight: FontConstants.w500,
+  fontFamily: FontConstants.fontFamily,
+  ),
+  ),
+  ))
+      .toList(),
+  value: selectedGender,
+  onChanged: (value) {
+  setState(() {
+  selectedGender = value;
+  //field.didChange(value?.id); // update form state if needed
+  });
+  },
+  buttonStyleData: ButtonStyleData(
+  height: 50,
+  padding: const EdgeInsets.only(right: 12),
+  decoration: BoxDecoration(
+  borderRadius: BorderRadius.circular(8),
+  border: Border.all(
+  color: ColorConstant.textFieldBorderColor,
+  ),
+  color: ColorConstant.whiteColor,
+  ),
+  elevation: 0,
+  ),
+  iconStyleData: IconStyleData(
+  icon: Icon(
+  Icons.keyboard_arrow_down,
+  size: 20,
+  color: ColorConstant.appThemeColor,
+  ),
+  ),
+  dropdownStyleData: DropdownStyleData(
+  decoration: BoxDecoration(
+  borderRadius: BorderRadius.circular(8),
+  ),
+  ),
+  ),
+  ),
+  if (field.hasError)
+  Padding(
+  padding: const EdgeInsets.only(top: 6, left: 4),
+  child: Text(
+  field.errorText ?? '',
+  style: TextStyle(
+  color: Colors.red,
+  fontSize: 12,
+  ),
+  ),
+  ),
+  ],
+  );
+  },
+  );
+  }
+
+
   Widget modeOfIncomeTypeSelector({
-    required int selectedType,
-    required Function(int) onChanged,
+  required int selectedType,
+  required Function(int) onChanged,
   }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        _buildOption(
-          label: 'Male',
-          isSelected: selectedType == 1,
-          onTap: () => onChanged(1),
-        ),
-        const SizedBox(width: 24),
-        _buildOption(
-          label: 'Female',
-          isSelected: selectedType == 2,
-          onTap: () => onChanged(2),
-        ),
-      ],
-    );
+  return Row(
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: [
+  _buildOption(
+  label: 'Male',
+  isSelected: selectedType == 1,
+  onTap: () => onChanged(1),
+  ),
+  const SizedBox(width: 24),
+  _buildOption(
+  label: 'Female',
+  isSelected: selectedType == 2,
+  onTap: () => onChanged(2),
+  ),
+  ],
+  );
   }
 
   Widget _buildOption({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
+  required String label,
+  required bool isSelected,
+  required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? ColorConstant.appThemeColor : ColorConstant.greyTextColor,
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(8),
-          color: ColorConstant.whiteColor,
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? ColorConstant.appThemeColor : ColorConstant.greyTextColor,
-                  width: 1.5,
-                ),
-              ),
-              child: isSelected
-                  ? Center(
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorConstant.appThemeColor,
-                  ),
-                ),
-              )
-                  : null,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                color: ColorConstant.blackTextColor,
-                fontWeight: FontConstants.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  return GestureDetector(
+  onTap: onTap,
+  child: Container(
+  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+  decoration: BoxDecoration(
+  border: Border.all(
+  color: isSelected ? ColorConstant.appThemeColor : ColorConstant.greyTextColor,
+  width: 1.5,
+  ),
+  borderRadius: BorderRadius.circular(8),
+  color: ColorConstant.whiteColor,
+  ),
+  child: Row(
+  children: [
+  Container(
+  width: 20,
+  height: 20,
+  decoration: BoxDecoration(
+  shape: BoxShape.circle,
+  border: Border.all(
+  color: isSelected ? ColorConstant.appThemeColor : ColorConstant.greyTextColor,
+  width: 1.5,
+  ),
+  ),
+  child: isSelected
+  ? Center(
+  child: Container(
+  width: 10,
+  height: 10,
+  decoration: const BoxDecoration(
+  shape: BoxShape.circle,
+  color: ColorConstant.appThemeColor,
+  ),
+  ),
+  )
+      : null,
+  ),
+  const SizedBox(width: 8),
+  Text(
+  label,
+  style: TextStyle(
+  color: ColorConstant.blackTextColor,
+  fontWeight: FontConstants.w500,
+  ),
+  ),
+  ],
+  ),
+  ),
+  );
   }
 
 }

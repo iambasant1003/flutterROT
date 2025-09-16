@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
 import 'Utils/Debugprint.dart';
 import 'di/di_locator.dart';
 import 'main.dart';
@@ -38,8 +39,8 @@ Future<void> mainCommon(String env) async{
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   //SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: ColorConstant.appThemeColor));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.blue, // navigation bar color
-    statusBarColor: Colors.pink, // status bar color
+    systemNavigationBarColor: ColorConstant.appThemeColor, // navigation bar color
+    statusBarColor: ColorConstant.appThemeColor, // status bar color
   ));
   runApp(MyApp(environment: env));
 }

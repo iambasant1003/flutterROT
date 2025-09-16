@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
-import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
+
+
+import '../Constant/ColorConst/ColorConstant.dart';
+import '../Constant/FontConstant/FontConstant.dart';
 
 class StepItem extends StatelessWidget {
   final String title;
@@ -119,7 +121,7 @@ class JourneyStepCard extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: state == 0 ? onTap : null,
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

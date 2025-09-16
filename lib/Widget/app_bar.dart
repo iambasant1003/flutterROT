@@ -112,8 +112,9 @@ class _Loan112AppBarState extends State<Loan112AppBar> {
           title: widget.title,
           centerTitle: widget.centerTitle,
           actions: widget.actions,
-          backgroundColor: widget.backgroundColor ?? Colors.transparent,
+          backgroundColor: widget.backgroundColor ?? ColorConstant.appThemeColor,
           elevation: 0,
+          shadowColor: Colors.transparent,
           toolbarHeight: effectiveToolbarHeight, // 👈 now respects custom height
         ),
         // Optional banner:

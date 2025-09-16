@@ -43,7 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
     );
 
     Future.delayed(Duration.zero, () {
-      context.read<AuthCubit>().checkAppVersionApiCall();
+      // context.read<AuthCubit>().checkAppVersionApiCall();
+      _initAsync(context);
     });
   }
 
