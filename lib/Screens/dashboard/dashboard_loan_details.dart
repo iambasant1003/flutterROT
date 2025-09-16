@@ -18,16 +18,6 @@ class DashboardLoanDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Text(
-            'Your Loan Details',
-            style: TextStyle(
-                fontSize: FontConstants.f18,
-                fontWeight:FontConstants.w800,
-                fontFamily: FontConstants.fontFamily,
-                color: ColorConstant.blackTextColor
-            ),
-          ),
-          const SizedBox(height: 10),
           // Card
           Stack(
             clipBehavior: Clip.none,
@@ -54,7 +44,7 @@ class DashboardLoanDetails extends StatelessWidget {
                           fontSize: FontConstants.f14,
                           fontWeight:FontConstants.w800,
                           fontFamily: FontConstants.fontFamily,
-                          color: ColorConstant.blackTextColor
+                          color: ColorConstant.appThemeColor
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -73,7 +63,7 @@ class DashboardLoanDetails extends StatelessWidget {
                             activeLoanDetails?.loanNo ?? "",
                             style: TextStyle(
                                 fontSize: FontConstants.f16,
-                                fontWeight:FontConstants.w500,
+                                fontWeight:FontConstants.w700,
                                 fontFamily: FontConstants.fontFamily,
                                 color: ColorConstant.blackTextColor
                             ),
@@ -214,67 +204,17 @@ class DashboardLoanDetails extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 30),
+                    Loan112Button(
+                      onPressed: () {
+                        context.push(AppRouterName.repaymentPage);
+                      },
+                      text: "REPAY LOAN",
+                    ),
                   ],
                 ),
               ),
-              Positioned(
-                bottom: -20,
-                left: 50,
-                right: 50,
-                child: SizedBox(
-                  width: 150,
-                  child: Loan112Button(
-                    onPressed: () {
-                      context.push(AppRouterName.repaymentPage);
-                    },
-                    text: "REPAY LOAN",
-                  ),
-                ),
-              )
             ],
           ),
-          const SizedBox(height: 40),
-          InkWell(
-            onTap: (){
-              context.push(AppRouterName.repaymentPage);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(
-                  color: Colors.blue.shade100,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.shade50,
-                    blurRadius: 8,
-                    offset: Offset(0, 2),
-                  )
-                ],
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      'Check Your Loan History',
-                      style: TextStyle(
-                          fontSize: FontConstants.f14,
-                          fontFamily: FontConstants.fontFamily,
-                          fontWeight: FontConstants.w700,
-                          color: ColorConstant.blackTextColor
-                      )
-                  ),
-                  Icon(
-                    Icons.arrow_forward,
-                    color: ColorConstant.blueTextColor,
-                    size: 20,
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -285,14 +225,14 @@ class DashboardLoanDetails extends StatelessWidget {
   TextStyle tabHeaderStyle =  TextStyle(
      fontSize: FontConstants.f12,
       fontFamily: FontConstants.fontFamily,
-      fontWeight: FontConstants.w700,
-     color: ColorConstant.blackTextColor
+      fontWeight: FontConstants.w600,
+     color: ColorConstant.appThemeColor
   );
   TextStyle tabValueStyle = TextStyle(
      fontSize: FontConstants.f16,
       fontWeight: FontConstants.w700,
       fontFamily: FontConstants.fontFamily,
-      color: Color(0xff1C6BAD)
+      color: ColorConstant.blackTextColor
   );
 
 }

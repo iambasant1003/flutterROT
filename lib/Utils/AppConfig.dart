@@ -4,6 +4,10 @@
 // const val PreProd = 1
 // const val Prod = 9
 
+
+// baseUrlNode = "https://node-api.blsfintech.com/journey-service/api/v1/";
+// baseUrlPhp = "https://api.blsfintech.com/";
+
 class AppConfig {
   static late String baseUrlNode;
   static late String baseUrlPhp;

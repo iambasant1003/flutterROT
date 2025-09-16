@@ -139,86 +139,92 @@ class _DashBoardHome extends State<DashBoardHome> {
                                   child: Column(
                                     children: [
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(16.0),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Loan Application",
-                                                    style: TextStyle(
-                                                      fontSize: FontConstants.f18,
-                                                      fontWeight: FontConstants.w700,
-                                                      fontFamily: FontConstants.fontFamily,
-                                                      color: ColorConstant.blackTextColor,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 6),
-                                                  Text(
-                                                    "Unlock funds instantly with a smooth and simple loan process.",
-                                                    style: TextStyle(
-                                                      fontSize: FontConstants.f12,
-                                                      fontWeight: FontConstants.w400,
-                                                      fontFamily: FontConstants.fontFamily,
-                                                      color: ColorConstant.blackTextColor,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 16),
-
-                                                  // Progress bar
-                                                  ClipRRect(
-                                                    borderRadius: BorderRadius.circular(8),
-                                                    child: LinearProgressIndicator(
-                                                      value: 1.0, // 100%
-                                                      minHeight: 8,
-                                                      backgroundColor: Colors.grey.shade200,
-                                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                                        ColorConstant.appThemeColor,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 8),
-                                                  Align(
-                                                    alignment: Alignment.bottomRight,
-                                                    child: Text("100%"),
-                                                  ),
-
-                                                  SizedBox(height: 20),
-                                                  // Button
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Stack(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              // Decorative background image in top-right
-                                              Align(
-                                                alignment: Alignment.topRight,
-                                                child: Image.asset(
-                                                  ImageConstants.rotDashboardBackground, // your decorative pattern
-                                                  width: 180,
-                                                  height: 120,
-                                                  fit: BoxFit.cover,
+                                              SizedBox(
+                                                height: 16.0,
+                                              ),
+                                              Text(
+                                                dashBoarddataModel
+                                                    ?.data!
+                                                    .applyLoanBanner!
+                                                    .appBannerTitle ??
+                                                    "",
+                                                style: TextStyle(
+                                                  fontSize: FontConstants.f18,
+                                                  fontWeight: FontConstants.w700,
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  color: ColorConstant.blackTextColor,
                                                 ),
                                               ),
+                                              SizedBox(height: 6),
+                                              Text(
+                                                dashBoarddataModel?.data?.applyLoanBanner?.appBannerText ?? "",
+                                                style: TextStyle(
+                                                  fontSize: FontConstants.f12,
+                                                  fontWeight: FontConstants.w400,
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  color: ColorConstant.blackTextColor,
+                                                ),
+                                              ),
+                                              SizedBox(height: 16),
 
-                                              // Person image (overlapping on design)
-                                              Align(
-                                                alignment: Alignment.bottomCenter,
-                                                child: Image.asset(
-                                                  ImageConstants.rotDashboardBannerGirl, // replace with your person asset
-                                                  height: 166,
-                                                  fit: BoxFit.contain,
+                                              // Progress bar
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(8),
+                                                child: LinearProgressIndicator(
+                                                  value: 1.0, // 100%
+                                                  minHeight: 8,
+                                                  backgroundColor: Colors.grey.shade200,
+                                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                                    ColorConstant.appThemeColor,
+                                                  ),
                                                 ),
                                               ),
-                                              // Content (Text + progress bar + button)
+                                              SizedBox(height: 8),
+                                              Align(
+                                                alignment: Alignment.bottomRight,
+                                                child: Text("${dashBoarddataModel?.data?.applyLoanBanner?.appBannerProgressPercent ?? 0}%"),
+                                              ),
+                                              //SizedBox(height: 20),
+                                              // Button
                                             ],
                                           ),
+                                        ),
+                                      ),
+                                      Stack(
+                                        children: [
+                                          // Decorative background image in top-right
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Image.asset(
+                                              ImageConstants.rotDashboardBackground, // your decorative pattern
+                                              width: 180,
+                                              height: 120,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+
+                                          // Person image (overlapping on design)
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Image.asset(
+                                              ImageConstants.rotDashboardBannerGirl, // replace with your person asset
+                                              height: 166,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                          // Content (Text + progress bar + button)
                                         ],
                                       ),
+                                    ],
+                                  ),
                                       Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: FontConstants.horizontalPadding,
@@ -262,7 +268,6 @@ class _DashBoardHome extends State<DashBoardHome> {
                                 ),
                               ),
                             ),
-
                             /*
                             Stack(
                               clipBehavior: Clip.none,
@@ -367,7 +372,8 @@ class _DashBoardHome extends State<DashBoardHome> {
                                   ?.data!
                                   .activeLoanDetails,
                             )
-                                : (dashBoarddataModel?.data?.showLoanHistoryBtnFlag == 1)?
+                                : SizedBox.shrink(),
+                            (dashBoarddataModel?.data?.showLoanHistoryBtnFlag == 1)?
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
                               child: Column(
@@ -384,7 +390,7 @@ class _DashBoardHome extends State<DashBoardHome> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(40),
                                         border: Border.all(
-                                          color: Colors.blue.shade100,
+                                            color: ColorConstant.appThemeColor
                                         ),
                                         boxShadow: [
                                           BoxShadow(
@@ -409,7 +415,7 @@ class _DashBoardHome extends State<DashBoardHome> {
                                           ),
                                           Icon(
                                             Icons.arrow_forward,
-                                            color: ColorConstant.blueTextColor,
+                                            color: ColorConstant.appThemeColor,
                                             size: 20,
                                           ),
                                         ],
@@ -419,7 +425,7 @@ class _DashBoardHome extends State<DashBoardHome> {
                                 ],
                               ),
                             ):
-                            SizedBox.shrink(),
+                                SizedBox.shrink(),
                             SizedBox(height: 17.0),
                             YoutubeVideoPlayCard(
                               onTap: () {},

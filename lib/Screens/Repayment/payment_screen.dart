@@ -59,13 +59,17 @@ class _PaymentOptionScreen extends State<PaymentOptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstant.appScreenBackgroundColor,
+      backgroundColor: ColorConstant.appThemeColor,
       appBar: Loan112AppBar(
         leadingSpacing: 25,
-        title: Image.asset(
-          ImageConstants.loan112AppNameIcon,
-          height: 76,
-          width: 76,
+        title: Text(
+          "Loan History",
+          style: TextStyle(
+            fontSize: FontConstants.f18,
+            fontFamily: FontConstants.fontFamily,
+            fontWeight: FontConstants.w700,
+            color: ColorConstant.whiteColor
+          ),
         ),
         customLeading: Builder(
           builder: (context) => Padding(
@@ -75,8 +79,8 @@ class _PaymentOptionScreen extends State<PaymentOptionScreen> {
                 context.pop();
               },
               child: Icon(
-                Icons.arrow_back_ios,
-                color: ColorConstant.blackTextColor,
+                Icons.arrow_back,
+                color: ColorConstant.whiteColor,
               ),
             ),
           ),
@@ -185,211 +189,213 @@ class _PaymentOptionScreen extends State<PaymentOptionScreen> {
             );
           }
         },
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    "Payment With Ease",
-                    style: TextStyle(
-                      fontSize: FontConstants.f20,
-                      fontWeight: FontConstants.w800,
-                      fontFamily: FontConstants.fontFamily,
-                      color: ColorConstant.blackTextColor,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12.0),
-                Text(
-                  "We are processing your loan payment. Please review the details below and confirm to proceed. Your payment will be securely processed, and you will receive a confirmation once the transaction is complete.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontConstants.w600,
-                    fontSize: FontConstants.f12,
-                    fontFamily: FontConstants.fontFamily,
-                    color: Color(0xff494848),
-                  ),
-                ),
-                SizedBox(height: 34),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                    color: Color(0xff2B3C74),
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  ),
-                  padding: EdgeInsets.all(FontConstants.horizontalPadding),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Pending Repayment",
-                              style: TextStyle(
-                                color: ColorConstant.whiteColor,
-                                fontFamily: FontConstants.fontFamily,
-                                fontSize: FontConstants.f14,
-                                fontWeight: FontConstants.w700,
-                              ),
-                            ),
-                            SizedBox(height: 18.0),
-                            Text(
-                              "${widget.partAmount} /-",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontConstants.w700,
-                                fontFamily: FontConstants.fontFamily,
-                                color: ColorConstant.whiteColor,
-                              ),
-                            ),
-                            SizedBox(height: 30),
-                            Row(
-                              children: [
-                                Text(
-                                  "REPAYMENT DATE",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: ColorConstant.errorRedColor,
-                                    fontFamily: FontConstants.fontFamily,
-                                    fontWeight: FontConstants.w700,
-                                  ),
-                                ),
-                                SizedBox(width: 8.0),
-                                Text(
-                                  "${apiData.repaymentDate}",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: ColorConstant.errorRedColor,
-                                    fontFamily: FontConstants.fontFamily,
-                                    fontWeight: FontConstants.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Image.asset(
-                        ImageConstants.visaCardIcon,
-                        width: 67,
-                        height: 41,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 65),
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: FontConstants.f16,
-                      color: ColorConstant.blackTextColor,
-                      fontWeight: FontConstants.w600,
-                      fontFamily: FontConstants.fontFamily,
-                    ),
-                    children: [
-                      TextSpan(text: 'Choose Your '),
-                      TextSpan(
-                        text: 'Payment',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontConstants.w600,
-                        ),
-                      ),
-                      TextSpan(text: ' Option'),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Radio(
-                      value: 0,
-                      groupValue: choosePaymentMethod,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      // removes extra padding
-                      visualDensity: VisualDensity.compact,
-                      // makes the radio even tighter
-                      onChanged: (val) {
-                        setState(() {
-                          choosePaymentMethod = val!;
-                        });
-                      },
-                    ),
-                    SizedBox(width: 12.0),
-                    Image.asset(
-                      ImageConstants.cashFreeImage,
-                      width: 113,
-                      height: 35,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Radio(
-                      value: 1,
-                      groupValue: choosePaymentMethod,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      // removes extra padding
-                      visualDensity: VisualDensity.compact,
-                      // makes the radio even tighter
-                      onChanged: (val) {
-                        setState(() {
-                          choosePaymentMethod = val!;
-                        });
-                      },
-                    ),
-                    SizedBox(width: 12.0),
-                    Image.asset(
-                      ImageConstants.razorPayImage,
-                      width: 113,
-                      height: 35,
-                    ),
-                  ],
-                ),
-              ],
-            ),
+        child: Container(
+          margin: EdgeInsets.only(top: 12.0),
+          decoration: BoxDecoration(
+              color: ColorConstant.whiteColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(54.0),
+              topRight: Radius.circular(54.0),
+            )
           ),
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
-        bottom: true,
-        child: SizedBox(
-          height: 97,
-          child: Column(
-            children: [
-              BottomDashLine(),
-              SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: FontConstants.horizontalPadding,
-                ),
-                child: Loan112Button(
-                  text: "PAY NOW",
-                  onPressed: () {
-                    if (choosePaymentMethod == 1) {
-                      context.read<RePaymentCubit>().initiateRazorpayPayment(
-                        widget.partAmount,
-                        apiData.leadId ?? "",
-                      );
-                    } else {
-                      context.read<RePaymentCubit>().initiateCashFreePayment(
-                        widget.partAmount,
-                        apiData.leadId ?? "",
-                      );
-                    }
-                  },
-                ),
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      "Payment With Ease",
+                      style: TextStyle(
+                        fontSize: FontConstants.f20,
+                        fontWeight: FontConstants.w800,
+                        fontFamily: FontConstants.fontFamily,
+                        color: ColorConstant.blackTextColor,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 12.0),
+                  Text(
+                    "We are processing your loan payment. Please review the details below and confirm to proceed. Your payment will be securely processed, and you will receive a confirmation once the transaction is complete.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontConstants.w600,
+                      fontSize: FontConstants.f12,
+                      fontFamily: FontConstants.fontFamily,
+                      color: Color(0xff494848),
+                    ),
+                  ),
+                  SizedBox(height: 34),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: ColorConstant.appThemeColor,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                    padding: EdgeInsets.all(FontConstants.horizontalPadding),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Pending Repayment",
+                                style: TextStyle(
+                                  color: ColorConstant.whiteColor,
+                                  fontFamily: FontConstants.fontFamily,
+                                  fontSize: FontConstants.f14,
+                                  fontWeight: FontConstants.w700,
+                                ),
+                              ),
+                              SizedBox(height: 18.0),
+                              Text(
+                                "${widget.partAmount} /-",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontConstants.w700,
+                                  fontFamily: FontConstants.fontFamily,
+                                  color: ColorConstant.whiteColor,
+                                ),
+                              ),
+                              SizedBox(height: 30),
+                              Row(
+                                children: [
+                                  Text(
+                                    "REPAYMENT DATE",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Color(0xff6ECCE3),
+                                      fontFamily: FontConstants.fontFamily,
+                                      fontWeight: FontConstants.w700,
+                                    ),
+                                  ),
+                                  SizedBox(width: 8.0),
+                                  Text(
+                                    "${apiData.repaymentDate}",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Color(0xff6ECCE3),
+                                      fontFamily: FontConstants.fontFamily,
+                                      fontWeight: FontConstants.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Image.asset(
+                          ImageConstants.visaCardIcon,
+                          width: 67,
+                          height: 41,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 65),
+                  Center(
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: FontConstants.f16,
+                          color: ColorConstant.blackTextColor,
+                          fontWeight: FontConstants.w600,
+                          fontFamily: FontConstants.fontFamily,
+                        ),
+                        children: [
+                          TextSpan(text: 'Choose Your '),
+                          TextSpan(
+                            text: 'Payment',
+                            style: TextStyle(
+                              color: ColorConstant.appThemeColor,
+                              fontWeight: FontConstants.w600,
+                            ),
+                          ),
+                          TextSpan(text: ' Option'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Radio(
+                            value: 0,
+                            groupValue: choosePaymentMethod,
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            // removes extra padding
+                            visualDensity: VisualDensity.compact,
+                            // makes the radio even tighter
+                            onChanged: (val) {
+                              setState(() {
+                                choosePaymentMethod = val!;
+                              });
+                            },
+                          ),
+                          SizedBox(width: 12.0),
+                          Image.asset(
+                            ImageConstants.cashFreeImage,
+                            width: 113,
+                            height: 35,
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Radio(
+                            value: 1,
+                            groupValue: choosePaymentMethod,
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            // removes extra padding
+                            visualDensity: VisualDensity.compact,
+                            // makes the radio even tighter
+                            onChanged: (val) {
+                              setState(() {
+                                choosePaymentMethod = val!;
+                              });
+                            },
+                          ),
+                          SizedBox(width: 12.0),
+                          Image.asset(
+                            ImageConstants.razorPayImage,
+                            width: 113,
+                            height: 35,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Loan112Button(
+                    text: "PAY NOW",
+                    onPressed: () {
+                      if (choosePaymentMethod == 1) {
+                        context.read<RePaymentCubit>().initiateRazorpayPayment(
+                          widget.partAmount,
+                          apiData.leadId ?? "",
+                        );
+                      } else {
+                        context.read<RePaymentCubit>().initiateCashFreePayment(
+                          widget.partAmount,
+                          apiData.leadId ?? "",
+                        );
+                      }
+                    },
+                  )
+                ],
               ),
-              SizedBox(height: 20),
-            ],
+            ),
           ),
         ),
       ),

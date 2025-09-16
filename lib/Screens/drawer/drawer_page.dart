@@ -15,6 +15,7 @@ import 'package:rupeeontime/Utils/Debugprint.dart';
 import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
 import 'package:rupeeontime/Utils/snackbarMassage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:rupeeontime/Widget/common_button.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Widget/circular_progress.dart';
@@ -57,214 +58,183 @@ class _Loan112Drawer extends State<Loan112Drawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: ColorConstant.appScreenBackgroundColor,
+        color: ColorConstant.whiteColor,
         child: SafeArea(
           child: Column(
             children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    height: 150,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 70,
-                          color: ColorConstant.drawerHeaderColor, // top 70px color
-                        ),
-                        Container(
-                          height: 80,
-                          color: ColorConstant.appScreenBackgroundColor, // bottom 70px color
-                        ),
-                      ],
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Container(
+                    padding: EdgeInsets.all(16.0),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Color(0xffE1ECEE),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(FontConstants.horizontalPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: widget.dashBoarddataModel?.data?.profilePic != null?
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            if(widget.dashBoarddataModel?.data?.profilePic != null)...[
-                              Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 80,
-                                      height: 80,
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          // Progress arc with incomplete part in lightBlue
-                                          SizedBox(
-                                            width: 80,
-                                            height: 80,
-                                            child: CircularProgressIndicator(
-                                              value: (widget.dashBoarddataModel?.data?.applyLoanBanner?.appBannerProgressPercent ?? 0) / 100,
-                                              strokeWidth: 4,
-                                              backgroundColor: Colors.lightBlue.shade100,
-                                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue.shade700),
-                                            ),
-                                          ),
-                                          ClipOval(
-                                            child: Image.network(
-                                              widget.dashBoarddataModel?.data?.profilePic ?? "",
-                                              width: 70,
-                                              height: 70,
-                                              fit: BoxFit.cover,
-                                              errorBuilder: (context, error, stackTrace) => Icon(Icons.person, size: 40, color: Colors.grey),
-                                              loadingBuilder: (context, child, loadingProgress) {
-                                                if (loadingProgress == null) return child;
-                                                return CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.4,
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child:  Text(
-                                                    widget.dashBoarddataModel?.data?.fullName ?? "",
-                                                    style: TextStyle(
-                                                        fontFamily: FontConstants.fontFamily,
-                                                        fontSize: FontConstants.f18,
-                                                        fontWeight: FontConstants.w800,
-                                                        color: ColorConstant.blackTextColor
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          widget.dashBoarddataModel?.data?.mobile ?? "",
-                                          //"9090000888",
-                                          style: TextStyle(
-                                              fontWeight: FontConstants.w600,
-                                              fontSize: FontConstants.f12,
-                                              fontFamily: FontConstants.fontFamily,
-                                              color: ColorConstant.blackTextColor
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ]
-                              )
-                            ]
-                            else...[
-                              Row(
-                                children: [
-                                  CircularProgressWithText(
-                                    progress: (widget.dashBoarddataModel?.data?.applyLoanBanner?.appBannerProgressPercent ?? 0) / 100,
-                                    isDrawer: true,
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width * 0.4,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child:  Text(
-                                                widget.dashBoarddataModel?.data?.fullName ?? "",
-                                                style: TextStyle(
-                                                    fontFamily: FontConstants.fontFamily,
-                                                    fontSize: FontConstants.f18,
-                                                    fontWeight: FontConstants.w800,
-                                                    color: ColorConstant.blackTextColor
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        widget.dashBoarddataModel?.data?.mobile ?? "",
-                                        //"9090000888",
-                                        style: TextStyle(
-                                            fontWeight: FontConstants.w600,
-                                            fontSize: FontConstants.f12,
-                                            fontFamily: FontConstants.fontFamily,
-                                            color: ColorConstant.blackTextColor
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
-                          ],
-                        ),
                         SizedBox(
-                          height: 10.0,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 25.0),
-                          child: Text(
-                            "${widget.dashBoarddataModel?.data?.applyLoanBanner!.appBannerProgressPercent?? 0.toString()}%",
-                            //"${(0.5 * 100).toInt()}%",
-                            style: TextStyle(
-                                fontFamily: FontConstants.fontFamily,
-                                fontWeight: FontConstants.w800,
-                                fontSize: FontConstants.f14,
-                                color: ColorConstant.blueTextColor
-                            ),
+                          width: 80,
+                          height: 80,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Progress arc with incomplete part in lightBlue
+                              SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: CircularProgressIndicator(
+                                  value: (widget.dashBoarddataModel?.data?.applyLoanBanner?.appBannerProgressPercent ?? 0) / 100,
+                                  strokeWidth: 4,
+                                  backgroundColor: ColorConstant.appThemeColor,
+                                  valueColor: AlwaysStoppedAnimation<Color>(ColorConstant.appThemeColor),
+                                ),
+                              ),
+                              ClipOval(
+                                child: Image.network(
+                                  widget.dashBoarddataModel?.data?.profilePic ?? "",
+                                  width: 70,
+                                  height: 70,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => Icon(Icons.person, size: 40, color: Colors.grey),
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "${widget.dashBoarddataModel?.data?.applyLoanBanner!.appBannerProgressPercent?? 0.toString()}%",
+                          //"${(0.5 * 100).toInt()}%",
+                          style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontWeight: FontConstants.w800,
+                              fontSize: FontConstants.f14,
+                              color: ColorConstant.blackTextColor
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          widget.dashBoarddataModel?.data?.fullName ?? "",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontSize: FontConstants.f18,
+                              fontWeight: FontConstants.w800,
+                              color: ColorConstant.blackTextColor
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        callingUI(context,widget.dashBoarddataModel?.data?.mobile ?? "")
                       ],
-                    ),
-                  )
-                ],
-              ),
-              // SizedBox(
-              //   height: 10.0,
-              // ),
-              Divider(
-                height: 1.0,
-                color: ColorConstant.greyTextColor.withOpacity(0.5), // 50% opacity
+                    ):
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Progress arc with incomplete part in lightBlue
+                              SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: CircularProgressIndicator(
+                                  value: (widget.dashBoarddataModel?.data?.applyLoanBanner?.appBannerProgressPercent ?? 0) / 100,
+                                  strokeWidth: 4,
+                                  backgroundColor: ColorConstant.appThemeColor,
+                                  valueColor: AlwaysStoppedAnimation<Color>(ColorConstant.appThemeColor),
+                                ),
+                              ),
+                              ClipOval(
+                                child: Image.asset(
+                                  ImageConstants.rotProfileIcon,
+                                  width: 70,
+                                  height: 70
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "${widget.dashBoarddataModel?.data?.applyLoanBanner!.appBannerProgressPercent?? 0.toString()}%",
+                          //"${(0.5 * 100).toInt()}%",
+                          style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontWeight: FontConstants.w800,
+                              fontSize: FontConstants.f14,
+                              color: ColorConstant.blackTextColor
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        (widget.dashBoarddataModel?.data?.fullName != null)?
+                        Text(
+                          widget.dashBoarddataModel?.data?.fullName ?? "",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontSize: FontConstants.f18,
+                              fontWeight: FontConstants.w800,
+                              color: ColorConstant.blackTextColor
+                          ),
+                        ):
+                        Text(
+                          "Hello, User",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontSize: FontConstants.f18,
+                              fontWeight: FontConstants.w800,
+                              color: ColorConstant.blackTextColor
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        callingUI(context,widget.dashBoarddataModel?.data?.mobile ?? "")
+                      ],
+                    )
+                ),
               ),
               SizedBox(
-                height: 24.0,
+                height: 27.0,
               ),
-
               // Menu items
               Expanded(
                 child: ListView(
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
                   children: [
-                    _buildMenuItem(ImageConstants.homeIcon, "Home",
+                    _buildMenuItem(ImageConstants.homeIcon, "My Profile",
                        onClick: (){
                          // DebugPrint.prt("Home Icon Pressed");
                          context.pop();
                        }
+                    ),
+                    Divider(
+                      height: 1.0,
+                      color: ColorConstant.greyTextColor,
                     ),
                     _buildMenuItem(ImageConstants.drawerFaq, "FAQs",
                       onClick: (){
@@ -272,11 +242,19 @@ class _Loan112Drawer extends State<Loan112Drawer> {
                         context.push(AppRouterName.termsAndConditionWebview,extra: UrlsNods.FAQ);
                       }
                     ),
+                    Divider(
+                      height: 1.0,
+                      color: ColorConstant.greyTextColor,
+                    ),
                     _buildMenuItem(ImageConstants.dashBoardHeadphone, "Support",
                       onClick: (){
                         context.pop();
                         context.push(AppRouterName.customerSupport,extra: widget.dashBoarddataModel);
                       }
+                    ),
+                    Divider(
+                      height: 1.0,
+                      color: ColorConstant.greyTextColor,
                     ),
                     _buildMenuItem(ImageConstants.drawerShareApp, "Share App",
                       onClick: (){
@@ -292,79 +270,51 @@ class _Loan112Drawer extends State<Loan112Drawer> {
                         }
                       }
                     ),
+                    Divider(
+                      height: 1.0,
+                      color: ColorConstant.greyTextColor,
+                    ),
                     _buildMenuItem(ImageConstants.drawerRateUs, "Rate Us",
                         onClick: (){
                           DebugPrint.prt("Rate Us Pressed");
                           openPlayStore(context);
                     }),
+                    Divider(
+                      height: 1.0,
+                      color: ColorConstant.greyTextColor,
+                    ),
+                  if(widget.dashBoarddataModel?.data?.isAccountDeleteVisibility ?? false)...[
+                    Column(
+                      children: [
+                        _buildMenuItem(ImageConstants.drawerRateUs, "Delete Account",
+                            onClick: (){
+                              DebugPrint.prt("Rate Us Pressed");
+                            }),
+                        Divider(
+                          height: 1.0,
+                          color: ColorConstant.greyTextColor,
+                        ),
+                      ],
+                    )
+                  ]
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: FontConstants.horizontalPadding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap:() async{
-                        showLogoutConfirmationDialog(context);
-                      },
-                      child: SvgPicture.asset(
-                        ImageConstants.drawerPower,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              const Divider(),
-              // Delete Account
-              if(widget.dashBoarddataModel?.data?.isAccountDeleteVisibility ?? false)...[
-                Padding(
-                  padding: EdgeInsets.only(left: FontConstants.horizontalPadding,top: 10.0),
-                  child: InkWell(
-                    onTap: () {
-                      context.pop(); // Close Drawer
-
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        showModalBottomSheet(
-                          context: context, // Now it's safe
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                          ),
-                          builder: (ctx) {
-                            return DeleteProfileBottomSheet(
-                              onConfirm: () {
-                                ctx.read<DashboardCubit>().callDeleteCustomerProfileApi();
-                              },
-                            );
-                          },
-                        );
-                      });
-                    },
-                    child: Row(
-                      children: [
-                        Image.asset(ImageConstants.drawerDelete,height: 20,width: 20),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Text(
-                          "Delete Account",
-                          style: TextStyle(
-                              fontFamily: FontConstants.fontFamily,
-                              fontWeight: FontConstants.w600,
-                              fontSize: FontConstants.f14,
-                              color: ColorConstant.errorRedColor
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                padding: EdgeInsets.all(FontConstants.horizontalPadding),
+                child:  Loan112Button(
+                  backGroundColor: Color(0xffD93C65),
+                  onPressed: (){
+                    context.pop();
+                    showLogoutConfirmationDialog(context);
+                  },
+                  text: "Logout",
+                  textColor: ColorConstant.whiteColor,
+                  fontSize: FontConstants.f14,
+                  fontFamily: FontConstants.fontFamily,
+                  fontWeight: FontConstants.w500,
                 )
-              ],
+              ),
               SizedBox(
                 height: 24.0,
               ),
@@ -486,10 +436,31 @@ class _Loan112Drawer extends State<Loan112Drawer> {
     );
   }
 
-
-
-
-
+  Widget callingUI(BuildContext context,String mobileNumber){
+    return  Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          ImageConstants.rotProfileCallIcon,
+          height: 14,
+          width: 14,
+        ),
+        SizedBox(
+          width: 8.0,
+        ),
+        Text(
+          mobileNumber,
+          style: TextStyle(
+              fontWeight: FontConstants.w600,
+              fontSize: FontConstants.f12,
+              fontFamily: FontConstants.fontFamily,
+              color: ColorConstant.blackTextColor
+          ),
+        )
+      ],
+    );
+  }
 
   Future<void> openPlayStore(BuildContext context) async {
     final Uri playStoreUrl = Uri.parse(
@@ -519,17 +490,15 @@ class _Loan112Drawer extends State<Loan112Drawer> {
 
   Widget _buildMenuItem(String icon, String title,{onClick}) {
     return ListTile(
-      leading: Image.asset(icon, color: ColorConstant.greyTextColor,height: 20,width: 20),
       title: Text(
           title,
          style: TextStyle(
            fontFamily: FontConstants.fontFamily,
            fontSize: FontConstants.f14,
            fontWeight: FontConstants.w600,
-           color: ColorConstant.blueTextColor
+           color: ColorConstant.blackTextColor
          ),
       ),
-      trailing: const Icon(Icons.arrow_forward, size: 16),
       onTap: onClick,
     );
   }

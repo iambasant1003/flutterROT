@@ -85,84 +85,70 @@ class _DashboardStatusPageStep extends State<DashboardStatusPageStep> {
               final int stepStatus = status?[stepKey] ?? 0;
 
               // Determine width factor
-              double widthFactor;
-              if (stepStatus == 2) {
-                widthFactor = 1.0;
-              } else {
-                widthFactor = 0.6;
-              }
+              double widthFactor = 1.0;
 
               // Determine colors
               Color bgColor = (stepStatus == 2)
-                  ? Colors.blue.shade50
+                  ? ColorConstant.whiteColor
                   : Colors.grey.shade100;
 
               Color textColor = (stepStatus == 2)
                   ? Colors.black
                   : ColorConstant.greyTextColor;
 
-              return Container(
-                margin: const EdgeInsets.symmetric(vertical: 6),
-                child: Stack(
-                  children: [
-                    // Base layer
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+              return  Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * widthFactor,
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(12),
+                      border: stepStatus == 2?
+                      Border.all(
+                        color: ColorConstant.appThemeColor
+                      ):null
                     ),
-                    // Progress step with dynamic width and styles
-                    Container(
-                      width: MediaQuery.of(context).size.width * widthFactor,
-                      decoration: BoxDecoration(
-                        color: bgColor,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 3,
-                            offset: const Offset(0, 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Step: ${index + 1}",
+                          style: TextStyle(
+                            fontWeight: FontConstants.w700,
+                            fontFamily: FontConstants.fontFamily,
+                            fontSize: FontConstants.f16,
+                            color: textColor,
                           ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                      child: Row(
-                        children: [
-                          Text(
-                            "${index + 1}",
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            steps[index],
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontConstants.w600,
+                              fontFamily: FontConstants.fontFamily,
+                              fontSize: FontConstants.f16,
                               color: textColor,
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              steps[index],
-                              style: TextStyle(
-                                fontWeight: FontConstants.w700,
-                                fontSize: FontConstants.f16,
-                                fontFamily: FontConstants.fontFamily,
-                                color: textColor,
-                              ),
-                            ),
+                        ),
+                        CircleAvatar(
+                          backgroundColor: stepStatus == 2?
+                          ColorConstant.appThemeColor:Color(0xffC6C6C6),
+                          radius: 14,
+                          child: Icon(
+                            Icons.check,
+                            size: 15,
+                            color: ColorConstant.whiteColor,
                           ),
-                          CircleAvatar(
-                            backgroundColor: ColorConstant.drawerHeaderColor,
-                            radius: 18,
-                            child: Image.asset(
-                              icons[index],
-                              color: textColor,
-                              height: 20,
-                              width: 20,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 12.0,
+                  )
+                ],
               );
             }),
           ); // fallback when no state

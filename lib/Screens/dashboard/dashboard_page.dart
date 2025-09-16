@@ -40,7 +40,7 @@ class _DashBoardPage extends State<DashBoardPage>{
               return false;
             },
             child: Scaffold(
-                backgroundColor: ColorConstant.appScreenBackgroundColor,
+                backgroundColor: ColorConstant.whiteColor,
                 drawer: BlocBuilder<DashboardCubit,DashboardState>(
                   builder: (context,state){
                     if(state is DashBoardSuccess){
@@ -122,101 +122,121 @@ class _DashBoardPage extends State<DashBoardPage>{
   }
 
 
-
-  Widget bottomNavigationWidget(BuildContext context){
-    return BlocBuilder<DashboardCubit,DashboardState>(
-      builder: (context,state){
-        if(state is DashBoardSuccess){
-            dashBoardModel = state.dashBoardModel;
+  Widget bottomNavigationWidget(BuildContext context) {
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (context, state) {
+        if (state is DashBoardSuccess) {
+          dashBoardModel = state.dashBoardModel;
         }
         return SafeArea(
-          bottom: true,
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: FontConstants.horizontalPadding,
-                left: FontConstants.horizontalPadding,
-                right: FontConstants.horizontalPadding
+          child: Container(
+            height: 90,
+            decoration: BoxDecoration(
+              color: ColorConstant.whiteColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
             ),
-            child: Container(
-                width: double.infinity,
-                height: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      Color(0xFF2B3C74),
-                      Color(0xFF5171DA),
-                    ],
-                  ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // Home
+                _buildNavItem(
+                  context,
+                  index: 0,
+                  label: "Home",
+                  icon: ImageConstants.rotDashboardHomeIcon,
+                  isSelected: selectedIndex == 0,
+                  onTap: () {
+                    setState(() {
+                      selectedIndex = 0;
+                    });
+                  },
                 ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal:FontConstants.horizontalPadding,vertical: 12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: (){},
-                        child: Column(
-                          children: [
-                            Image.asset(
-                                ImageConstants.homeIcon,
-                                color: selectedIndex ==0? ColorConstant.whiteColor:ColorConstant.greyTextColor,
-                                width: 24,height: 24),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(
-                              "Home",
-                              style: TextStyle(
-                                fontSize: FontConstants.f12,
-                                fontFamily: FontConstants.fontFamily,
-                                fontWeight: FontConstants.w500,
-                                color: selectedIndex ==0? ColorConstant.whiteColor:ColorConstant.greyTextColor,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (!context.mounted) return; // this is more precise in newer Flutter
-                            if(dashBoardModel?.data?.applicationSubmitted ==1){
-                              context.push(AppRouterName.dashBoardStatus);
-                            }else{
-                              openSnackBar(context, "Loan application is not completed");
-                            }
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Image.asset(ImageConstants.dashboardStatusIcon,
-                                color: dashBoardModel?.data?.applicationSubmitted ==1? ColorConstant.whiteColor:ColorConstant.greyTextColor,
-                                width: 24,height: 24),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(
-                              "Status",
-                              style: TextStyle(
-                                fontSize: FontConstants.f12,
-                                fontFamily: FontConstants.fontFamily,
-                                fontWeight: FontConstants.w500,
-                                color: dashBoardModel?.data?.applicationSubmitted ==1? ColorConstant.whiteColor:ColorConstant.greyTextColor,
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
+
+                // Loan Status
+                _buildNavItem(
+                  context,
+                  index: 1,
+                  label: "Loan Status",
+                  icon: ImageConstants.rotDashboardStatusIcon,
+                  isSelected: selectedIndex == 1,
+                  onTap: () {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (!context.mounted) return;
+                      if (dashBoardModel?.data?.applicationSubmitted == 1) {
+                        context.push(AppRouterName.dashBoardStatus);
+                      } else {
+                        openSnackBar(
+                            context, "Loan application is not completed");
+                      }
+                    });
+                  },
+                ),
+
+                // Profile
+                _buildNavItem(
+                  context,
+                  index: 2,
+                  label: "My Profile",
+                  icon: ImageConstants.rotDashboardProfileIcon,
+                  isSelected: selectedIndex == 2,
+                  onTap: () {
+
+                  },
+                ),
+              ],
             ),
           ),
         );
       },
+    );
+  }
+
+  /// helper widget
+  Widget _buildNavItem(
+      BuildContext context, {
+        required int index,
+        required String label,
+        required String icon,
+        required bool isSelected,
+        required VoidCallback onTap,
+      }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        decoration: BoxDecoration(
+          color: isSelected ? ColorConstant.appThemeColor : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              icon,
+              width: 24,
+              height: 24,
+              color:
+              isSelected ? ColorConstant.whiteColor : ColorConstant.greyTextColor,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: FontConstants.f12,
+                fontFamily: FontConstants.fontFamily,
+                fontWeight: FontWeight.w500,
+                color: isSelected
+                    ? ColorConstant.whiteColor
+                    : ColorConstant.greyTextColor,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

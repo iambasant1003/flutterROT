@@ -47,11 +47,16 @@ class _RepaymentPage extends State<RepaymentPage>{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: Loan112AppBar(
+          backgroundColor: ColorConstant.appThemeColor,
           leadingSpacing: 25,
-          title: Image.asset(
-            ImageConstants.loan112AppNameIcon,
-            height: 76,
-            width: 76,
+          title: Text(
+            "Loan History",
+            style: TextStyle(
+              fontSize: FontConstants.f18,
+              fontFamily: FontConstants.fontFamily,
+              fontWeight: FontConstants.w700,
+              color: ColorConstant.whiteColor
+            ),
           ),
           customLeading: Builder(
             builder: (context) => Padding(
@@ -61,8 +66,8 @@ class _RepaymentPage extends State<RepaymentPage>{
                   context.pop();
                 },
                 child: Icon(
-                  Icons.arrow_back_ios,
-                  color: ColorConstant.blackTextColor,
+                  Icons.arrow_back,
+                  color: ColorConstant.whiteColor,
                 ),
               ),
             ),
@@ -89,13 +94,12 @@ class _RepaymentPage extends State<RepaymentPage>{
                 child: Stack(
                   children: [
                     Positioned.fill(
-                      child: Image.asset(
-                        ImageConstants.permissionScreenBackground,
-                        fit: BoxFit.cover, // Optional: to scale and crop nicely
-                      ),
+                      child: Container(
+                        color: ColorConstant.appThemeColor,
+                      )
                     ),
                     Positioned(
-                      top: 50,
+                      top: 10,
                       left: 0,
                       right: 0,
                       bottom: 0,
@@ -112,12 +116,9 @@ class _RepaymentPage extends State<RepaymentPage>{
 
   Widget loanHistoryContainerWidget(BuildContext context){
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(54.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),

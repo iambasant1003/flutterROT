@@ -150,6 +150,58 @@ class _LogInPageState extends State<LogInPage> {
                                               onChanged: (val) {
                                                 print("Value is Changing");
                                               },
+                                              leadingWidget: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                 Padding(
+                                                   padding: EdgeInsets.only(left: FontConstants.horizontalPadding),
+                                                   child:  Image.asset(
+                                                     ImageConstants.rotIndianFlag,
+                                                     height: 24,
+                                                     width: 24,
+                                                   ),
+                                                 ),
+                                                  const SizedBox(width: 6),
+                                                   Padding(
+                                                    padding: EdgeInsets.only(right: FontConstants.horizontalPadding),
+                                                    child: Text(
+                                                      "+91",
+                                                      style: TextStyle(
+                                                        fontSize: FontConstants.f20,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontFamily: FontConstants.fontFamily
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                                  /*
+                                              Padding(
+                                                padding: EdgeInsets.only(left: 20.0),
+                                                child: Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      ImageConstants.rotIndianFlag,
+                                                      height: 30,
+                                                      width: 30,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Text(
+                                                      "+91-",
+                                                      style: TextStyle(
+                                                          fontSize: FontConstants.f20,
+                                                          fontWeight: FontConstants.w500,
+                                                          fontFamily: FontConstants.fontFamily,
+                                                          color: ColorConstant.blackTextColor
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+
+                                                   */
                                             ),
                                           ),
                                         ],
@@ -157,30 +209,45 @@ class _LogInPageState extends State<LogInPage> {
                                       SizedBox(height: 24.0), // space before button
                                       consentBoxUI(context),
                                       SizedBox(height: 24.0), // space before button
-                                      Center(
-                                        child: SizedBox(
-                                          width: 265,
-                                          child: Loan112Button(
-                                            onPressed: () {
-                                              if(_formKey.currentState!.validate()){
-                                                mobileNumberToPass = mobileController.text.trim();
-                                                final phone = mobileController.text.trim();
-                                                if (phone.isNotEmpty) {
-                                                  DebugPrint.prt("LogIn Method Called $phone");
-                                                  CleverTapPlugin.onUserLogin({
-                                                    'Identity': phone,
-                                                  });
-                                                  context.read<AuthCubit>().sendBothOtp(phone);
-                                                } else {
-                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                    const SnackBar(content: Text("Enter phone number")),
-                                                  );
-                                                }
-                                              }
-                                            },
-                                            text: "LOGIN",
-                                          ),
-                                        ),
+                                      BlocBuilder<AuthCubit, AuthState>(
+                                        builder: (context,state){
+
+                                          final authCubit = context.read<AuthCubit>();
+                                          bool checked = authCubit.isPermissionGiven;
+
+                                          if (state is PermissionCheckboxState) {
+                                            checked = state.isChecked;
+                                          }
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 265,
+                                              child: Loan112Button(
+                                                onPressed: () {
+                                                  if(!checked){
+                                                    openSnackBar(context,
+                                                        "Please accept our Terms & Conditions and Privacy Policy.");
+                                                  }
+                                                  else if(_formKey.currentState!.validate()){
+                                                    mobileNumberToPass = mobileController.text.trim();
+                                                    final phone = mobileController.text.trim();
+                                                    if (phone.isNotEmpty) {
+                                                      DebugPrint.prt("LogIn Method Called $phone");
+                                                      CleverTapPlugin.onUserLogin({
+                                                        'Identity': phone,
+                                                      });
+                                                      context.read<AuthCubit>().sendBothOtp(phone);
+                                                    } else {
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        const SnackBar(content: Text("Enter phone number")),
+                                                      );
+                                                    }
+                                                  }
+                                                },
+                                                text: "LOGIN",
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                       Image.asset(
                                         ImageConstants.rotLogInBoyImage
