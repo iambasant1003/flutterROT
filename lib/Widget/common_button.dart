@@ -13,6 +13,7 @@ class Loan112Button extends StatelessWidget {
   final double height;
   final double letterSpacing;
   final Color textColor;
+  final Color backGroundColor;
 
   // ✅ Optional icon (displayed after the text)
   final Widget? icon;
@@ -29,6 +30,7 @@ class Loan112Button extends StatelessWidget {
     this.letterSpacing = 0.0,
     this.textColor = Colors.white,
     this.icon,
+    this.backGroundColor = ColorConstant.appThemeColor
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class Loan112Button extends StatelessWidget {
           ),
 
            */
-          color: ColorConstant.appThemeColor,
+          color: backGroundColor,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: ElevatedButton(

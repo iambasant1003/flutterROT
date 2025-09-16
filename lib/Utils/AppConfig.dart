@@ -4,6 +4,10 @@
 // const val PreProd = 1
 // const val Prod = 9
 
+
+// baseUrlNode = "https://node-api.blsfintech.com/journey-service/api/v1/";
+// baseUrlPhp = "https://api.blsfintech.com/";
+
 class AppConfig {
   static late String baseUrlNode;
   static late String baseUrlPhp;
@@ -13,8 +17,8 @@ class AppConfig {
   static init(String env) {
     switch (env) {
       case 'dev':
-        baseUrlNode = "https://uat-node.loan112fintech.com/journey-service/api/v1/";
-        baseUrlPhp = "https://uat-api.loan112fintech.com/";
+        baseUrlNode = "https://uat-node.rotfintech.com/journey-service/api/v1/";
+        baseUrlPhp = "https://uat-api.rotfintech.com/";
         authPhpToken = "NWZmYzU2NDVkN2Y3ODIwNDJjZDFhZmViYjA3MTExZDM=";
         appVersion = 1;
         break;

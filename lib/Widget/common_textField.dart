@@ -14,11 +14,13 @@ class CommonTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final Widget? trailingWidget;
   final VoidCallback? trailingClick;
+  final Widget? leadingWidget; // 👈 NEW
+  final VoidCallback? leadingClick; // 👈 NEW
   final bool readOnly;
   final bool obscureText;
   final VoidCallback? onTap;
   final TextInputAction? textInputAction;
-  final bool? enableInteractiveSelection; // 👈 NEW
+  final bool? enableInteractiveSelection;
 
   const CommonTextField({
     Key? key,
@@ -33,11 +35,13 @@ class CommonTextField extends StatelessWidget {
     this.inputFormatters,
     this.trailingWidget,
     this.trailingClick,
+    this.leadingWidget, // 👈 NEW
+    this.leadingClick, // 👈 NEW
     this.readOnly = false,
     this.obscureText = false,
     this.onTap,
     this.textInputAction,
-    this.enableInteractiveSelection, // 👈 NEW
+    this.enableInteractiveSelection,
   }) : super(key: key);
 
   @override
@@ -65,7 +69,7 @@ class CommonTextField extends StatelessWidget {
       readOnly: readOnly,
       obscureText: obscureText,
       onTap: onTap,
-      enableInteractiveSelection: enableInteractiveSelection, // 👈 apply here
+      enableInteractiveSelection: enableInteractiveSelection,
       style: const TextStyle(
         fontFamily: 'Manrope',
         fontWeight: FontWeight.w500,
@@ -101,6 +105,17 @@ class CommonTextField extends StatelessWidget {
           height: 1.2,
           color: errorBorderColor,
         ),
+
+        // 👇 Leading widget support
+        prefixIcon: leadingWidget != null
+            ? GestureDetector(
+          onTap: leadingClick ?? () {},
+          behavior: HitTestBehavior.translucent,
+          child: leadingWidget,
+        )
+            : null,
+
+        // Existing trailing widget
         suffixIcon: trailingWidget != null
             ? GestureDetector(
           onTap: trailingClick ?? () {},

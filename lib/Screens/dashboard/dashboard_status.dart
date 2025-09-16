@@ -36,6 +36,7 @@ class _DashboardStatusScreen extends State<DashboardStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstant.appThemeColor,
       appBar: Loan112AppBar(
         customLeading: Padding(
           padding: EdgeInsets.only(left: 0),
@@ -45,145 +46,101 @@ class _DashboardStatusScreen extends State<DashboardStatusScreen> {
               context.read<DashboardCubit>().callDashBoardApi();
             },
             child: Icon(
-              Icons.arrow_back_ios,
-              color: ColorConstant.blackTextColor,
+              Icons.arrow_back,
+              color: ColorConstant.whiteColor,
             ),
+          ),
+        ),
+        title: Text(
+          "Status of Application",
+          style: TextStyle(
+            fontFamily: FontConstants.fontFamily,
+            color: ColorConstant.whiteColor,
+            fontSize: FontConstants.f18,
+            fontWeight: FontConstants.w700
           ),
         ),
         leadingSpacing: 30,
-        title: Image.asset(
-          ImageConstants.loan112AppNameIcon,
-          height: 76,
-          width: 76,
-        ),
       ),
-      body: SizedBox.expand(
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                ImageConstants.permissionScreenBackground,
-                fit: BoxFit.cover, // Optional: to scale and crop nicely
-              ),
-            ),
-
-            //Positioned Data
-            SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 37),
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        personalLoanApplyWidget(context),
-                        Positioned(
-                          top: -2,
-                          left: 0,
-                          right: 0,
-                          child: Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: ColorConstant.appThemeColor,
-                                borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(18.0),
-                                  bottomRight: Radius.circular(18.0),
-                                ),
-                              ),
-                              width: 244,
-                              height: 40,
-                              child: Center(
-                                child: Text(
-                                  "Status of Application",
-                                  style: TextStyle(
-                                    fontFamily: FontConstants.fontFamily,
-                                    fontSize: FontConstants.f18,
-                                    fontWeight: FontConstants.w800,
-                                    color: ColorConstant.whiteColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
-        bottom: true,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: FontConstants.horizontalPadding),
-          child: SizedBox(
-            height: 50,
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: FontConstants.horizontalPadding,
-                ),
-                child: Loan112Button(
-                    text: "Refresh",
-                    icon: Image.asset(ImageConstants.dashBoardRefresh),
-                    onPressed: () {
-                      getCustomerDetailsApiCall();
-                    }
-                ),
-              ),
-            ),
-          ),
-        ),
+      body: commonBackground(
+        context,
+        bodyPart: personalLoanApplyWidget(context)
       ),
     );
   }
 
   Widget personalLoanApplyWidget(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              ImageConstants.permissionScreenLeftPyramid,
-              width: 26,
-              height: 13,
-            ),
-            SizedBox(width: 214),
-            Image.asset(
-              ImageConstants.permissionScreenRightPyramid,
-              width: 26,
-              height: 13.0,
-            ),
-          ],
+    return Container(
+      margin: EdgeInsets.only(top: 12.0),
+      decoration: BoxDecoration(
+        color: ColorConstant.whiteColor,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40.0),
+            topRight: Radius.circular(40.0)
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          padding: const EdgeInsets.all(FontConstants.horizontalPadding),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      width: double.infinity,
+      child:  Column(
+        children: [
+          SizedBox(height: 30),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.0),
+            child: DashboardStatusPageStep(),
+          ),
+          Stack(
+            children: [
+              Image.asset(
+                ImageConstants.rotStatusPageBackground,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 70.0,left: 44.0,right: 44.0),
+                child: SizedBox(
+                  height: 50,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: FontConstants.horizontalPadding,
+                      ),
+                      child: Loan112Button(
+                          text: "Refresh",
+                          icon: Image.asset(ImageConstants.dashBoardRefresh),
+                          onPressed: () {
+                            getCustomerDetailsApiCall();
+                          }
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
-          ),
-          width: double.infinity,
-          child: Column(
-            children: [
-              SizedBox(height: 30),
-              DashboardStatusPageStep(),
-            ],
-          ),
-        ),
-      ],
+          )
+        ],
+      ),
     );
   }
+
+  Widget commonBackground(BuildContext context,{required Widget bodyPart}){
+    return SizedBox.expand(
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              color: ColorConstant.appThemeColor,
+            ),
+          ),
+          //Positioned Data
+          bodyPart
+        ],
+      ),
+    );
+  }
+
 }
+

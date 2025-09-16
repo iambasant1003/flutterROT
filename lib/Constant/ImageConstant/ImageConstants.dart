@@ -68,4 +68,11 @@ class ImageConstants {
   static const String rotEditMobileNumber = "assets/rot/icons/rot_edit_mobile_number.png";
   static const String rotDashboardBackground = "assets/rot/images/dashboard_banner.png";
   static const String rotDashboardBannerGirl = "assets/rot/images/dashboard_girl.png";
+  static const String rotStatusPageBackground = "assets/rot/images/status_application_coin_background.png";
+  static const String rotProfileIcon = "assets/rot/icons/rot_profile_icon.png";
+  static const String rotProfileCallIcon = "assets/rot/icons/rot_profile_call.png";
+  static const String rotDashboardHomeIcon = "assets/rot/icons/rot_dashboard_home.png";
+  static const String rotDashboardProfileIcon = "assets/rot/icons/rot_dashboard_profile.png";
+  static const String rotDashboardStatusIcon = "assets/rot/icons/rot_dashboard_status.png";
+  static const String rotIndianFlag = "assets/rot/icons/rot_login_indian_flag.png";
 }

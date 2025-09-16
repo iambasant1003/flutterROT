@@ -119,7 +119,7 @@ class JourneyStepCard extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: state == 0 ? onTap : null,
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

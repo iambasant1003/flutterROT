@@ -51,76 +51,132 @@ class _LoanListPageState extends State<LoanListPage> {
                 });
               },
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                margin: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
                 decoration: BoxDecoration(
-                  gradient: loanData?.loanActiveStatus == 1
-                      ? LinearGradient(
-                    colors: [
-                      Color(0xFF2B3C74), // dark blue
-                      Color(0xFF5171DA), // light blue
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  )
-                      : null,
-                  color: loanData?.loanActiveStatus == 1 ? null : (isExpanded ? Colors.blue[50] : Colors.white),
-                  border: Border.all(
-                    color: isExpanded ? Colors.blue : Colors.grey.shade300,
-                    width: 1.5,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade200,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
+                  color: loanData?.loanActiveStatus == 1 ? ColorConstant.appThemeColor : ColorConstant.whiteColor,
+                  borderRadius: isExpanded?
+                      BorderRadius.only(
+                        topRight: Radius.circular(12.0),
+                        topLeft: Radius.circular(12.0)
+                      ):
+                  BorderRadius.circular(12),
                 ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: loanData?.loanActiveStatus == 1
-                          ? Container(
-                        height: 24,
-                        width: 24,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: Center(
-                          child: Container(
-                            height: 10,
-                            width: 10,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _getLoanTitle(index,loanData?.loanActiveStatus?? 0),
+                            style: TextStyle(
+                                fontSize: FontConstants.f16,
+                                fontWeight: FontConstants.w700,
+                                fontFamily: FontConstants.fontFamily,
+                                color: ColorConstant.whiteColor
                             ),
                           ),
-                        ),
+                          Row(
+                            children: [
+                              Text(
+                                "View More",
+                                style: TextStyle(
+                                    fontFamily: FontConstants.fontFamily,
+                                    fontWeight: FontConstants.w500,
+                                    fontSize: 9.0,
+                                    color: ColorConstant.whiteColor
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Icon(
+                                isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                                color: loanData?.loanActiveStatus == 1
+                                    ? Colors.white
+                                    : (isExpanded ? Colors.blue : Colors.black),
+                              ),
+
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 29.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Total Repayment Amount",
+                                style: TextStyle(
+                                    fontSize: FontConstants.f12,
+                                    fontWeight: FontConstants.w500,
+                                    fontFamily: FontConstants.fontFamily,
+                                    color: ColorConstant.whiteColor
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Text(
+                                "₹45,000.00",
+                                style: TextStyle(
+                                    fontSize: FontConstants.f18,
+                                    fontWeight: FontConstants.w600,
+                                    fontFamily: FontConstants.fontFamily,
+                                    color: ColorConstant.whiteColor
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 12,
+                          ),
+                          Divider(
+                            height: 2,
+                            color: ColorConstant.greyTextColor,
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Repayment Date",
+                                style: TextStyle(
+                                    fontSize: FontConstants.f12,
+                                    fontWeight: FontConstants.w500,
+                                    fontFamily: FontConstants.fontFamily,
+                                    color: ColorConstant.whiteColor
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Text(
+                                "01/12/24",
+                                style: TextStyle(
+                                    fontSize: FontConstants.f12,
+                                    fontWeight: FontConstants.w600,
+                                    fontFamily: FontConstants.fontFamily,
+                                    color: ColorConstant.whiteColor
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       )
-                          : null,
-                      title: Text(
-                        _getLoanTitle(index, loanData?.loanActiveStatus ?? 0,loanData),
-                        style: TextStyle(
-                          color: loanData?.loanActiveStatus == 1
-                              ? Colors.white
-                              : (isExpanded ? Colors.blue : Colors.black),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      trailing: Icon(
-                        isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                        color: loanData?.loanActiveStatus == 1
-                            ? Colors.white
-                            : (isExpanded ? Colors.blue : Colors.black),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-            if (isExpanded) SizedBox(height: 12.0),
             if (isExpanded) _buildDetailsSection(loanData, index),
           ],
         );
@@ -141,7 +197,10 @@ class _LoanListPageState extends State<LoanListPage> {
             color: ColorConstant.textFieldBorderColor,
             width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(12.0),
+            bottomRight: Radius.circular(12.0)
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade200,
@@ -155,15 +214,85 @@ class _LoanListPageState extends State<LoanListPage> {
           child: Column(
             children: [
               _buildRow("Loan Number", "${loanData?.loanNo ?? ""}/-"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Sanction Loan Amount (Rs.)", "${loanData?.loanRecommended ?? ""}/-"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Rate of Interest (%) Per Day", "${loanData?.roi ?? ""}"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Disbursal Date", loanData?.disbursalDate),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Total Repayment Amount (Rs.)", "${loanData?.loanTotalPayableAmount ?? ""}/-"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Tenure in Days", "${loanData?.tenure ?? ""}"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Repayment Date", loanData?.repaymentDate ?? ""),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Panel Interest (%) Per day", "${loanData?.panelRoi ?? ""}"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Penalty Amount", "${loanData?.loanTotalPenaltyAmount ?? ""}"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Remaining Amount", "${loanData?.loanTotalOutstandingAmount ?? ""}"),
+              Divider(
+                height: 2,
+                color: Color(0xffE0E0E0),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
               _buildRow("Status", "${loanData?.status ?? ""}"),
               loanData.loanActiveStatus ==1?
               SizedBox(height: 12):
@@ -172,7 +301,10 @@ class _LoanListPageState extends State<LoanListPage> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
-                  color: Color(0xFFE8F2FF), // Light blue background
+                  border: Border.all(
+                    color: Color(0xffE6E4E4)
+                  ),
+                  color: ColorConstant.whiteColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -194,7 +326,7 @@ class _LoanListPageState extends State<LoanListPage> {
                           child: CommonTextField(
                             controller: amountController,
                             maxLength: 7,
-                            hintText: "Amount",
+                            hintText: "Enter Amount",
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -202,14 +334,7 @@ class _LoanListPageState extends State<LoanListPage> {
                         Container(
                           height: 30,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xFF2B3C74), // dark blue
-                                Color(0xFF5171DA), // light blue
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
+                            color: ColorConstant.appThemeColor,
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
@@ -287,6 +412,7 @@ class _LoanListPageState extends State<LoanListPage> {
 
   Widget _buildRow(String label, String value) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -308,16 +434,16 @@ class _LoanListPageState extends State<LoanListPage> {
               child: Text(
                 value,
                 style: TextStyle(
-                  color: ColorConstant.blueTextColor,
-                  fontSize: FontConstants.f12,
-                  fontWeight: FontConstants.w800,
+                  color: ColorConstant.blackTextColor,
+                  fontSize: FontConstants.f14,
+                  fontWeight: FontConstants.w700,
                   fontFamily: FontConstants.fontFamily,
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 18)
+        SizedBox(height: 10.0)
       ],
     );
   }
@@ -333,16 +459,16 @@ class _LoanListPageState extends State<LoanListPage> {
     }
   }
 
-  String _getLoanTitle(int index, int loanActiveStatus,var loanData) {
+  String _getLoanTitle(int index, int loanActiveStatus) {
     // Find first active loan index
     int firstActiveIndex = widget.loanHistoryModel.data
         ?.indexWhere((e) => e.loanActiveStatus == 1) ??
         -1;
 
     if (loanActiveStatus == 1) {
-      return "Active Loan ${loanData.loanNo}";
+      return "Active Loan";
     } else {
-      return "Loan ${loanData.loanNo}";
+      return "Loan $index";
     }
   }
 }
