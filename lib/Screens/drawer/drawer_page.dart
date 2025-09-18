@@ -226,16 +226,6 @@ class _Loan112Drawer extends State<Loan112Drawer> {
                 child: ListView(
                   padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
                   children: [
-                    _buildMenuItem(ImageConstants.homeIcon, "My Profile",
-                       onClick: (){
-                         // DebugPrint.prt("Home Icon Pressed");
-                         context.pop();
-                       }
-                    ),
-                    Divider(
-                      height: 1.0,
-                      color: ColorConstant.greyTextColor,
-                    ),
                     _buildMenuItem(ImageConstants.drawerFaq, "FAQs",
                       onClick: (){
                         context.pop();

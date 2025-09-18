@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
 import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
+import 'package:rupeeontime/Constant/ImageConstant/ImageConstants.dart';
 import 'package:rupeeontime/Model/DashBoarddataModel.dart';
 import 'package:rupeeontime/Utils/Debugprint.dart';
 import 'package:rupeeontime/Utils/MysharePrefenceClass.dart';
@@ -55,109 +57,146 @@ class _CustomerSupportUiScreen extends State<CustomerSupportUiScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstant.appScreenBackgroundColor,
+      backgroundColor: ColorConstant.appThemeColor,
       appBar: Loan112AppBar(
         showBackButton: true,
-        centerTitle: true,
+        customLeading: InkWell(
+          onTap: (){
+            context.pop();
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: ColorConstant.whiteColor,
+          ),
+        ),
         title: Text(
           "Customer Support",
           style: TextStyle(
             fontSize: FontConstants.f18,
             fontWeight: FontConstants.w800,
             fontFamily: FontConstants.fontFamily,
-            color: ColorConstant.blackTextColor,
+            color: ColorConstant.whiteColor,
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        margin: EdgeInsets.only(top: 12.0),
+        decoration: BoxDecoration(
+          color: ColorConstant.whiteColor,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(40.0),
+            topLeft: Radius.circular(40.0),
+          )
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 57.0),
+                Text(
+                  "Assistant at your fingertip-connect with our dedicated support team for prompt solution and personalized assistance",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: FontConstants.f14,
+                    fontFamily: FontConstants.fontFamily,
+                    fontWeight: FontConstants.w600,
+                    color: const Color(0xff4E4F50),
+                  ),
+                ),
+                SizedBox(height: 52.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    supportTabUI(
+                      context,
+                      iconPath: ImageConstants.rotEmailUs, title: "Email",
+                      onTap: (){
+                        launchEmail(toEmail: contactEmail);
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    supportTabUI(
+                      context,
+                      iconPath: ImageConstants.rotCallUs, title: "Call Us",
+                      onTap: (){
+                        dialPhoneNumber(contactNumber);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    supportTabUI(
+                      context,
+                      iconPath: ImageConstants.rotChatWithUS, title: "Chat with Us",
+                      onTap: (){
+                        openWhatsAppChat(contactWhatsAppNumber);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
+                Image.asset(
+                  ImageConstants.rotCustomerSupport
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget supportTabUI(BuildContext context,{required iconPath,required title,required onTap}){
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: ColorConstant.appThemeColor,
+                width: 1.0
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(12.0))
+        ),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: FontConstants.horizontalPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.all(12.0),
+          child: Row(
             children: [
-              SizedBox(height: 24),
+              Image.asset(
+                iconPath,
+                height: 23,
+                width: 23,
+              ),
+              SizedBox(
+                width: 12.0,
+              ),
               Text(
-                "Assistant at your fingertip—connect with our dedicated support team for prompt solution and personalized assistance",
+                title,
                 style: TextStyle(
-                  fontSize: FontConstants.f14,
-                  fontFamily: FontConstants.fontFamily,
-                  fontWeight: FontConstants.w600,
-                  color: const Color(0xff4E4F50),
+                    fontSize: FontConstants.f16,
+                    fontWeight: FontConstants.w400,
+                    fontFamily: FontConstants.fontFamily,
+                    color: ColorConstant.appThemeColor
                 ),
               ),
-              SizedBox(height: 18),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: List.generate(contactOptions.length, (index) {
-                    bool isSelected = selectedIndex == index;
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 4), // slight spacing
-                      padding: EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 12),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? const Color(0xFFE8F2FF)
-                            : Colors.white,
-                        borderRadius: BorderRadius.vertical(
-                          top: index == 0
-                              ? const Radius.circular(16)
-                              : Radius.zero,
-                          bottom: index == contactOptions.length - 1
-                              ? const Radius.circular(16)
-                              : Radius.zero,
-                        ),
-                      ),
-                      child: InkWell(
-                        onTap: (){
-                          if(index ==0){
-                            launchEmail(toEmail:contactEmail);
-                          }else if(index == 1){
-                            dialPhoneNumber(contactNumber);
-                          }else{
-                            openWhatsAppChat(contactWhatsAppNumber);
-                          }
-                        },
-                        child:Row(
-                          children: [
-                            Icon(
-                              contactOptions[index]['icon'],
-                              color: Colors.blue,
-                            ),
-                            SizedBox(width: 12),
-                            Expanded(
-                              child: Text(
-                                contactOptions[index]['label'],
-                                style: TextStyle(
-                                  fontWeight: FontConstants.w700,
-                                  fontSize: FontConstants.f14,
-                                  fontFamily: FontConstants.fontFamily,
-                                  color: ColorConstant.blackTextColor,
-                                ),
-                              ),
-                            ),
-                            CircleAvatar(
-                              radius: 14,
-                              backgroundColor: Colors.blue.shade50,
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                size: 14,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        )
-                      ),
-                    );
-                  }),
-                ),
+              SizedBox(
+                width: 12.0,
               ),
-              SizedBox(height: 24),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: ColorConstant.appThemeColor,
+                size: 15,
+              )
             ],
           ),
         ),

@@ -60,6 +60,11 @@ class _LoanListPageState extends State<LoanListPage> {
                         topLeft: Radius.circular(12.0)
                       ):
                   BorderRadius.circular(12),
+                  border: Border.all(
+                    color: loanData?.loanActiveStatus == 1?
+                        ColorConstant.appThemeColor:
+                      ColorConstant.textFieldBorderColor,
+                  )
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(12.0),
@@ -74,7 +79,9 @@ class _LoanListPageState extends State<LoanListPage> {
                                 fontSize: FontConstants.f16,
                                 fontWeight: FontConstants.w700,
                                 fontFamily: FontConstants.fontFamily,
-                                color: ColorConstant.whiteColor
+                                color: loanData?.loanActiveStatus == 1?
+                                    ColorConstant.whiteColor:
+                                    ColorConstant.blackTextColor
                             ),
                           ),
                           Row(
@@ -85,7 +92,9 @@ class _LoanListPageState extends State<LoanListPage> {
                                     fontFamily: FontConstants.fontFamily,
                                     fontWeight: FontConstants.w500,
                                     fontSize: 9.0,
-                                    color: ColorConstant.whiteColor
+                                    color: loanData?.loanActiveStatus == 1?
+                                        ColorConstant.whiteColor:
+                                        ColorConstant.blackTextColor
                                 ),
                               ),
                               SizedBox(
@@ -103,7 +112,14 @@ class _LoanListPageState extends State<LoanListPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 29.0,
+                        height: 14,
+                      ),
+                      Divider(
+                        height: 2,
+                        color: ColorConstant.appThemeColor,
+                      ),
+                      SizedBox(
+                        height: 15.0,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,19 +133,23 @@ class _LoanListPageState extends State<LoanListPage> {
                                     fontSize: FontConstants.f12,
                                     fontWeight: FontConstants.w500,
                                     fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.whiteColor
+                                    color: loanData?.loanActiveStatus == 1?
+                                    ColorConstant.whiteColor:
+                                    ColorConstant.blackTextColor
                                 ),
                               ),
                               SizedBox(
                                 height: 10.0,
                               ),
                               Text(
-                                "₹45,000.00",
+                                "₹${loanData?.loanTotalPayableAmount}",
                                 style: TextStyle(
                                     fontSize: FontConstants.f18,
                                     fontWeight: FontConstants.w600,
                                     fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.whiteColor
+                                    color: loanData?.loanActiveStatus == 1?
+                                    ColorConstant.whiteColor:
+                                    ColorConstant.blackTextColor
                                 ),
                               ),
                             ],
@@ -153,7 +173,9 @@ class _LoanListPageState extends State<LoanListPage> {
                                     fontSize: FontConstants.f12,
                                     fontWeight: FontConstants.w500,
                                     fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.whiteColor
+                                    color: loanData?.loanActiveStatus == 1?
+                                    ColorConstant.whiteColor:
+                                        ColorConstant.blackTextColor
                                 ),
                               ),
                               SizedBox(
@@ -165,7 +187,9 @@ class _LoanListPageState extends State<LoanListPage> {
                                     fontSize: FontConstants.f12,
                                     fontWeight: FontConstants.w600,
                                     fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.whiteColor
+                                    color: loanData?.loanActiveStatus == 1?
+                                    ColorConstant.whiteColor:
+                                    ColorConstant.blackTextColor
                                 ),
                               ),
                             ],
@@ -468,7 +492,7 @@ class _LoanListPageState extends State<LoanListPage> {
     if (loanActiveStatus == 1) {
       return "Active Loan";
     } else {
-      return "Loan $index";
+      return "Loan ${index+1}";
     }
   }
 }

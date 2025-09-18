@@ -72,7 +72,8 @@ dependencies:
   firebase_messaging:
   internet_connection_checker_plus: ^2.7.2
   appsflyer_sdk: ^6.16.21
-  clevertap_plugin: ^3.5.2
+  clevertap_plugin: ^1.7.0
+  #clevertap_plugin: ^3.5.2
 
 
 

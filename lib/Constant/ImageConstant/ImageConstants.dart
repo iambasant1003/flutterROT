@@ -75,4 +75,9 @@ class ImageConstants {
   static const String rotDashboardProfileIcon = "assets/rot/icons/rot_dashboard_profile.png";
   static const String rotDashboardStatusIcon = "assets/rot/icons/rot_dashboard_status.png";
   static const String rotIndianFlag = "assets/rot/icons/rot_login_indian_flag.png";
+  static const String rotCustomerSupport = "assets/rot/images/rot_customer_support.png";
+  static const String rotEmailUs = "assets/icons/rot_email_us.png";
+  static const String rotChatWithUS = "assets/icons/rot_chat_with_us.png";
+  static const String rotCallUs = "assets/icons/rot_call_us.png";
+  static const String rotSessionTimeOut = "assets/rot/images/rot_session_timeout.png";
 }
