@@ -174,18 +174,6 @@ class _DashBoardPage extends State<DashBoardPage>{
                     });
                   },
                 ),
-
-                // Profile
-                _buildNavItem(
-                  context,
-                  index: 2,
-                  label: "My Profile",
-                  icon: ImageConstants.rotDashboardProfileIcon,
-                  isSelected: selectedIndex == 2,
-                  onTap: () {
-
-                  },
-                ),
               ],
             ),
           ),
