@@ -92,8 +92,8 @@ class _Loan112AppBarState extends State<Loan112AppBar> {
       leadingWidget = widget.customLeading;
     } else if (widget.showBackButton) {
       leadingWidget = IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        color: ColorConstant.blackTextColor,
+        icon: const Icon(Icons.arrow_back),
+        color: ColorConstant.whiteColor,
         onPressed: () => context.pop(),
       );
     }

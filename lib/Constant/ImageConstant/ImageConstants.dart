@@ -80,4 +80,5 @@ class ImageConstants {
   static const String rotChatWithUS = "assets/icons/rot_chat_with_us.png";
   static const String rotCallUs = "assets/icons/rot_call_us.png";
   static const String rotSessionTimeOut = "assets/rot/images/rot_session_timeout.png";
+  static const String rotUploadBankStatement = "assets/rot/icons/rot_upload_bankstatement.png";
 }

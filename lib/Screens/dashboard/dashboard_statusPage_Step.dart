@@ -83,16 +83,17 @@ class _DashboardStatusPageStep extends State<DashboardStatusPageStep> {
             children: List.generate(steps.length, (index) {
               final stepKey = stepKeys[index];
               final int stepStatus = status?[stepKey] ?? 0;
+              DebugPrint.prt("Current Step Status $stepStatus");
 
               // Determine width factor
               double widthFactor = 1.0;
 
               // Determine colors
-              Color bgColor = (stepStatus == 2)
+              Color bgColor = (stepStatus == 1)
                   ? ColorConstant.whiteColor
                   : Colors.grey.shade100;
 
-              Color textColor = (stepStatus == 2)
+              Color textColor = (stepStatus == 1)
                   ? Colors.black
                   : ColorConstant.greyTextColor;
 
@@ -103,7 +104,7 @@ class _DashboardStatusPageStep extends State<DashboardStatusPageStep> {
                     decoration: BoxDecoration(
                       color: bgColor,
                       borderRadius: BorderRadius.circular(12),
-                      border: stepStatus == 2?
+                      border: stepStatus == 1?
                       Border.all(
                         color: ColorConstant.appThemeColor
                       ):null
@@ -133,7 +134,7 @@ class _DashboardStatusPageStep extends State<DashboardStatusPageStep> {
                           ),
                         ),
                         CircleAvatar(
-                          backgroundColor: stepStatus == 2?
+                          backgroundColor: stepStatus == 1?
                           ColorConstant.appThemeColor:Color(0xffC6C6C6),
                           radius: 14,
                           child: Icon(
