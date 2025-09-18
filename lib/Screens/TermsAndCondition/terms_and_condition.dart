@@ -53,8 +53,8 @@ class _TermsAndConditionScreen extends State<TermsAndConditionScreen>{
             context.pop();
           },
           child: Icon(
-            Icons.arrow_back_ios,
-            color: ColorConstant.blackTextColor,
+            Icons.arrow_back,
+            color: ColorConstant.whiteColor,
           ),
         ),
       ),

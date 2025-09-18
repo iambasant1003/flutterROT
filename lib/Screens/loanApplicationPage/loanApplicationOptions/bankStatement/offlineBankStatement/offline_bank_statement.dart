@@ -59,6 +59,7 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
 
 
   Future<void> _pickPdf() async {
+    DebugPrint.prt("Pick Pdf called");
     setState(() {
       needsPassword = false;
       passwordError = null;
@@ -158,15 +159,430 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
           }
         });
       },
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              color: ColorConstant.appThemeColor,
+      child: Scaffold(
+        backgroundColor: ColorConstant.appThemeColor,
+        appBar: Loan112AppBar(
+          customLeading: InkWell(
+            onTap: () {
+              context.pop();
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: ColorConstant.whiteColor,
             ),
           ),
+          title: Text(
+            "Upload Bank Statement",
+            style: TextStyle(
+              fontFamily: FontConstants.fontFamily,
+              fontWeight: FontConstants.w700,
+              fontSize: FontConstants.f18,
+              color: ColorConstant.whiteColor,
+            ),
+          ),
+        ),
+        body: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            /// Scrollable main content if needed
+            SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height, // ensure full screen
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: FontConstants.horizontalPadding), // space above
+                      // your other content here
+                      Text(
+                        "Upload your latest bank statement.",
+                        style: TextStyle(
+                          fontFamily: FontConstants.fontFamily,
+                          fontWeight: FontConstants.w400,
+                          fontSize: FontConstants.f16,
+                          color: ColorConstant.whiteColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 22.0,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.radio_button_checked,
+                            color: ColorConstant.whiteColor,
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(
+                            "Upload a document under 5MB , PDF Only.",
+                            style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontWeight: FontConstants.w400,
+                              fontSize: FontConstants.f14,
+                              color: ColorConstant.whiteColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.radio_button_checked,
+                            color: ColorConstant.whiteColor,
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(
+                            "Provide the latest 3 months' bank statements.",
+                            style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontWeight: FontConstants.w400,
+                              fontSize: FontConstants.f14,
+                              color: ColorConstant.whiteColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.radio_button_checked,
+                            color: ColorConstant.whiteColor,
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(
+                            "Upload only salaried account bank statement.",
+                            style: TextStyle(
+                              fontFamily: FontConstants.fontFamily,
+                              fontWeight: FontConstants.w400,
+                              fontSize: FontConstants.f14,
+                              color: ColorConstant.whiteColor,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
-          /// Form + Button
+            /// Half-moon bottom container
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: double.infinity,
+                height: 350,
+                decoration: BoxDecoration(
+                  color: ColorConstant.whiteColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(140.0),
+                    topRight: Radius.circular(140.0),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  (fileNamePath != null && fileNamePath != "")
+                      ? Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                        border: Border.all(color: ColorConstant.appThemeColor)
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(ImageConstants.pdfIcon, height: 25, width: 25),
+                        const SizedBox(width: 8.0),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                fileName ?? "",
+                                style: TextStyle(
+                                  fontSize: FontConstants.f14,
+                                  fontFamily: FontConstants.fontFamily,
+                                  fontWeight: FontConstants.w700,
+                                  color: ColorConstant.blackTextColor,
+                                ),
+                              ),
+                              const SizedBox(height: 2.0),
+                              Text(
+                                "$fileSize KB",
+                                style: TextStyle(
+                                  fontSize: FontConstants.f12,
+                                  fontFamily: FontConstants.fontFamily,
+                                  fontWeight: FontConstants.w400,
+                                  color: ColorConstant.greyTextColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.0,
+                        ),
+                        InkWell(
+                          onTap: (){
+                            setState(() {
+                              fileNamePath = "";
+                              fileName = "";
+                              fileSize = "";
+                              pdfBytes = null;
+                              needsPassword = false;
+                            });
+                          },
+                          child: Image.asset(ImageConstants.crossActionIcon,height: 24,width: 24),
+                        )
+                      ],
+                    ),
+                  )
+                      : SizedBox.shrink(),
+                      const SizedBox(height: 26),
+                      if (needsPassword) ...[
+                        CommonTextField(
+                          obscureText: passWordVisible,
+                          controller: _passwordController,
+                          hintText: "Enter your Code here",
+                          trailingWidget: Icon(
+                            passWordVisible ? Icons.visibility : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          trailingClick: () {
+                            setState(() {
+                              passWordVisible = !passWordVisible;
+                            });
+                          },
+                        ),
+                        if (needsPassword && passwordError != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            passwordError ?? "",
+                            style: TextStyle(
+                              fontSize: FontConstants.f14,
+                              fontFamily: FontConstants.fontFamily,
+                              fontWeight: FontConstants.w500,
+                              color: ColorConstant.errorRedColor,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                        ]
+                        else ...[
+                          const SizedBox(height: 16),
+                        ]
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            /// Floating Upload Card
+            Positioned(
+              bottom:320, // adjust relative to half-moon container
+              left: 20,
+              right: 20,
+              child: Container(
+                height: 158,
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  color: ColorConstant.whiteColor,
+                  border: Border.all(color: ColorConstant.appThemeColor),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      ImageConstants.rotUploadBankStatement,
+                      height: 40,
+                      width: 40,
+                    ),
+                    const SizedBox(height: 12.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Select your file(s) or",
+                          style: TextStyle(
+                            fontSize: FontConstants.f14,
+                            fontWeight: FontConstants.w500,
+                            fontFamily: FontConstants.fontFamily,
+                            color: ColorConstant.greyTextColor,
+                          ),
+                        ),
+                        const SizedBox(width: 6.0),
+                        Text(
+                          "browse",
+                          style: TextStyle(
+                            fontSize: FontConstants.f14,
+                            fontWeight: FontConstants.w700,
+                            fontFamily: FontConstants.fontFamily,
+                            color: ColorConstant.appThemeColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12.0),
+                    GestureDetector(
+                      onTap: () async{
+                        if(pdfBytes != null){
+                          final verified = await _checkPdf(password: _passwordController.text.trim());
+                          if(verified){
+                            DebugPrint.prt("File name path $fileNamePath");
+                            var otpModel = await MySharedPreferences.getUserSessionDataNode();
+                            VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
+
+                            var customerId = verifyOtpModel.data?.custId;
+                            //var leadId = verifyOtpModel.data?.leadId;
+                            // if(leadId == "" || leadId == null){
+                            var  leadId = await MySharedPreferences.getLeadId();
+                            // }
+
+                            uploadSalarySlipNJS(
+                                custId: customerId!,
+                                leadId: leadId,
+                                requestSource: ConstText.requestSource,
+                                docType:"bank",
+                                bankStatementFile: File(fileNamePath!),
+                                bankVerifyType: "2",
+                                statementPassword: _passwordController.text.trim()
+                            );
+                          }
+                        }else{
+                          _pickPdf();
+                        }
+                      },
+                      child: Container(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: ColorConstant.appThemeColor),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Text(
+                          (fileNamePath != null && fileNamePath != "")
+                              ? "Upload file"
+                              : "Select file",
+                          style:  TextStyle(
+                              fontSize: FontConstants.f12,
+                              fontWeight: FontConstants.w600,
+                              fontFamily: FontConstants.fontFamily,
+                              color: ColorConstant.appThemeColor
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> uploadSalarySlipNJS({
+    required String custId,
+    required String leadId,
+    required String requestSource,
+    required String docType,
+    File? salarySlipFile,
+    String? salarySlipPassword,
+    String? bankVerifyType,
+    String? statementPassword,
+    File? bankStatementFile,
+  }) async {
+    final formData = FormData();
+
+    // Add text fields
+    formData.fields
+      ..add(MapEntry('custId', custId))
+      ..add(MapEntry('leadId', leadId))
+      ..add(MapEntry('requestSource',  Platform.isIOS?
+      ConstText.requestSourceIOS:
+      ConstText.requestSource))
+      ..add(MapEntry('docType', docType));
+
+    if (salarySlipPassword != null) {
+      formData.fields.add(MapEntry('salarySlipPassword', salarySlipPassword));
+    }
+
+    if (bankVerifyType != null) {
+      formData.fields.add(MapEntry('bankVerifyType', bankVerifyType));
+    }
+
+    if (statementPassword != null) {
+      formData.fields.add(MapEntry('statementPassword', statementPassword));
+    }
+
+    // Add salary slip file
+    if (salarySlipFile != null && await salarySlipFile.exists()) {
+      final fileName = salarySlipFile.path.split('/').last;
+      formData.files.add(
+        MapEntry(
+          'salarySlip',
+          await MultipartFile.fromFile(
+            salarySlipFile.path,
+            filename: fileName,
+            contentType: MediaType('application', 'pdf'), // adjust based on file
+          ),
+        ),
+      );
+    }
+
+    // Add bank statement file
+    if (bankStatementFile != null && await bankStatementFile.exists()) {
+      final fileName = bankStatementFile.path.split('/').last;
+      formData.files.add(
+        MapEntry(
+          'bankStatement',
+          await MultipartFile.fromFile(
+            bankStatementFile.path,
+            filename: fileName,
+            contentType: MediaType('application', 'pdf'), // adjust if needed
+          ),
+        ),
+      );
+    }
+
+    DebugPrint.prt("Form Data To Upload $formData");
+    context.read<LoanApplicationCubit>().uploadBankStatementApiCall(formData);
+
+  }
+
+}
+
+Widget dummyCode(){
+  return Stack(
+    children: [
+      Positioned.fill(
+        child: Container(
+          color: ColorConstant.appThemeColor,
+        ),
+      ),
+
+      /// Form + Button
+      /*
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,149 +657,7 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Center(
-                                    child: (fileNamePath != null && fileNamePath != "")
-                                        ? Container(
-                                        padding: EdgeInsets.all(10.0),
-                                       decoration: BoxDecoration(
-                                         borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                         border: Border.all(color: ColorConstant.textFieldBorderColor)
-                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Image.asset(ImageConstants.pdfIcon, height: 25, width: 25),
-                                          const SizedBox(width: 8.0),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                  fileName ?? "",
-                                                  style: TextStyle(
-                                                    fontSize: FontConstants.f14,
-                                                    fontFamily: FontConstants.fontFamily,
-                                                    fontWeight: FontConstants.w700,
-                                                    color: ColorConstant.blackTextColor,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 2.0),
-                                                Text(
-                                                  "$fileSize KB",
-                                                  style: TextStyle(
-                                                    fontSize: FontConstants.f12,
-                                                    fontFamily: FontConstants.fontFamily,
-                                                    fontWeight: FontConstants.w400,
-                                                    color: ColorConstant.greyTextColor,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 8.0,
-                                          ),
-                                          InkWell(
-                                            onTap: (){
-                                              setState(() {
-                                                fileNamePath = "";
-                                                fileName = "";
-                                                fileSize = "";
-                                                pdfBytes = null;
-                                                needsPassword = false;
-                                              });
-                                            },
-                                            child: Image.asset(ImageConstants.crossActionIcon,height: 24,width: 24),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                        : Image.asset(ImageConstants.bankStatementUploadIcon, height: 50, width: 50),
-                                  ),
-                                  SizedBox(
-                                    height: 26,
-                                  ),
-                                  if (needsPassword) ...[
-                                    //const SizedBox(height: 8),
-                                    CommonTextField(
-                                      obscureText: passWordVisible,
-                                      controller: _passwordController,
-                                      hintText: "Enter your Code here",
-                                      trailingWidget: Icon(
-                                        passWordVisible ? Icons.visibility : Icons.visibility_off,
-                                        color: Colors.grey,
-                                      ),
-                                      trailingClick: (){
-                                        setState(() {
-                                          passWordVisible = !passWordVisible;
-                                        });
-                                      },
-                                    ),
-                                    if(needsPassword && passwordError != null)...[
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        passwordError ?? "",
-                                        style: TextStyle(
-                                          fontSize: FontConstants.f14,
-                                          fontFamily: FontConstants.fontFamily,
-                                          fontWeight: FontConstants.w500,
-                                          color: ColorConstant.errorRedColor,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                    ]else...[
-                                      const SizedBox(height: 16),
-                                    ]
-                                  ],
-                                  Center(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(color: Color(0xFF0074CC)),
-                                        foregroundColor: const Color(0xFF0074CC),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                      ),
-                                      onPressed: () async {
-                                        if(pdfBytes != null){
-                                          final verified = await _checkPdf(password: _passwordController.text.trim());
-                                          if(verified){
-                                            DebugPrint.prt("File name path $fileNamePath");
-                                            var otpModel = await MySharedPreferences.getUserSessionDataNode();
-                                            VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
 
-                                            var customerId = verifyOtpModel.data?.custId;
-                                            //var leadId = verifyOtpModel.data?.leadId;
-                                           // if(leadId == "" || leadId == null){
-                                            var  leadId = await MySharedPreferences.getLeadId();
-                                           // }
-
-                                            uploadSalarySlipNJS(
-                                                custId: customerId!,
-                                                leadId: leadId,
-                                                requestSource: ConstText.requestSource,
-                                                docType:"bank",
-                                                bankStatementFile: File(fileNamePath!),
-                                                bankVerifyType: "2",
-                                                statementPassword: _passwordController.text.trim()
-                                            );
-                                          }
-                                        }else{
-                                          _pickPdf();
-                                        }
-                                      },
-                                      child:  Text(
-                                        (fileNamePath != null && fileNamePath != "")?
-                                        "Upload file":
-                                        'Select file',
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ),
-                                  )
                                 ],
                               )
                           ),
@@ -491,79 +765,10 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
 
-  Future<void> uploadSalarySlipNJS({
-    required String custId,
-    required String leadId,
-    required String requestSource,
-    required String docType,
-    File? salarySlipFile,
-    String? salarySlipPassword,
-    String? bankVerifyType,
-    String? statementPassword,
-    File? bankStatementFile,
-  }) async {
-    final formData = FormData();
-
-    // Add text fields
-    formData.fields
-      ..add(MapEntry('custId', custId))
-      ..add(MapEntry('leadId', leadId))
-      ..add(MapEntry('requestSource',  Platform.isIOS?
-      ConstText.requestSourceIOS:
-      ConstText.requestSource))
-      ..add(MapEntry('docType', docType));
-
-    if (salarySlipPassword != null) {
-      formData.fields.add(MapEntry('salarySlipPassword', salarySlipPassword));
-    }
-
-    if (bankVerifyType != null) {
-      formData.fields.add(MapEntry('bankVerifyType', bankVerifyType));
-    }
-
-    if (statementPassword != null) {
-      formData.fields.add(MapEntry('statementPassword', statementPassword));
-    }
-
-    // Add salary slip file
-    if (salarySlipFile != null && await salarySlipFile.exists()) {
-      final fileName = salarySlipFile.path.split('/').last;
-      formData.files.add(
-        MapEntry(
-          'salarySlip',
-          await MultipartFile.fromFile(
-            salarySlipFile.path,
-            filename: fileName,
-            contentType: MediaType('application', 'pdf'), // adjust based on file
-          ),
-        ),
-      );
-    }
-
-    // Add bank statement file
-    if (bankStatementFile != null && await bankStatementFile.exists()) {
-      final fileName = bankStatementFile.path.split('/').last;
-      formData.files.add(
-        MapEntry(
-          'bankStatement',
-          await MultipartFile.fromFile(
-            bankStatementFile.path,
-            filename: fileName,
-            contentType: MediaType('application', 'pdf'), // adjust if needed
-          ),
-        ),
-      );
-    }
-
-    DebugPrint.prt("Form Data To Upload $formData");
-    context.read<LoanApplicationCubit>().uploadBankStatementApiCall(formData);
-
-  }
+       */
+    ],
+  );
 }
 
 
@@ -571,67 +776,7 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
 
 
 
-  @override
-  Widget selectFileCard(BuildContext context) {
-    return Center(
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: Colors.grey.shade300),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Cloud upload icon
-              Icon(
-                Icons.cloud_upload_outlined,
-                size: 40,
-                color: Colors.teal,
-              ),
-              const SizedBox(height: 12),
 
-              // Text with "browse" in different color
-              RichText(
-                text: TextSpan(
-                  text: "Select your file(s) or ",
-                  style: TextStyle(color: Colors.black87, fontSize: 14),
-                  children: [
-                    TextSpan(
-                      text: "browse",
-                      style: TextStyle(
-                        color: Colors.teal,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
 
-              // Upload files button
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.teal),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                onPressed: () {
-                  // TODO: Add file picker logic
-                },
-                child: const Text(
-                  "Upload files",
-                  style: TextStyle(color: Colors.teal),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
 

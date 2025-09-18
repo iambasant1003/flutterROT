@@ -355,175 +355,154 @@ class _DashBoardHome extends State<DashBoardHome> {
 
                              */
                             SizedBox(height: 10.0),
-                            (dashBoarddataModel?.data?.activeLoanDetails !=
-                                null &&
-                                (dashBoarddataModel
-                                    ?.data
-                                    ?.activeLoanDetails
-                                    ?.loanNo !=
-                                    null ||
-                                    dashBoarddataModel
-                                        ?.data
-                                        ?.activeLoanDetails
-                                        ?.loanNo !=
-                                        ""))
-                                ? DashboardLoanDetails(
-                              activeLoanDetails: dashBoarddataModel
-                                  ?.data!
-                                  .activeLoanDetails,
-                            )
-                                : SizedBox.shrink(),
-                            (dashBoarddataModel?.data?.showLoanHistoryBtnFlag == 1)?
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                            Container(
+                              color: ColorConstant.whiteColor,
                               child: Column(
                                 children: [
-                                  SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  InkWell(
-                                    onTap: (){
-                                      context.push(AppRouterName.repaymentPage);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(40),
-                                        border: Border.all(
-                                            color: ColorConstant.appThemeColor
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.blue.shade50,
-                                            blurRadius: 8,
-                                            offset: Offset(0, 2),
-                                          )
-                                        ],
-                                      ),
-                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                              'Check Your Loan History',
-                                              style: TextStyle(
-                                                  fontSize: FontConstants.f14,
-                                                  fontFamily: FontConstants.fontFamily,
-                                                  fontWeight: FontConstants.w700,
-                                                  color: ColorConstant.blackTextColor
-                                              )
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward,
-                                            color: ColorConstant.appThemeColor,
-                                            size: 20,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ):
-                                SizedBox.shrink(),
-                            SizedBox(height: 17.0),
-                            YoutubeVideoPlayCard(
-                              onTap: () {},
-                            ),
-                            SizedBox(height: 17.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: FontConstants.horizontalPadding,
-                                  ),
-                                  child: Text(
-                                    "We Provide",
-                                    style: TextStyle(
-                                      fontSize: FontConstants.f18,
-                                      fontWeight: FontConstants.w800,
-                                      fontFamily: FontConstants.fontFamily,
-                                      color: ColorConstant.blackTextColor,
-                                    ),
-                                  ),
-                                ),
-                                //const SizedBox(height: 16),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: FontConstants.horizontalPadding,
-                                  ),
-                                  child: SizedBox(
-                                    height: 150,
-                                    child: PageView.builder(
-                                      controller: _controller,
-                                      itemCount:
-                                      dashBoarddataModel
+                                  (dashBoarddataModel?.data?.activeLoanDetails !=
+                                      null &&
+                                      (dashBoarddataModel
                                           ?.data
-                                          ?.appBanners
-                                          ?.length ??
-                                          0,
-                                      padEnds: false,
-                                      itemBuilder: (context, index) {
-                                        final item = dashBoarddataModel
-                                            ?.data
-                                            ?.appBanners?[index];
-                                        return ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            0,
-                                          ),
-                                          child: Image.network(
-                                            item?.imgUrl ?? "",
-                                            height: 150,
-                                            loadingBuilder:
-                                                (
-                                                context,
-                                                child,
-                                                loadingProgress,
-                                                ) {
-                                              if (loadingProgress == null)
-                                                return child;
-                                              return const Center(
-                                                child:
-                                                CircularProgressIndicator(),
-                                              );
-                                            },
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                            const Center(
-                                              child: Icon(
-                                                Icons.broken_image,
+                                          ?.activeLoanDetails
+                                          ?.loanNo !=
+                                          null ||
+                                          dashBoarddataModel
+                                              ?.data
+                                              ?.activeLoanDetails
+                                              ?.loanNo !=
+                                              ""))
+                                      ? DashboardLoanDetails(
+                                    activeLoanDetails: dashBoarddataModel
+                                        ?.data!
+                                        .activeLoanDetails,
+                                  )
+                                      : SizedBox.shrink(),
+                                  (dashBoarddataModel?.data?.showLoanHistoryBtnFlag == 1)?
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 20.0,
+                                        ),
+                                        InkWell(
+                                          onTap: (){
+                                            context.push(AppRouterName.repaymentPage);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(40),
+                                              border: Border.all(
+                                                  color: ColorConstant.appThemeColor
                                               ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.blue.shade50,
+                                                  blurRadius: 8,
+                                                  offset: Offset(0, 2),
+                                                )
+                                              ],
+                                            ),
+                                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                    'Check Your Loan History',
+                                                    style: TextStyle(
+                                                        fontSize: FontConstants.f14,
+                                                        fontFamily: FontConstants.fontFamily,
+                                                        fontWeight: FontConstants.w700,
+                                                        color: ColorConstant.blackTextColor
+                                                    )
+                                                ),
+                                                Icon(
+                                                  Icons.arrow_forward,
+                                                  color: ColorConstant.appThemeColor,
+                                                  size: 20,
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      ],
                                     ),
+                                  ):
+                                  SizedBox.shrink(),
+                                  SizedBox(height: 17.0),
+                                  YoutubeVideoPlayCard(
+                                    onTap: () {},
                                   ),
-                                ),
-                                const SizedBox(height: 12),
-                                Center(
-                                  child: SmoothPageIndicator(
-                                    controller: _controller,
-                                    count:
-                                    dashBoarddataModel
-                                        ?.data
-                                        ?.appBanners
-                                        ?.length ??
-                                        0,
-                                    effect: const WormEffect(
-                                      dotHeight: 8,
-                                      dotWidth: 8,
-                                      spacing: 8,
-                                      dotColor: Colors.grey,
-                                      activeDotColor: Colors.blue,
-                                    ),
+                                  SizedBox(height: 17.0),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: FontConstants.horizontalPadding,
+                                        ),
+                                        child: Text(
+                                          "We Provide",
+                                          style: TextStyle(
+                                            fontSize: FontConstants.f18,
+                                            fontWeight: FontConstants.w800,
+                                            fontFamily: FontConstants.fontFamily,
+                                            color: ColorConstant.blackTextColor,
+                                          ),
+                                        ),
+                                      ),
+                                      //const SizedBox(height: 16),
+                                      Center(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.9,
+                                          child: AspectRatio(
+                                            aspectRatio: 16 / 9,
+                                            child: PageView.builder(
+                                              controller: _controller,
+                                              itemCount: dashBoarddataModel?.data?.appBanners?.length ?? 0,
+                                              padEnds: false,
+                                              itemBuilder: (context, index) {
+                                                final item = dashBoarddataModel?.data?.appBanners?[index];
+                                                return ClipRRect(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  child: Image.network(
+                                                    item?.imgUrl ?? "",
+                                                    width: double.infinity,
+                                                    fit: BoxFit.contain, // ensures full image is visible
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Center(
+                                        child: SmoothPageIndicator(
+                                          controller: _controller,
+                                          count:
+                                          dashBoarddataModel
+                                              ?.data
+                                              ?.appBanners
+                                              ?.length ??
+                                              0,
+                                          effect: const WormEffect(
+                                            dotHeight: 8,
+                                            dotWidth: 8,
+                                            spacing: 8,
+                                            dotColor: Colors.grey,
+                                            activeDotColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  SizedBox(height: 17.0),
+                                  FraudWarningCard()
+                                ],
+                              ),
                             ),
-                            SizedBox(height: 17.0),
-                            FraudWarningCard()
                           ],
                         ),
                       ),

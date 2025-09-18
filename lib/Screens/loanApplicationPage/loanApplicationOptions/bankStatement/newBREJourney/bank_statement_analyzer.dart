@@ -73,164 +73,167 @@ class _BankStatementAnalyzer extends State<BankStatementAnalyzer>{
           ),
         ),
       ),
-      body: Column(
-        children: [
-          BlocListener<LoanApplicationCubit,LoanApplicationState>(
-            listenWhen: (prev,next) => prev != next,
-            listener: (BuildContext context, state) {
-              if(state is VerifyBankStatementSuccess){
-                EasyLoading.dismiss();
-                if (!context.mounted) return;
-                if(state.verifyBankStatementModel.data?.bankStatementFetched == 1){
-                  context.pop();
-                  context.pop();
-                  DebugPrint.prt("Inside if status is one first");
-                  context.push(AppRouterName.loanOfferPage, extra: 1);
+      body: Container(
+        color: ColorConstant.whiteColor,
+        child: Column(
+          children: [
+            BlocListener<LoanApplicationCubit,LoanApplicationState>(
+              listenWhen: (prev,next) => prev != next,
+              listener: (BuildContext context, state) {
+                if(state is VerifyBankStatementSuccess){
+                  EasyLoading.dismiss();
+                  if (!context.mounted) return;
+                  if(state.verifyBankStatementModel.data?.bankStatementFetched == 1){
+                    context.pop();
+                    context.pop();
+                    DebugPrint.prt("Inside if status is one first");
+                    context.push(AppRouterName.loanOfferPage, extra: 1);
+                  }
+                  context.read<ShowBankStatementAnalyzerStatusCubit>().show();
+                }else if(state is VerifyBankStatementFailed){
+                  EasyLoading.dismiss();
+                  openSnackBar(context, state.verifyBankStatementModel.message ?? "Unexpected Error");
                 }
-                context.read<ShowBankStatementAnalyzerStatusCubit>().show();
-              }else if(state is VerifyBankStatementFailed){
-                EasyLoading.dismiss();
-                openSnackBar(context, state.verifyBankStatementModel.message ?? "Unexpected Error");
-              }
-            },
-            child: Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24)
+              },
+              child: Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24)
+                      ),
+                      color: ColorConstant.whiteColor
                   ),
-                  color: ColorConstant.whiteColor
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Loan112BREBackground(height: 150, containerColor: Color(0xffE7F3FF)),
-                          Positioned(
-                            left: 10,
-                            right: 10,
-                            bottom: -60,
-                            child: Column(
-                              children: [
-                                Text(
-                                  "We're analyzing your bank statement.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: FontConstants.f22,
-                                      fontWeight: FontConstants.w700,
-                                      fontFamily: FontConstants.fontFamily,
-                                      color: ColorConstant.blackTextColor
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Loan112BREBackground(height: 150, containerColor: ColorConstant.appThemeColor),
+                            Positioned(
+                              left: 10,
+                              right: 10,
+                              bottom: -60,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "We're analyzing your bank statement.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: FontConstants.f22,
+                                        fontWeight: FontConstants.w700,
+                                        fontFamily: FontConstants.fontFamily,
+                                        color: ColorConstant.whiteColor
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 21,
-                                ),
-                                BlocBuilder<Loan112TimerCubit, int>(
-                                  builder: (context, secondsLeft) {
-                                    return Container(
-                                      height: 130,
-                                      width: 130,
-                                      decoration: BoxDecoration(
-                                        color: ColorConstant.whiteColor,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: ColorConstant.appThemeColor,
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "$secondsLeft", // 👈 dynamic countdown
-                                              style: TextStyle(
-                                                fontFamily: FontConstants.fontFamily,
-                                                fontWeight: FontConstants.w800,
-                                                fontSize: FontConstants.f22,
-                                                color: ColorConstant.blackTextColor,
-                                              ),
-                                            ),
-                                            Text(
-                                              "Sec",
-                                              style: TextStyle(
-                                                fontFamily: FontConstants.fontFamily,
-                                                fontWeight: FontConstants.w400,
-                                                fontSize: FontConstants.f18,
-                                                color: ColorConstant.blackTextColor,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 75,
-                      ),
-                      BlocListener<Loan112TimerCubit, int>(
-                        listenWhen: (previous, current) => current == 0, // only when finished
-                        listener: (context, state) async {
-                          // 👇 Call your API here
-                          callVerifyBankStatementApiCall();
-                        },
-                        child: BlocBuilder<Loan112TimerCubit, int>(
-                            builder: (context, secondsLeft) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 91.0),
-                                child: Text(
-                                  "We will comeback with loan offer within next $secondsLeft secs",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: FontConstants.f14,
-                                    fontWeight: FontConstants.w500,
-                                    fontFamily: FontConstants.fontFamily,
+                                  SizedBox(
+                                    height: 21,
                                   ),
-                                ),
-                              );
-                            }
+                                  BlocBuilder<Loan112TimerCubit, int>(
+                                    builder: (context, secondsLeft) {
+                                      return Container(
+                                        height: 130,
+                                        width: 130,
+                                        decoration: BoxDecoration(
+                                          color: ColorConstant.whiteColor,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: ColorConstant.appThemeColor,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "$secondsLeft", // 👈 dynamic countdown
+                                                style: TextStyle(
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  fontWeight: FontConstants.w800,
+                                                  fontSize: FontConstants.f22,
+                                                  color: ColorConstant.blackTextColor,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Sec",
+                                                style: TextStyle(
+                                                  fontFamily: FontConstants.fontFamily,
+                                                  fontWeight: FontConstants.w400,
+                                                  fontSize: FontConstants.f18,
+                                                  color: ColorConstant.blackTextColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                        child: Loan112Button(
-                          text: "CHECK ANALYZE STATUS",
-                          onPressed: (){
+                        SizedBox(
+                          height: 75,
+                        ),
+                        BlocListener<Loan112TimerCubit, int>(
+                          listenWhen: (previous, current) => current == 0, // only when finished
+                          listener: (context, state) async {
+                            // 👇 Call your API here
                             callVerifyBankStatementApiCall();
                           },
+                          child: BlocBuilder<Loan112TimerCubit, int>(
+                              builder: (context, secondsLeft) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 91.0),
+                                  child: Text(
+                                    "We will comeback with loan offer within next $secondsLeft secs",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: FontConstants.f14,
+                                      fontWeight: FontConstants.w500,
+                                      fontFamily: FontConstants.fontFamily,
+                                    ),
+                                  ),
+                                );
+                              }
+                          ),
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                          child: Loan112Button(
+                            text: "CHECK ANALYZE STATUS",
+                            onPressed: (){
+                              callVerifyBankStatementApiCall();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SafeArea(
-            bottom: true,
-            child: recommendedCard(
-                title: "Want your loan instantly? Do Account Aggregator.",
-                buttonText: "Account Aggregator",
-                onPressed: (){
-                  context.replace(AppRouterName.onlineBankStatement);
-                }
+            SafeArea(
+              bottom: true,
+              child: recommendedCard(
+                  title: "Want your loan instantly? Do Account Aggregator.",
+                  buttonText: "Account Aggregator",
+                  onPressed: (){
+                    context.replace(AppRouterName.onlineBankStatement);
+                  }
+              ),
             ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-        ],
+            SizedBox(
+              height: 15,
+            ),
+          ],
+        ),
       ),
     );
   }
