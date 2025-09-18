@@ -76,7 +76,7 @@ class _BankStatementScreen extends State<BankStatementScreen> {
                         horizontal: FontConstants.horizontalPadding,
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           const SizedBox(height: 32.0),
                           Text(
@@ -91,6 +91,35 @@ class _BankStatementScreen extends State<BankStatementScreen> {
                           const SizedBox(height: 32),
 
                           /// Online Option
+                          ///
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 8
+                            ),
+                            child: Positioned(
+                              top: -8,
+                              right: 20,
+                              child: Container(
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 30, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(14),
+                                    topLeft: Radius.circular(14)
+                                  ),
+                                ),
+                                child: const Text(
+                                  "MOST USED",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                           _buildOptionCard(
                             label: "Account Aggregator (Recommended)",
                             description:
@@ -99,7 +128,7 @@ class _BankStatementScreen extends State<BankStatementScreen> {
                             onTap: () {
                               setState(() => isOnlineSelected = true);
                             },
-                            showMostUsed: true,
+                            btnLabel: "Online"
                           ),
                           const SizedBox(height: 20),
 
@@ -112,6 +141,7 @@ class _BankStatementScreen extends State<BankStatementScreen> {
                             onTap: () {
                               setState(() => isOnlineSelected = false);
                             },
+                              btnLabel: "Offline"
                           ),
 
                           const SizedBox(height: 25),
@@ -151,7 +181,7 @@ class _BankStatementScreen extends State<BankStatementScreen> {
     required String description,
     required bool isSelected,
     required VoidCallback onTap,
-    bool showMostUsed = false,
+    required String btnLabel
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -165,39 +195,60 @@ class _BankStatementScreen extends State<BankStatementScreen> {
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
-          color: ColorConstant.whiteColor,
+
+          color: isSelected?Color(0xffDDF9FF):ColorConstant.whiteColor ,
         ),
         child: Stack(
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+
               children: [
                 /// Radio Circle
                 Container(
-                  margin: const EdgeInsets.only(top: 2),
-                  width: 22,
-                  height: 22,
+                  padding: EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                    color: Color(0xffEDF7FF),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
                     border: Border.all(
-                      color: isSelected
-                          ? ColorConstant.appThemeColor
-                          : ColorConstant.greyTextColor,
-                      width: 2,
-                    ),
+                      color: ColorConstant.appThemeColor,
+                      width: 1
+                    )
                   ),
-                  child: isSelected
-                      ? Center(
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: ColorConstant.appThemeColor,
-                        shape: BoxShape.circle,
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 2),
+                        width: 22,
+                        height: 22,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isSelected
+                                ? ColorConstant.appThemeColor
+                                : ColorConstant.greyTextColor,
+                            width: 2,
+                          ),
+                        ),
+                        child: isSelected
+                            ? Center(
+                          child: Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: ColorConstant.appThemeColor,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        )
+                            : null,
                       ),
-                    ),
-                  )
-                      : null,
+                      const SizedBox(width: 6),
+                      Text(
+                          btnLabel
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 12),
 
@@ -232,27 +283,8 @@ class _BankStatementScreen extends State<BankStatementScreen> {
             ),
 
             /// MOST USED Tag
-            if (showMostUsed)
-              Positioned(
-                top: -8,
-                right: -8,
-                child: Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: const Text(
-                    "MOST USED",
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+            // if (showMostUsed)
+
           ],
         ),
       ),
