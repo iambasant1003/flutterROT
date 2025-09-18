@@ -95,13 +95,9 @@ class _OnlineBankingOption extends State<OnlineBankingOption>{
         }
       },
       child: Scaffold(
+        backgroundColor: ColorConstant.appThemeColor,
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(ImageConstants.logInScreenBackGround),
-              fit: BoxFit.cover,
-            ),
-          ),
+          color: ColorConstant.appThemeColor,
           child: SafeArea(
             child: Column(
               children: [
@@ -109,109 +105,54 @@ class _OnlineBankingOption extends State<OnlineBankingOption>{
                 Loan112AppBar(
                   customLeading: InkWell(
                     onTap: () => context.pop(),
-                    child: Icon(Icons.arrow_back_ios, color: ColorConstant.blackTextColor),
+                    child: Icon(Icons.arrow_back, color: ColorConstant.whiteColor),
                   ),
-                  centerTitle: true,
-                  title: Image.asset(ImageConstants.oneMoneyIcon, width: 100, height: 100),
-                  /*
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15),
-                      child: InkWell(
-                        onTap: () {
-                          context.replace(AppRouterName.offlineBankStatement);
-                        },
-                        child: Text(
-                          "SKIP",
-                          style: TextStyle(
-                            fontSize: FontConstants.f14,
-                            fontFamily: FontConstants.fontFamily,
-                            fontWeight: FontConstants.w600,
-                            color: ColorConstant.blueTextColor,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-
-                   */
+                  title: Text(
+                    "Fetch Bank Statement",
+                    style: TextStyle(
+                      fontSize: FontConstants.f20,
+                      fontWeight: FontConstants.w800,
+                      fontFamily: FontConstants.fontFamily,
+                      color: ColorConstant.whiteColor,
+                    ),
+                  ),
                 ),
 
                 /// 🔹 Scrollable Content
                 Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 24),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 37),
-                          child: Text(
-                            "Fetch Your Bank Statement via Account Aggregator",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: FontConstants.f18,
-                              fontWeight: FontConstants.w700,
-                              fontFamily: FontConstants.fontFamily,
-                              color: ColorConstant.blackTextColor,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: ColorConstant.whiteColor,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24)
+                        )
+                    ),
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 24),
+                          Padding(
+
+                            padding: const EdgeInsets.all(32.0),
+                            child: Text(
+                                "Securely share your salary statement with our authorized partner. Your data is encrypted and protected",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: ColorConstant.blackTextColor,
+                               fontSize: 12,
+                              ),
+
+
                             ),
                           ),
-                        ),
-                        SizedBox(height: 16),
-                        ListView.builder(
-                          itemCount: accountAggregator.length,
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 7),
-                                      child: CircleAvatar(
-                                        radius: 2,
-                                        backgroundColor: ColorConstant.blueTextColor,
-                                      ),
-                                    ),
-                                    SizedBox(width: 6),
-                                    Expanded(
-                                      child: Text(
-                                        accountAggregator[index],
-                                        style: TextStyle(
-                                          fontSize: FontConstants.f12,
-                                          fontWeight: FontConstants.w500,
-                                          fontFamily: FontConstants.fontFamily,
-                                          color: Color(0xff344054),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                              ],
-                            );
-                          },
-                        ),
-                        SizedBox(height: 16),
-                        Center(
-                          child: Text(
-                            "Simple Steps to Get Started:",
-                            style: TextStyle(
-                              fontSize: FontConstants.f14,
-                              fontWeight: FontConstants.w800,
-                              fontFamily: FontConstants.fontFamily,
-                              color: ColorConstant.blackTextColor,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        GetStartedSteps(stepToGetStarted: stepToGetStarted),
-                        SizedBox(height: 24),
-                      ],
+                          SizedBox(height: 16),
+                          GetStartedSteps(stepToGetStarted: stepToGetStarted),
+                          SizedBox(height: 24),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -224,37 +165,40 @@ class _OnlineBankingOption extends State<OnlineBankingOption>{
         ),
         bottomNavigationBar: SafeArea(
           bottom: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const BottomDashLine(), // Make sure BottomDashLine uses double.infinity width
-              const SizedBox(height: 24),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                child: Loan112Button(
-                  onPressed: () async {
-                    var otpModel = await MySharedPreferences.getUserSessionDataNode();
-                    VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
-                    //var leadId = verifyOtpModel.data?.leadId ?? "";
-                   // if (leadId.isEmpty) {
-                     var leadId = await MySharedPreferences.getLeadId();
-                   // }
+          child: Container(
+            color: ColorConstant.whiteColor,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const BottomDashLine(), // Make sure BottomDashLine uses double.infinity width
+                const SizedBox(height: 24),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                  child: Loan112Button(
+                    onPressed: () async {
+                      var otpModel = await MySharedPreferences.getUserSessionDataNode();
+                      VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
+                      //var leadId = verifyOtpModel.data?.leadId ?? "";
+                     // if (leadId.isEmpty) {
+                       var leadId = await MySharedPreferences.getLeadId();
+                     // }
 
-                    context.read<LoanApplicationCubit>().fetchOnlineAccountAggregatorApiCall({
-                      "custId": verifyOtpModel.data?.custId,
-                      "leadId": leadId,
-                      "docType": "bank",
-                      "bankVerifyType" :  "1",
-                      "requestSource" :  Platform.isIOS?
-                          ConstText.requestSourceIOS:
-                          ConstText.requestSource
-                    });
-                  },
-                  text: 'INITIATE',
+                      context.read<LoanApplicationCubit>().fetchOnlineAccountAggregatorApiCall({
+                        "custId": verifyOtpModel.data?.custId,
+                        "leadId": leadId,
+                        "docType": "bank",
+                        "bankVerifyType" :  "1",
+                        "requestSource" :  Platform.isIOS?
+                            ConstText.requestSourceIOS:
+                            ConstText.requestSource
+                      });
+                    },
+                    text: 'INITIATE',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-            ],
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),

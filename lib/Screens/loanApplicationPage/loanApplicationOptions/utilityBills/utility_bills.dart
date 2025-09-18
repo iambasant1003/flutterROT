@@ -131,30 +131,13 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
 
 
 
-  /*
-  getCustomerDetailsApiCall() async{
-    context.read<DashboardCubit>().callDashBoardApi();
-    var nodeOtpModel = await MySharedPreferences.getUserSessionDataNode();
-    VerifyOTPModel verifyOTPModel = VerifyOTPModel.fromJson(jsonDecode(nodeOtpModel));
-    var otpModel = await MySharedPreferences.getPhpOTPModel();
-    SendPhpOTPModel sendPhpOTPModel = SendPhpOTPModel.fromJson(jsonDecode(otpModel));
-    context.read<LoanApplicationCubit>().getCustomerDetailsApiCall({
-      "cust_profile_id": sendPhpOTPModel.data?.custProfileId
-    });
-    context.read<LoanApplicationCubit>().getLeadIdApiCall({
-      "custId": verifyOTPModel.data?.custId
-    });
-  }
-
-   */
-
   void getUtilityBillDoc() async{
     var otpModel = await MySharedPreferences.getUserSessionDataNode();
     VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
-   // var leadId = verifyOtpModel.data?.leadId;
+    // var leadId = verifyOtpModel.data?.leadId;
     //if(leadId == "" || leadId == null){
-     var leadId = await MySharedPreferences.getLeadId();
-     DebugPrint.prt("Lead Id Utility Bill $leadId");
+    var leadId = await MySharedPreferences.getLeadId();
+    DebugPrint.prt("Lead Id Utility Bill $leadId");
     //}
     context.read<LoanApplicationCubit>().getUtilityTypeDocApiCall({"leadId":leadId});
   }
@@ -162,6 +145,7 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstant.appThemeColor,
       body: BlocListener<LoanApplicationCubit,LoanApplicationState>(
         listener: (BuildContext context, LoanApplicationState state) {
           if (!context.mounted) return;
@@ -175,7 +159,7 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
               getUtilityDocTypeModel = state.getUtilityDocTypeModel;
               // Filter out any data where isUploaded is false
               if (state.getUtilityDocTypeModel.data != null) {
-                 filteredUtilityBillData = GetUtilityDocTypeModel(
+                filteredUtilityBillData = GetUtilityDocTypeModel(
                   data: state.getUtilityDocTypeModel.data!
                       .where((d) => d.isUploaded == false)
                       .toList(),
@@ -247,71 +231,82 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
             });
           }
         },
-        child: GradientBackground(
-          child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Loan112AppBar(
-                    customLeading: InkWell(
-                      child: Icon(Icons.arrow_back_ios,color: ColorConstant.blackTextColor),
-                      onTap: () async{
-                        context.pop();
-                        //await getCustomerDetailsApiCall();
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 24.0,
-                            ),
-                            Text(
-                              "Verify Residence",
-                              style: TextStyle(
-                                  fontSize: FontConstants.f20,
-                                  fontFamily: FontConstants.fontFamily,
-                                  fontWeight: FontConstants.w800,
-                                  color: ColorConstant.dashboardTextColor
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16.0,
-                            ),
-                            Text(
-                              "Prove that you're in charge of your domain!",
-                              style: TextStyle(
-                                  fontSize: FontConstants.f14,
-                                  fontFamily: FontConstants.fontFamily,
-                                  fontWeight: FontConstants.w500,
-                                  color: Color(0xff4E4F50)
-                              ),
-                            ),
-                            SizedBox(
-                              height: 31,
-                            ),
-                            chooseDocumentButton(context),
-                            SizedBox(
-                              height: 24.0,
-                            ),
-                            filePickingUI(context),
-                            SizedBox(
-                              height: 24.0,
-                            ),
-                            filePickingDeclarationUI(context)
-                          ],
+        child: SafeArea(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                    child: Container(
+                      color: ColorConstant.appThemeColor,
+                    )
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Loan112AppBar(
+                      customLeading: InkWell(
+                        onTap: () async{
+                          context.pop();
+                          //await getCustomerDetailsApiCall();
+                        },
+                        child: Icon(Icons.arrow_back_ios, color: ColorConstant.whiteColor),
+                      ),
+                      title: Text(
+                        "Verify Residence",
+                        style: TextStyle(
+                          fontSize: FontConstants.f20,
+                          fontWeight: FontConstants.w800,
+                          fontFamily: FontConstants.fontFamily,
+                          color: ColorConstant.whiteColor,
                         ),
                       ),
                     ),
-                  )
-                ],
-              )
-          ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: ColorConstant.whiteColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(24),
+                                topRight: Radius.circular(24))
+                        ),
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 24.0,
+                                ),
+                                Text(
+                                  "Prove that you're in charge of your domain!",
+                                  style: TextStyle(
+                                      fontSize: FontConstants.f14,
+                                      fontFamily: FontConstants.fontFamily,
+                                      fontWeight: FontConstants.w500,
+                                      color: Color(0xff4E4F50)
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 31,
+                                ),
+                                chooseDocumentButton(context),
+                                SizedBox(
+                                  height: 24.0,
+                                ),
+                                filePickingUI(context),
+                                SizedBox(
+                                  height: 24.0,
+                                ),
+                                filePickingDeclarationUI(context)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )],
+            )
         ),
       ),
     );
@@ -331,7 +326,7 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
             'Choose Your Document',
             style: TextStyle(
               fontSize: FontConstants.f14,
-              color: ColorConstant.blackTextColor,
+              color: ColorConstant.appThemeColor,
               fontWeight: FontConstants.w400,
               fontFamily: FontConstants.fontFamily,
             ),
@@ -343,7 +338,7 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
               item.docType ?? '',
               style: TextStyle(
                 fontSize: FontConstants.f14,
-                color: ColorConstant.blackTextColor,
+                color: ColorConstant.appThemeColor,
                 fontWeight: FontConstants.w500,
                 fontFamily: FontConstants.fontFamily,
               ),
@@ -364,7 +359,7 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
               border: Border.all(
                 color: ColorConstant.textFieldBorderColor,
               ),
-              color: ColorConstant.appScreenBackgroundColor,
+              color: ColorConstant.whiteColor,
             ),
             elevation: 0,
           ),
@@ -391,15 +386,12 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
   Widget filePickingUI(BuildContext context){
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      decoration: ShapeDecoration(
-        shape: DashedBorder(
-            borderRadius: BorderRadius.circular(10),
-            color: ColorConstant.appThemeColor
-        ),
-        image: DecorationImage(
-          image: AssetImage(ImageConstants.selectBankStatementCardBackground),
-          fit: BoxFit.cover,
-        ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: ColorConstant.appThemeColor,   // 👉 Border color
+            width: 1,              // 👉 Border thickness
+          )
       ),
       child:  Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.0,vertical: 24.0),
@@ -407,68 +399,108 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-               Center(
-          child: (fileNamePath != null && fileNamePath != "")
-              ? Container(
-            padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                border: Border.all(color: ColorConstant.textFieldBorderColor)
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(ImageConstants.pdfIcon, height: 25, width: 25),
-                const SizedBox(width: 8.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              Icon(Icons.cloud_upload_outlined, color: ColorConstant.appThemeColor,size:50,),
+              SizedBox(
+                height: 26,
+              ),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black, // default text color
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "Select your file(s) or ",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "browse",
+                      style: TextStyle(
+                        color: Color(0xFF006D77), // your theme blue/teal color
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 26,
+              ),
+              Center(
+                child: (fileNamePath != null && fileNamePath != "")
+                    ? Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      border: Border.all(color: ColorConstant.textFieldBorderColor)
+                  ),
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        fileName ?? "",
-                        style: TextStyle(
-                          fontSize: FontConstants.f14,
-                          fontFamily: FontConstants.fontFamily,
-                          fontWeight: FontConstants.w700,
-                          color: ColorConstant.blackTextColor,
+                      Image.asset(ImageConstants.pdfIcon, height: 25, width: 25),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              fileName ?? "",
+                              style: TextStyle(
+                                fontSize: FontConstants.f14,
+                                fontFamily: FontConstants.fontFamily,
+                                fontWeight: FontConstants.w700,
+                                color: ColorConstant.blackTextColor,
+                              ),
+                            ),
+                            const SizedBox(height: 2.0),
+                            Text(
+                              "$fileSize KB",
+                              style: TextStyle(
+                                fontSize: FontConstants.f12,
+                                fontFamily: FontConstants.fontFamily,
+                                fontWeight: FontConstants.w400,
+                                color: ColorConstant.greyTextColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 2.0),
-                      Text(
-                        "$fileSize KB",
-                        style: TextStyle(
-                          fontSize: FontConstants.f12,
-                          fontFamily: FontConstants.fontFamily,
-                          fontWeight: FontConstants.w400,
-                          color: ColorConstant.greyTextColor,
-                        ),
+                      SizedBox(
+                        width: 8.0,
                       ),
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            fileNamePath = "";
+                            fileName = "";
+                            fileSize = "";
+                            pdfBytes = null;
+                            needsPassword = false;
+                          });
+                        },
+                        child: Image.asset(ImageConstants.crossActionIcon,height: 24,width: 24),
+                      )
                     ],
                   ),
-                ),
-                SizedBox(
-                  width: 8.0,
-                ),
-                InkWell(
-                  onTap: (){
-                    setState(() {
-                      fileNamePath = "";
-                      fileName = "";
-                      fileSize = "";
-                      pdfBytes = null;
-                      needsPassword = false;
-                    });
-                  },
-                  child: Image.asset(ImageConstants.crossActionIcon,height: 24,width: 24),
                 )
-              ],
-            ),
-          )
-              : Image.asset(ImageConstants.bankStatementUploadIcon, height: 50, width: 50),
-      ),
+                    : Image.asset(ImageConstants.bankStatementUploadIcon, height: 50, width: 50),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "If there's a confidential code, please share it with us!",
+                style: TextStyle(
+                    color: ColorConstant.blackTextColor,
+                    fontWeight: FontWeight.w500
+                ),
+              ),
               SizedBox(
                 height: 26,
               ),
@@ -506,32 +538,32 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
                 ]
               ],
               Center(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFF0074CC)),
-                    foregroundColor: const Color(0xFF0074CC),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF0074CC)),
+                      foregroundColor: const Color(0xFF0074CC),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  ),
-                  onPressed: () async {
-                    if (pdfBytes != null) {
-                      final verified = await _checkPdf(password: _passwordController.text.trim());
-                      if (verified) {
-                        uploadUtilityData(context); // 📤 Call upload if verified
+                    onPressed: () async {
+                      if (pdfBytes != null) {
+                        final verified = await _checkPdf(password: _passwordController.text.trim());
+                        if (verified) {
+                          uploadUtilityData(context); // 📤 Call upload if verified
+                        }
+                      } else {
+                        await _pickPdf();
                       }
-                    } else {
-                      await _pickPdf();
-                    }
-                  },
-                  child: Text(
-                    (fileNamePath != null && fileNamePath != "")?
-                    "Upload file":
-                    'Select file',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                )
+                    },
+                    child: Text(
+                      (fileNamePath != null && fileNamePath != "")?
+                      "Upload file":
+                      'Select file',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  )
               )
             ],
           )
@@ -551,9 +583,14 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 2,
-                    backgroundColor: ColorConstant.errorRedColor,
+                  // CircleAvatar(
+                  //   radius: 2,
+                  //   backgroundColor: ColorConstant.errorRedColor,
+                  // ),
+                  Icon(
+                    Icons.radio_button_checked,
+                    color: Color(0xff169DBD),
+                    size: 20,
                   ),
                   SizedBox(
                     width: 10,
@@ -561,10 +598,10 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
                   Text(
                     filePickingDeclaration[index],
                     style: TextStyle(
-                      fontSize: FontConstants.f14,
-                      fontWeight: FontConstants.w500,
-                      fontFamily: FontConstants.fontFamily,
-                      color: ColorConstant.errorRedColor
+                        fontSize: FontConstants.f14,
+                        fontWeight: FontConstants.w500,
+                        fontFamily: FontConstants.fontFamily,
+                        color: ColorConstant.greyTextColor
                     ),
                   )
                 ],
@@ -589,8 +626,8 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
       var customerId = verifyOtpModel.data?.custId;
       //var leadId = verifyOtpModel.data?.leadId;
       //if(leadId == "" || leadId == null){
-       var leadId = await MySharedPreferences.getLeadId();
-     // }
+      var leadId = await MySharedPreferences.getLeadId();
+      // }
 
       final formData = FormData();
 
@@ -626,9 +663,7 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
         filename: fileName,
         contentType: MediaType.parse(mimeType),
       );
-
       formData.files.add(MapEntry('addressDocs', multipartFile));
-
       context.read<LoanApplicationCubit>().uploadUtilityTypeDocApiCall(formData);
     }else{
       openSnackBar(context, "Please choose document type");

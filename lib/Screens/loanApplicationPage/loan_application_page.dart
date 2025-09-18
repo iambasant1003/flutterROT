@@ -385,9 +385,12 @@ class _LoanApplicationPage extends State<LoanApplicationPage> with RouteAware {
                                                   .contains('bank') &&
                                                   status != 1 &&
                                                   status != 0) {
+                                                // context.push(
+                                                //   AppRouterName
+                                                //       .bankDetailsScreen,
+                                                // );
                                                 context.push(
-                                                  AppRouterName
-                                                      .bankDetailsScreen,
+                                                  AppRouterName.bankStatement,
                                                 );
                                               }
                                             }

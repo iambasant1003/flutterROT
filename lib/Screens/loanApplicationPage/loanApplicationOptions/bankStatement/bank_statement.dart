@@ -24,31 +24,13 @@ class BankStatementScreen extends StatefulWidget {
 class _BankStatementScreen extends State<BankStatementScreen> {
   bool isOnlineSelected = true;
 
-  /*
-  getCustomerDetailsApiCall() async{
-    context.read<DashboardCubit>().callDashBoardApi();
-    var nodeOtpModel = await MySharedPreferences.getUserSessionDataNode();
-    VerifyOTPModel verifyOTPModel = VerifyOTPModel.fromJson(jsonDecode(nodeOtpModel));
-    var otpModel = await MySharedPreferences.getPhpOTPModel();
-    SendPhpOTPModel sendPhpOTPModel = SendPhpOTPModel.fromJson(jsonDecode(otpModel));
-    context.read<LoanApplicationCubit>().getCustomerDetailsApiCall({
-      "cust_profile_id": sendPhpOTPModel.data?.custProfileId
-    });
-    context.read<LoanApplicationCubit>().getLeadIdApiCall({
-      "custId": verifyOTPModel.data?.custId
-    });
-  }
-
-   */
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned.fill(
-          child: Image.asset(
-            ImageConstants.logInScreenBackGround,
-            fit: BoxFit.cover,
+          child: Container(
+            color: ColorConstant.appThemeColor,
           ),
         ),
 
@@ -57,159 +39,102 @@ class _BankStatementScreen extends State<BankStatementScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// Custom AppBar
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0.0),
+                padding: EdgeInsets.zero,
                 child: Loan112AppBar(
                   customLeading: InkWell(
-                    onTap: () async{
-                      context.pop();
-                      //await getCustomerDetailsApiCall();
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: ColorConstant.blackTextColor,
-                    ),
+                    onTap: () => context.pop(),
+                    child: Icon(Icons.arrow_back, color: ColorConstant.whiteColor),
                   ),
-                  leadingSpacing: 30,
-                  title: Image.asset(
-                    ImageConstants.loan112AppNameIcon,
-                    height: 76,
-                    width: 76,
+                  title: Text(
+                    "Fetch Bank Statement",
+                    style: TextStyle(
+                      fontSize: FontConstants.f20,
+                      fontWeight: FontConstants.w800,
+                      fontFamily: FontConstants.fontFamily,
+                      color: ColorConstant.whiteColor,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: 16),
-              SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: FontConstants.horizontalPadding,
+              const SizedBox(height: 16),
+
+              /// Content
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(24),
+                      topLeft: Radius.circular(24),
+                    ),
+                    color: ColorConstant.whiteColor,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Bank Statement",
-                        style: TextStyle(
-                          fontSize: FontConstants.f20,
-                          fontWeight: FontConstants.w800,
-                          fontFamily: FontConstants.fontFamily,
-                          color: ColorConstant.blackTextColor,
-                        ),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: FontConstants.horizontalPadding,
                       ),
-                      SizedBox(height: 12.0),
-                      Text(
-                        "Choose how would you like to provide your Bank Statement for verification",
-                        style: TextStyle(
-                          fontSize: FontConstants.f14,
-                          fontFamily: FontConstants.fontFamily,
-                          fontWeight: FontConstants.w500,
-                          color: Color(0xff344054),
-                        ),
-                      ),
-                      SizedBox(height: 32),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildOption(
-                            label: "Online",
+                          const SizedBox(height: 32.0),
+                          Text(
+                            "Choose how would you like to provide your Bank Statement for verification",
+                            style: TextStyle(
+                              fontSize: FontConstants.f14,
+                              fontFamily: FontConstants.fontFamily,
+                              fontWeight: FontConstants.w500,
+                              color: const Color(0xff344054),
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+
+                          /// Online Option
+                          _buildOptionCard(
+                            label: "Account Aggregator (Recommended)",
+                            description:
+                            "Securely fetch your bank statement via Account aggregator",
                             isSelected: isOnlineSelected,
                             onTap: () {
-                              setState(() {
-                                isOnlineSelected = true;
-                              });
+                              setState(() => isOnlineSelected = true);
                             },
+                            showMostUsed: true,
                           ),
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Account Aggregator (Recommended)",
-                                  style: TextStyle(
-                                    fontSize: FontConstants.f16,
-                                    fontWeight: FontConstants.w600,
-                                    fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.blackTextColor,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10, top: 5),
-                                  child: Text(
-                                    "Securely fetch your bank statement via Account aggregator",
-                                    style: TextStyle(
-                                      fontSize: FontConstants.f14,
-                                      fontFamily: FontConstants.fontFamily,
-                                      fontWeight: FontConstants.w500,
-                                      color: ColorConstant.greyTextColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 24),
-                      Row(
-                        children: [
-                          _buildOption(
-                            label: "Offline",
+                          const SizedBox(height: 20),
+
+                          /// Offline Option
+                          _buildOptionCard(
+                            label: "Bank Statement PDF",
+                            description:
+                            "Upload a pdf of your bank statement manually",
                             isSelected: !isOnlineSelected,
                             onTap: () {
-                              setState(() {
-                                isOnlineSelected = false;
-                              });
+                              setState(() => isOnlineSelected = false);
                             },
                           ),
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Bank Statement PDF",
-                                  style: TextStyle(
-                                    fontSize: FontConstants.f16,
-                                    fontWeight: FontConstants.w600,
-                                    fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.blackTextColor,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10, top: 5),
-                                  child: Text(
-                                    "Upload a pdf of your bank statement manually",
-                                    style: TextStyle(
-                                      fontSize: FontConstants.f14,
-                                      fontFamily: FontConstants.fontFamily,
-                                      fontWeight: FontConstants.w500,
-                                      color: ColorConstant.greyTextColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
+
+                          const SizedBox(height: 25),
+
+                          /// Continue Button
+                          Center(
+                            child: SizedBox(
+                              width: 170,
+                              child: Loan112Button(
+                                onPressed: () {
+                                  if (isOnlineSelected) {
+                                    context.push(AppRouterName.onlineBankStatement);
+                                  } else {
+                                    context.push(AppRouterName.offlineBankStatement);
+                                  }
+                                },
+                                text: "CONTINUE",
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 25),
-                      Center(
-                        child: SizedBox(
-                          width: 170,
-                          child: Loan112Button(
-                            onPressed: () {
-                              if(isOnlineSelected){
-                                context.push(AppRouterName.onlineBankStatement);
-                              }else{
-                                context.push(AppRouterName.offlineBankStatement);
-                              }
-                            },
-                            text: "CONTINUE",
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -220,15 +145,18 @@ class _BankStatementScreen extends State<BankStatementScreen> {
     );
   }
 
-  Widget _buildOption({
+  /// Custom Option Widget
+  Widget _buildOptionCard({
     required String label,
+    required String description,
     required bool isSelected,
-    required Function() onTap,
+    required VoidCallback onTap,
+    bool showMostUsed = false,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           border: Border.all(
             color: isSelected
@@ -236,49 +164,98 @@ class _BankStatementScreen extends State<BankStatementScreen> {
                 : ColorConstant.greyTextColor,
             width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
           color: ColorConstant.whiteColor,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        child: Stack(
           children: [
-            Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected
-                      ? ColorConstant.appThemeColor
-                      : ColorConstant.greyTextColor,
-                  width: 1.5,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// Radio Circle
+                Container(
+                  margin: const EdgeInsets.only(top: 2),
+                  width: 22,
+                  height: 22,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected
+                          ? ColorConstant.appThemeColor
+                          : ColorConstant.greyTextColor,
+                      width: 2,
+                    ),
+                  ),
+                  child: isSelected
+                      ? Center(
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: ColorConstant.appThemeColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  )
+                      : null,
                 ),
-              ),
-              child: isSelected
-                  ? Center(
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ColorConstant.appThemeColor,
+                const SizedBox(width: 12),
+
+                /// Texts
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: TextStyle(
+                          fontSize: FontConstants.f16,
+                          fontWeight: FontConstants.w600,
+                          fontFamily: FontConstants.fontFamily,
+                          color: ColorConstant.blackTextColor,
                         ),
                       ),
-                    )
-                  : null,
+                      const SizedBox(height: 4),
+                      Text(
+                        description,
+                        style: TextStyle(
+                          fontSize: FontConstants.f14,
+                          fontFamily: FontConstants.fontFamily,
+                          fontWeight: FontConstants.w500,
+                          color: ColorConstant.greyTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                color: ColorConstant.blackTextColor,
-                fontWeight: FontConstants.w500,
+
+            /// MOST USED Tag
+            if (showMostUsed)
+              Positioned(
+                top: -8,
+                right: -8,
+                child: Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Text(
+                    "MOST USED",
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
-            ),
           ],
         ),
       ),
     );
   }
-
 }

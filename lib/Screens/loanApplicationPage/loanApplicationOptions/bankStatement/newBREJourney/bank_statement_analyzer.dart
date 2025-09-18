@@ -54,13 +54,23 @@ class _BankStatementAnalyzer extends State<BankStatementAnalyzer>{
 
   Widget bankStatementAnalyzer(BuildContext context){
     return Scaffold(
+      backgroundColor: ColorConstant.appThemeColor,
       appBar: Loan112AppBar(
-        backgroundColor: Color(0xffE7F3FF),
         customLeading: InkWell(
-          onTap:(){
+          onTap: () async{
             context.pop();
+            //await getCustomerDetailsApiCall();
           },
-          child: Icon(Icons.arrow_back_ios,color: ColorConstant.blackTextColor),
+          child: Icon(Icons.arrow_back, color: ColorConstant.whiteColor),
+        ),
+        title: Text(
+          "Bank Statement Analyzer",
+          style: TextStyle(
+            fontSize: FontConstants.f20,
+            fontWeight: FontConstants.w800,
+            fontFamily: FontConstants.fontFamily,
+            color: ColorConstant.whiteColor,
+          ),
         ),
       ),
       body: Column(
@@ -84,116 +94,125 @@ class _BankStatementAnalyzer extends State<BankStatementAnalyzer>{
               }
             },
             child: Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Loan112BREBackground(height: 150, containerColor: Color(0xffE7F3FF)),
-                        Positioned(
-                          left: 10,
-                          right: 10,
-                          bottom: -60,
-                          child: Column(
-                            children: [
-                              Text(
-                                "We're analyzing your bank statement.",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: FontConstants.f22,
-                                    fontWeight: FontConstants.w700,
-                                    fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.blackTextColor
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24)
+                  ),
+                  color: ColorConstant.whiteColor
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Loan112BREBackground(height: 150, containerColor: Color(0xffE7F3FF)),
+                          Positioned(
+                            left: 10,
+                            right: 10,
+                            bottom: -60,
+                            child: Column(
+                              children: [
+                                Text(
+                                  "We're analyzing your bank statement.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: FontConstants.f22,
+                                      fontWeight: FontConstants.w700,
+                                      fontFamily: FontConstants.fontFamily,
+                                      color: ColorConstant.blackTextColor
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 21,
-                              ),
-                              BlocBuilder<Loan112TimerCubit, int>(
-                                builder: (context, secondsLeft) {
-                                  return Container(
-                                    height: 130,
-                                    width: 130,
-                                    decoration: BoxDecoration(
-                                      color: ColorConstant.whiteColor,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: ColorConstant.appThemeColor,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "$secondsLeft", // 👈 dynamic countdown
-                                            style: TextStyle(
-                                              fontFamily: FontConstants.fontFamily,
-                                              fontWeight: FontConstants.w800,
-                                              fontSize: FontConstants.f22,
-                                              color: ColorConstant.blackTextColor,
-                                            ),
-                                          ),
-                                          Text(
-                                            "Sec",
-                                            style: TextStyle(
-                                              fontFamily: FontConstants.fontFamily,
-                                              fontWeight: FontConstants.w400,
-                                              fontSize: FontConstants.f18,
-                                              color: ColorConstant.blackTextColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 75,
-                    ),
-                    BlocListener<Loan112TimerCubit, int>(
-                      listenWhen: (previous, current) => current == 0, // only when finished
-                      listener: (context, state) async {
-                        // 👇 Call your API here
-                        callVerifyBankStatementApiCall();
-                      },
-                      child: BlocBuilder<Loan112TimerCubit, int>(
-                          builder: (context, secondsLeft) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 91.0),
-                              child: Text(
-                                "We will comeback with loan offer within next $secondsLeft secs",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: FontConstants.f14,
-                                  fontWeight: FontConstants.w500,
-                                  fontFamily: FontConstants.fontFamily,
+                                SizedBox(
+                                  height: 21,
                                 ),
-                              ),
-                            );
-                          }
+                                BlocBuilder<Loan112TimerCubit, int>(
+                                  builder: (context, secondsLeft) {
+                                    return Container(
+                                      height: 130,
+                                      width: 130,
+                                      decoration: BoxDecoration(
+                                        color: ColorConstant.whiteColor,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: ColorConstant.appThemeColor,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "$secondsLeft", // 👈 dynamic countdown
+                                              style: TextStyle(
+                                                fontFamily: FontConstants.fontFamily,
+                                                fontWeight: FontConstants.w800,
+                                                fontSize: FontConstants.f22,
+                                                color: ColorConstant.blackTextColor,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Sec",
+                                              style: TextStyle(
+                                                fontFamily: FontConstants.fontFamily,
+                                                fontWeight: FontConstants.w400,
+                                                fontSize: FontConstants.f18,
+                                                color: ColorConstant.blackTextColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                      child: Loan112Button(
-                        text: "CHECK ANALYZE STATUS",
-                        onPressed: (){
+                      SizedBox(
+                        height: 75,
+                      ),
+                      BlocListener<Loan112TimerCubit, int>(
+                        listenWhen: (previous, current) => current == 0, // only when finished
+                        listener: (context, state) async {
+                          // 👇 Call your API here
                           callVerifyBankStatementApiCall();
                         },
+                        child: BlocBuilder<Loan112TimerCubit, int>(
+                            builder: (context, secondsLeft) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 91.0),
+                                child: Text(
+                                  "We will comeback with loan offer within next $secondsLeft secs",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: FontConstants.f14,
+                                    fontWeight: FontConstants.w500,
+                                    fontFamily: FontConstants.fontFamily,
+                                  ),
+                                ),
+                              );
+                            }
+                        ),
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                        child: Loan112Button(
+                          text: "CHECK ANALYZE STATUS",
+                          onPressed: (){
+                            callVerifyBankStatementApiCall();
+                          },
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

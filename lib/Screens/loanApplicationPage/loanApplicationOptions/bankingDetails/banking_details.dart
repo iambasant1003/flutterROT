@@ -88,6 +88,7 @@ class _BankingDetailScreen extends State<BankingDetailScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstant.appThemeColor,
      body: BlocListener<LoanApplicationCubit,LoanApplicationState>(
        listener: (BuildContext context, state) {
          if (!context.mounted) return;
@@ -148,9 +149,7 @@ class _BankingDetailScreen extends State<BankingDetailScreen>{
                });
              }
            });
-         }
-
-         else if (state is BankAccountTypeFailed) {
+         } else if (state is BankAccountTypeFailed) {
            EasyLoading.dismiss();
            WidgetsBinding.instance.addPostFrameCallback((_) {
              if (context.mounted) {
@@ -159,24 +158,40 @@ class _BankingDetailScreen extends State<BankingDetailScreen>{
            });
          }
        },
-       child: GradientBackground(
-         child: SafeArea(
-             child: Form(
-               key: formKey,
-               autovalidateMode: AutovalidateMode.onUserInteraction,
-               child: Column(
-                 crossAxisAlignment: CrossAxisAlignment.start,
-                 children: [
-                   Loan112AppBar(
-                     customLeading: InkWell(
-                       child: Icon(Icons.arrow_back_ios,color: ColorConstant.blackTextColor),
-                       onTap: () async{
-                         context.pop();
-                        // await getCustomerDetailsApiCall();
-                       },
+       child: SafeArea(
+           child: Form(
+             key: formKey,
+             autovalidateMode: AutovalidateMode.onUserInteraction,
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+             Loan112AppBar(
+             customLeading: InkWell(
+             onTap: () async{
+           context.pop();
+           //await getCustomerDetailsApiCall();
+           },
+             child: Icon(Icons.arrow_back, color: ColorConstant.whiteColor),
+           ),
+         title: Text(
+           "Banking Details",
+           style: TextStyle(
+             fontSize: FontConstants.f20,
+             fontWeight: FontConstants.w800,
+             fontFamily: FontConstants.fontFamily,
+             color: ColorConstant.whiteColor,
+           ),
+         ),
+       ),
+                 Expanded(
+                   child: Container(
+                     decoration: BoxDecoration(
+                       color: ColorConstant.whiteColor,
+                       borderRadius: BorderRadius.only(
+                         topLeft: Radius.circular(24),
+                         topRight: Radius.circular(24)
+                       )
                      ),
-                   ),
-                   Expanded(
                      child: SingleChildScrollView(
                        child: Padding(
                          padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
@@ -185,30 +200,6 @@ class _BankingDetailScreen extends State<BankingDetailScreen>{
                            children: [
                              SizedBox(
                                height: 24.0,
-                             ),
-                             Text(
-                               "Banking Details",
-                               style: TextStyle(
-                                   fontSize: FontConstants.f20,
-                                   fontFamily: FontConstants.fontFamily,
-                                   fontWeight: FontConstants.w800,
-                                   color: ColorConstant.dashboardTextColor
-                               ),
-                             ),
-                             SizedBox(
-                               height: 16.0,
-                             ),
-                             Text(
-                               "Please enter your Bank details for Disbursal",
-                               style: TextStyle(
-                                   fontSize: FontConstants.f14,
-                                   fontFamily: FontConstants.fontFamily,
-                                   fontWeight: FontConstants.w600,
-                                   color: Color(0xff4E4F50)
-                               ),
-                             ),
-                             SizedBox(
-                               height: 24,
                              ),
                              Text(
                                "IFSC Code*",
@@ -342,64 +333,67 @@ class _BankingDetailScreen extends State<BankingDetailScreen>{
                          ),
                        ),
                      ),
-                   )
-                 ],
-               ),
-             )
-         ),
+                   ),
+                 )
+               ],
+             ),
+           )
        ),
      ),
       bottomNavigationBar: SafeArea(
-        child: SizedBox(
-          height: 101,
-          child: Column(
-            children: [
-              BottomDashLine(),
-              SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                child: Loan112Button(
-                    text: "Submit",
-                    onPressed: () async{
-                      if(formKey.currentState!.validate()){
-
-                      showBankVerificationBottomSheet(
-                        context,
-                        onYesTap: () async{
-                          var otpModel = await MySharedPreferences.getUserSessionDataNode();
-                          VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
-                         // var leadId = verifyOtpModel.data?.leadId ?? "";
-                          //if (leadId == "") {
-                           var leadId = await MySharedPreferences.getLeadId();
-                          //}
-
-                          UpdateBankDetailsParamModel updateBankDetailsData =
-                          UpdateBankDetailsParamModel(
-                              custId: verifyOtpModel.data?.custId ?? "",
-                              leadId: leadId,
-                              account: bankAccount.text.trim(),
-                              confirmAccount: confirmBankAccount.text.trim(),
-                              ifsc: ifscCode.text.trim(),
-                              accountType: selectedBankType?.bankTypeId ?? "",
-                              type: "1"
-                          );
-                          context.read<LoanApplicationCubit>().updateBankDetailsApiCall(updateBankDetailsData.toJson());
-                        },
-                        onNoTap: () async{
-                          // Your NO logic here
-                          Navigator.pop(context);
-                        },
-                      );
-                      }
-                    }
+        child: Container(
+          color: ColorConstant.whiteColor,
+          child: SizedBox(
+            height: 101,
+            child: Column(
+              children: [
+                BottomDashLine(),
+                SizedBox(
+                  height: 24,
                 ),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                  child: Loan112Button(
+                      text: "Submit",
+                      onPressed: () async{
+                        if(formKey.currentState!.validate()){
+
+                        showBankVerificationBottomSheet(
+                          context,
+                          onYesTap: () async{
+                            var otpModel = await MySharedPreferences.getUserSessionDataNode();
+                            VerifyOTPModel verifyOtpModel = VerifyOTPModel.fromJson(jsonDecode(otpModel));
+                           // var leadId = verifyOtpModel.data?.leadId ?? "";
+                            //if (leadId == "") {
+                             var leadId = await MySharedPreferences.getLeadId();
+                            //}
+
+                            UpdateBankDetailsParamModel updateBankDetailsData =
+                            UpdateBankDetailsParamModel(
+                                custId: verifyOtpModel.data?.custId ?? "",
+                                leadId: leadId,
+                                account: bankAccount.text.trim(),
+                                confirmAccount: confirmBankAccount.text.trim(),
+                                ifsc: ifscCode.text.trim(),
+                                accountType: selectedBankType?.bankTypeId ?? "",
+                                type: "1"
+                            );
+                            context.read<LoanApplicationCubit>().updateBankDetailsApiCall(updateBankDetailsData.toJson());
+                          },
+                          onNoTap: () async{
+                            // Your NO logic here
+                            Navigator.pop(context);
+                          },
+                        );
+                        }
+                      }
+                  ),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -460,7 +454,7 @@ class _BankingDetailScreen extends State<BankingDetailScreen>{
                     border: Border.all(
                       color: ColorConstant.textFieldBorderColor,
                     ),
-                    color: ColorConstant.appScreenBackgroundColor,
+                    color: ColorConstant.whiteColor,
                   ),
                   elevation: 0,
                 ),

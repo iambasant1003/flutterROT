@@ -97,6 +97,7 @@ class _AddReferenceScreen extends State<AddReferenceScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstant.appThemeColor,
       body: BlocListener<LoanApplicationCubit,LoanApplicationState>(
         listener: (context, state) {
           if (!context.mounted) return;
@@ -125,21 +126,37 @@ class _AddReferenceScreen extends State<AddReferenceScreen>{
             });
           }
         },
-        child: GradientBackground(
-          child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Loan112AppBar(
-                    customLeading: InkWell(
-                      child: Icon(Icons.arrow_back_ios,color: ColorConstant.blackTextColor),
-                      onTap: () async{
-                        context.pop();
-                       // await getCustomerDetailsApiCall();
-                      },
+        child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Loan112AppBar(
+                  customLeading: InkWell(
+                    onTap: () async{
+                      context.pop();
+                      //await getCustomerDetailsApiCall();
+                    },
+                    child: Icon(Icons.arrow_back, color: ColorConstant.whiteColor),
+                  ),
+                  title: Text(
+                    "Add Reference",
+                    style: TextStyle(
+                      fontSize: FontConstants.f20,
+                      fontWeight: FontConstants.w800,
+                      fontFamily: FontConstants.fontFamily,
+                      color: ColorConstant.whiteColor,
                     ),
                   ),
-                  Expanded(
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color:ColorConstant.whiteColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(24),
+                        topLeft: Radius.circular(24)
+                      )
+                    ),
                     child: SingleChildScrollView(
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
@@ -152,26 +169,21 @@ class _AddReferenceScreen extends State<AddReferenceScreen>{
                               SizedBox(
                                 height: 24.0,
                               ),
-                              Text(
-                                "Add References",
-                                style: TextStyle(
-                                    fontSize: FontConstants.f20,
-                                    fontWeight: FontConstants.w800,
-                                    fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.blackTextColor
-                                ),
-                              ),
-                              SizedBox(
-                                height: 16.0,
-                              ),
-                              Text(
-                                "Note*  Only One reference allowed",
-                                style: TextStyle(
-                                    fontSize: FontConstants.f14,
-                                    fontWeight: FontConstants.w500,
-                                    fontFamily: FontConstants.fontFamily,
-                                    color: ColorConstant.dashboardTextColor
-                                ),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Note*  Only One reference allowed",
+                                    style: TextStyle(
+                                        fontSize: FontConstants.f14,
+                                        fontWeight: FontConstants.w500,
+                                        fontFamily: FontConstants.fontFamily,
+                                        color: ColorConstant.dashboardTextColor
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 16.0,
@@ -182,34 +194,37 @@ class _AddReferenceScreen extends State<AddReferenceScreen>{
                         ),
                       ),
                     ),
-                  )
-                ],
-              )
-          ),
+                  ),
+                )
+              ],
+            )
         ),
       ),
       bottomNavigationBar: SafeArea(
         bottom: true,
-        child: SizedBox(
-          height: 100,
-          child: Column(
-            children: [
-              BottomDashLine(),
-              SizedBox(
-                height: 8.0,
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 22,left: 16,right: 16,top: 10),
-                child: Loan112Button(
-                    onPressed: (){
-                      if(formKey.currentState!.validate()){
-                        addReferenceApiCallFunction(context);
-                      }
-                    },
-                    text: "CONTINUE"
+        child: Container(
+          color: ColorConstant.whiteColor,
+          child: SizedBox(
+            height: 100,
+            child: Column(
+              children: [
+                BottomDashLine(),
+                SizedBox(
+                  height: 8.0,
                 ),
-              )
-            ],
+                Padding(
+                  padding: EdgeInsets.only(bottom: 22,left: 16,right: 16,top: 10),
+                  child: Loan112Button(
+                      onPressed: (){
+                        if(formKey.currentState!.validate()){
+                          addReferenceApiCallFunction(context);
+                        }
+                      },
+                      text: "CONTINUE"
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

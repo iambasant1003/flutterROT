@@ -161,9 +161,8 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
       child: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset(
-              ImageConstants.logInScreenBackGround,
-              fit: BoxFit.cover,
+            child: Container(
+              color: ColorConstant.appThemeColor,
             ),
           ),
 
@@ -176,19 +175,20 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
                   padding: EdgeInsets.symmetric(horizontal: 0.0),
                   child: Loan112AppBar(
                     customLeading: InkWell(
-                      onTap: () {
+                      onTap: () async{
                         context.pop();
+                        //await getCustomerDetailsApiCall();
                       },
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: ColorConstant.blackTextColor,
-                      ),
+                      child: Icon(Icons.arrow_back, color: ColorConstant.whiteColor),
                     ),
-                    leadingSpacing: 30,
-                    title: Image.asset(
-                      ImageConstants.loan112AppNameIcon,
-                      height: 76,
-                      width: 76,
+                    title: Text(
+                      "Upload Bank Statement",
+                      style: TextStyle(
+                        fontSize: FontConstants.f20,
+                        fontWeight: FontConstants.w800,
+                        fontFamily: FontConstants.fontFamily,
+                        color: ColorConstant.whiteColor,
+                      ),
                     ),
                   ),
                 ),
@@ -565,4 +565,73 @@ class _FetchOfflineBankStatement extends State<FetchOfflineBankStatement>{
 
   }
 }
+
+
+
+
+
+
+  @override
+  Widget selectFileCard(BuildContext context) {
+    return Center(
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: Colors.grey.shade300),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Cloud upload icon
+              Icon(
+                Icons.cloud_upload_outlined,
+                size: 40,
+                color: Colors.teal,
+              ),
+              const SizedBox(height: 12),
+
+              // Text with "browse" in different color
+              RichText(
+                text: TextSpan(
+                  text: "Select your file(s) or ",
+                  style: TextStyle(color: Colors.black87, fontSize: 14),
+                  children: [
+                    TextSpan(
+                      text: "browse",
+                      style: TextStyle(
+                        color: Colors.teal,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Upload files button
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Colors.teal),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+                onPressed: () {
+                  // TODO: Add file picker logic
+                },
+                child: const Text(
+                  "Upload files",
+                  style: TextStyle(color: Colors.teal),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
