@@ -114,62 +114,65 @@ class _LogInPageState extends State<LogInPage> {
                         SizedBox(height: 24.0),
 
                         /// TextField
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CommonTextField(
-                                controller: mobileController,
-                                hintText: "XXXXXXXXXX",
-                                maxLength: 10,
-                                hintStyle: TextStyle(
-                                  fontSize: FontConstants.f20,
-                                  fontWeight: FontWeight.w200,
-                                  color: const Color(0xffAEAEAE),
-                                  letterSpacing: 6,
-                                ),
-                                textStyle: TextStyle(
-                                  fontSize: FontConstants.f20,
-                                  fontWeight: FontWeight.w200,
-                                  letterSpacing: 2,
-                                ),
-                                keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-                                textInputAction: TextInputAction.done,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                leadingWidget:  Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: FontConstants.horizontalPadding),
-                                      child:  Image.asset(
-                                        ImageConstants.rotIndianFlag,
-                                        height: 24,
-                                        width: 24,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: FontConstants.horizontalPadding),
-                                      child: Text(
-                                        "+91",
-                                        style: TextStyle(
-                                            fontSize: FontConstants.f20,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: FontConstants.fontFamily
+                        Form(
+                          key: _formKey,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CommonTextField(
+                                  controller: mobileController,
+                                  hintText: "XXXXXXXXXX",
+                                  maxLength: 10,
+                                  hintStyle: TextStyle(
+                                    fontSize: FontConstants.f20,
+                                    fontWeight: FontWeight.w200,
+                                    color: const Color(0xffAEAEAE),
+                                    letterSpacing: 6,
+                                  ),
+                                  textStyle: TextStyle(
+                                    fontSize: FontConstants.f20,
+                                    fontWeight: FontWeight.w200,
+                                    letterSpacing: 2,
+                                  ),
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
+                                  textInputAction: TextInputAction.done,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  leadingWidget:  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: FontConstants.horizontalPadding),
+                                        child:  Image.asset(
+                                          ImageConstants.rotIndianFlag,
+                                          height: 24,
+                                          width: 24,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(width: 6),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: FontConstants.horizontalPadding),
+                                        child: Text(
+                                          "+91",
+                                          style: TextStyle(
+                                              fontSize: FontConstants.f20,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: FontConstants.fontFamily
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  validator: validateMobileNumber,
+                                  onEditingComplete: () {
+                                    FocusScope.of(context).unfocus(); // hide keyboard
+                                    mobileNumberToPass = mobileController.text.trim();
+                                  },
                                 ),
-                                validator: validateMobileNumber,
-                                onEditingComplete: () {
-                                  FocusScope.of(context).unfocus(); // hide keyboard
-                                  mobileNumberToPass = mobileController.text.trim();
-                                },
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
 
                         SizedBox(height: 24.0),
