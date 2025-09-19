@@ -32,7 +32,7 @@ class _PermissionPage extends State<PermissionPage> {
   @override
   void initState() {
     super.initState();
-    _initAppsFlyer();
+    //_initAppsFlyer();
     allowNotification();
   }
 
@@ -188,9 +188,7 @@ class _PermissionPage extends State<PermissionPage> {
 
     if (cameraPermission.isGranted &&
         microPhonePermission.isGranted &&
-        locationPermission.isGranted &&
-        !(await Permission.notification.isDenied ||
-            await Permission.notification.isPermanentlyDenied)
+        locationPermission.isGranted
     ) {
       MySharedPreferences.setPermissionStatus(true);
       context.go(AppRouterName.login);
@@ -350,14 +348,24 @@ class _PermissionPage extends State<PermissionPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Checkbox(
-              value: checked,
-              checkColor: ColorConstant.whiteColor,
-              activeColor: ColorConstant.appThemeColor,
-              onChanged: (val) {
-                context.read<AuthCubit>()
-                    .toggleCheckbox(val);
-              },
+            CheckboxTheme(
+              data: CheckboxThemeData(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  side: const BorderSide(
+                    color: Colors.grey,
+                    width: 1.0, // 👈 custom border width
+                  ),
+                ),
+              ),
+              child: Checkbox(
+                value: checked,
+                checkColor: ColorConstant.whiteColor,
+                activeColor: ColorConstant.appThemeColor,
+                onChanged: (val) {
+                  context.read<AuthCubit>().toggleCheckbox(val);
+                },
+              ),
             ),
             Expanded(
               child: RichText(

@@ -139,7 +139,7 @@ class _VerifyOTP extends State<VerifyOTP>{
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    SizedBox(height: 48.0),
+                                    SizedBox(height: 69.0),
                                     Image.asset(
                                       ImageConstants.rotVerifyOTPIcon,
                                       width: 52,
@@ -149,8 +149,8 @@ class _VerifyOTP extends State<VerifyOTP>{
                                     Text(
                                       "Enter the OTP",
                                       style: TextStyle(
-                                        fontSize: FontConstants.f20,
-                                        fontWeight: FontConstants.w800,
+                                        fontSize: FontConstants.f24,
+                                        fontWeight: FontConstants.w700,
                                         fontFamily: FontConstants.fontFamily,
                                         color: ColorConstant.blackTextColor,
                                       ),
@@ -163,10 +163,10 @@ class _VerifyOTP extends State<VerifyOTP>{
                                           "One step left — enter your OTP to continue",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            color: ColorConstant.greyTextColor,
+                                            color: Color(0xff0A6075),
                                             fontSize: FontConstants.f16,
                                             fontFamily: FontConstants.fontFamily,
-                                            fontWeight: FontConstants.w600,
+                                            fontWeight: FontConstants.w500,
                                           ),
                                         ),
                                         SizedBox(

@@ -137,7 +137,11 @@ class _LogInPageState extends State<LogInPage> {
                                                 color: Color(0xffAEAEAE),
                                                 letterSpacing: 6
                                               ),
-
+                                              textStyle: TextStyle(
+                                                  fontSize: FontConstants.f20,
+                                                  fontWeight: FontWeight.w200,
+                                                  letterSpacing: 2
+                                              ),
                                               controller: mobileController,
                                               hintText: "XXXXXXXXXX",
                                               maxLength: 10,
@@ -151,7 +155,8 @@ class _LogInPageState extends State<LogInPage> {
                                               validator: (value) {
                                                 return validateMobileNumber(value);
                                               },
-                                              onEditingComplete: (){
+                                              onEditingComplete: () {
+                                                FocusScope.of(context).unfocus(); // hide keyboard
                                                 mobileNumberToPass = mobileController.text.trim();
                                               },
                                               onChanged: (val) {
@@ -250,15 +255,15 @@ class _LogInPageState extends State<LogInPage> {
                                                     }
                                                   }
                                                 },
-                                                text: "LOGIN",
+                                                text: "Get OTP",
+                                                fontSize: FontConstants.f16,
+                                                fontWeight: FontConstants.w700,
+                                                fontFamily: FontConstants.fontFamily,
                                               ),
                                             ),
                                           );
                                         },
                                       ),
-                                      Image.asset(
-                                        ImageConstants.rotLogInBoyImage
-                                      )
                                     ],
                                   ),
                                 ],
@@ -267,6 +272,9 @@ class _LogInPageState extends State<LogInPage> {
                           ),
 
                           /// Button pinned at bottom
+                          Image.asset(
+                              ImageConstants.rotLogInBoyImage
+                          )
                         ],
                       ),
                     ),
@@ -296,14 +304,24 @@ class _LogInPageState extends State<LogInPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Checkbox(
-              value: checked,
-              checkColor: ColorConstant.whiteColor,
-              activeColor: ColorConstant.appThemeColor,
-              onChanged: (val) {
-                context.read<AuthCubit>()
-                    .toggleCheckbox(val);
-              },
+            CheckboxTheme(
+              data: CheckboxThemeData(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  side: const BorderSide(
+                    color: Colors.grey,
+                    width: 1.0, // 👈 custom border width
+                  ),
+                ),
+              ),
+              child: Checkbox(
+                value: checked,
+                checkColor: ColorConstant.whiteColor,
+                activeColor: ColorConstant.appThemeColor,
+                onChanged: (val) {
+                  context.read<AuthCubit>().toggleCheckbox(val);
+                },
+              ),
             ),
             Expanded(
               child: RichText(

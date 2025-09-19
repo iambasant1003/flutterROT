@@ -22,6 +22,7 @@ class CommonTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final TextInputAction? textInputAction;
   final bool? enableInteractiveSelection;
+  final TextStyle? textStyle;
 
   const CommonTextField({
     Key? key,
@@ -43,6 +44,7 @@ class CommonTextField extends StatelessWidget {
     this.onTap,
     this.textInputAction,
     this.enableInteractiveSelection,
+    this.textStyle
   }) : super(key: key);
 
   @override
@@ -71,7 +73,8 @@ class CommonTextField extends StatelessWidget {
       obscureText: obscureText,
       onTap: onTap,
       enableInteractiveSelection: enableInteractiveSelection,
-      style:  TextStyle(
+      style:  textStyle??
+      TextStyle(
         fontFamily: FontConstants.fontFamily,
         fontWeight: FontWeight.w500,
         fontSize: 14,
