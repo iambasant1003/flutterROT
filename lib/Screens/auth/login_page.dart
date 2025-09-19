@@ -43,250 +43,191 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Loan112SystemUi(
-      child: Scaffold(
-          body: BlocListener<AuthCubit, AuthState>(
-            listenWhen: (prev,current){
-              return prev != current;
-            },
-            listener: (BuildContext context, state) {
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (prev,current){
+        return prev != current;
+      },
+      listener: (BuildContext context, state) {
 
-              if (ModalRoute.of(context)?.isCurrent != true) return;
+        if (ModalRoute.of(context)?.isCurrent != true) return;
 
-              if(state is AuthLoading){
-                EasyLoading.show(status: "Please Wait");
-              } else if(state is AuthPhpSuccess){
-                //EasyLoading.dismiss();
-                MySharedPreferences.setPhpOTPModel(jsonEncode(state.data));
-              } else if(state is AuthNodeSuccess){
-                DebugPrint.prt("Navigation Logic Called To OTP");
-                EasyLoading.dismiss();
-                mobileController.clear();
-                CleverTapLogger.logEvent(CleverTapEventsName.OTP_SENT, isSuccess: true);
-                context.push(AppRouterName.verifyOtp,extra: mobileNumberToPass);
-              }else if(state is AuthError){
-                EasyLoading.dismiss();
-                CleverTapLogger.logEvent(CleverTapEventsName.OTP_SENT, isSuccess: false);
-                openSnackBar(context, state.message);
-              }
-            },
-            child: Stack(
+        if(state is AuthLoading){
+          EasyLoading.show(status: "Please Wait");
+        } else if(state is AuthPhpSuccess){
+          //EasyLoading.dismiss();
+          MySharedPreferences.setPhpOTPModel(jsonEncode(state.data));
+        } else if(state is AuthNodeSuccess){
+          DebugPrint.prt("Navigation Logic Called To OTP");
+          EasyLoading.dismiss();
+          mobileController.clear();
+          CleverTapLogger.logEvent(CleverTapEventsName.OTP_SENT, isSuccess: true);
+          context.push(AppRouterName.verifyOtp,extra: mobileNumberToPass);
+        }else if(state is AuthError){
+          EasyLoading.dismiss();
+          CleverTapLogger.logEvent(CleverTapEventsName.OTP_SENT, isSuccess: false);
+          openSnackBar(context, state.message);
+        }
+      },
+      child: Container(
+        color: ColorConstant.appThemeColor,
+        padding: EdgeInsets.only(top: 12.0),
+        child: SafeArea(
+          top: true,
+          child: Container(
+            decoration: BoxDecoration(
+              color: ColorConstant.whiteColor,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(54.0),
+                topLeft: Radius.circular(54.0),
+              ),
+            ),
+            child: Column(
               children: [
-                /// Background image
-                Positioned.fill(
-                  child: Container(
-                    color: ColorConstant.appThemeColor,
-                  )
-                ),
+                /// Scrollable form content
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 59),
+                        Text(
+                          "Log In / Sign Up Your Account",
+                          style: TextStyle(
+                            fontSize: FontConstants.f20,
+                            fontWeight: FontConstants.w800,
+                            fontFamily: FontConstants.fontFamily,
+                            color: ColorConstant.blackTextColor,
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        Text(
+                          "Please enter your Mobile number",
+                          style: TextStyle(
+                            color: ColorConstant.appThemeColor,
+                            fontSize: FontConstants.f16,
+                            fontFamily: FontConstants.fontFamily,
+                            fontWeight: FontConstants.w500,
+                          ),
+                        ),
+                        SizedBox(height: 24.0),
 
-                /// Form + Button
-                SafeArea(
-                  top: true,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: ColorConstant.whiteColor,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(54.0),
-                        topLeft:  Radius.circular(54.0),
-                      )
-                    ),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          /// Scrollable form content
-                          Expanded(
-                            child: SingleChildScrollView(
-                              padding: EdgeInsets.symmetric(horizontal: FontConstants.horizontalPadding),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 59),
-                                  Text(
-                                    "Log In / Sign Up Your Account",
-                                    style: TextStyle(
-                                      fontSize: FontConstants.f20,
-                                      fontWeight: FontConstants.w800,
-                                      fontFamily: FontConstants.fontFamily,
-                                      color: ColorConstant.blackTextColor,
+                        /// TextField
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CommonTextField(
+                                controller: mobileController,
+                                hintText: "XXXXXXXXXX",
+                                maxLength: 10,
+                                hintStyle: TextStyle(
+                                  fontSize: FontConstants.f20,
+                                  fontWeight: FontWeight.w200,
+                                  color: const Color(0xffAEAEAE),
+                                  letterSpacing: 6,
+                                ),
+                                textStyle: TextStyle(
+                                  fontSize: FontConstants.f20,
+                                  fontWeight: FontWeight.w200,
+                                  letterSpacing: 2,
+                                ),
+                                keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
+                                textInputAction: TextInputAction.done,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                leadingWidget:  Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: FontConstants.horizontalPadding),
+                                      child:  Image.asset(
+                                        ImageConstants.rotIndianFlag,
+                                        height: 24,
+                                        width: 24,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 24),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Please enter your Mobile number",
+                                    const SizedBox(width: 6),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: FontConstants.horizontalPadding),
+                                      child: Text(
+                                        "+91",
                                         style: TextStyle(
-                                          color: ColorConstant.appThemeColor,
-                                          fontSize: FontConstants.f16,
-                                          fontFamily: FontConstants.fontFamily,
-                                          fontWeight: FontConstants.w500,
+                                            fontSize: FontConstants.f20,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: FontConstants.fontFamily
                                         ),
                                       ),
-                                      SizedBox(height: 24.0),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(
-                                            child: CommonTextField(
-                                              hintStyle: TextStyle(
-                                                fontSize: FontConstants.f20,
-                                                fontWeight: FontWeight.w200,
-                                                color: Color(0xffAEAEAE),
-                                                letterSpacing: 6
-                                              ),
-                                              textStyle: TextStyle(
-                                                  fontSize: FontConstants.f20,
-                                                  fontWeight: FontWeight.w200,
-                                                  letterSpacing: 2
-                                              ),
-                                              controller: mobileController,
-                                              hintText: "XXXXXXXXXX",
-                                              maxLength: 10,
-                                              //keyboardType: TextInputType.phone,
-                                              //textInputAction: TextInputAction.done,
-                                              keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-                                              textInputAction: TextInputAction.done,
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter.digitsOnly,
-                                              ],
-                                              validator: (value) {
-                                                return validateMobileNumber(value);
-                                              },
-                                              onEditingComplete: () {
-                                                FocusScope.of(context).unfocus(); // hide keyboard
-                                                mobileNumberToPass = mobileController.text.trim();
-                                              },
-                                              onChanged: (val) {
-                                                print("Value is Changing");
-                                              },
-                                              leadingWidget: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                 Padding(
-                                                   padding: EdgeInsets.only(left: FontConstants.horizontalPadding),
-                                                   child:  Image.asset(
-                                                     ImageConstants.rotIndianFlag,
-                                                     height: 24,
-                                                     width: 24,
-                                                   ),
-                                                 ),
-                                                  const SizedBox(width: 6),
-                                                   Padding(
-                                                    padding: EdgeInsets.only(right: FontConstants.horizontalPadding),
-                                                    child: Text(
-                                                      "+91",
-                                                      style: TextStyle(
-                                                        fontSize: FontConstants.f20,
-                                                        fontWeight: FontWeight.w500,
-                                                        fontFamily: FontConstants.fontFamily
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                                  /*
-                                              Padding(
-                                                padding: EdgeInsets.only(left: 20.0),
-                                                child: Row(
-                                                  children: [
-                                                    Image.asset(
-                                                      ImageConstants.rotIndianFlag,
-                                                      height: 30,
-                                                      width: 30,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Text(
-                                                      "+91-",
-                                                      style: TextStyle(
-                                                          fontSize: FontConstants.f20,
-                                                          fontWeight: FontConstants.w500,
-                                                          fontFamily: FontConstants.fontFamily,
-                                                          color: ColorConstant.blackTextColor
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-
-                                                   */
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 24.0), // space before button
-                                      consentBoxUI(context),
-                                      SizedBox(height: 24.0), // space before button
-                                      BlocBuilder<AuthCubit, AuthState>(
-                                        builder: (context,state){
-
-                                          final authCubit = context.read<AuthCubit>();
-                                          bool checked = authCubit.isPermissionGiven;
-
-                                          if (state is PermissionCheckboxState) {
-                                            checked = state.isChecked;
-                                          }
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 265,
-                                              child: Loan112Button(
-                                                onPressed: () {
-                                                  if(!checked){
-                                                    openSnackBar(context,
-                                                        "Please accept our Terms & Conditions and Privacy Policy.");
-                                                  }
-                                                  else if(_formKey.currentState!.validate()){
-                                                    mobileNumberToPass = mobileController.text.trim();
-                                                    final phone = mobileController.text.trim();
-                                                    if (phone.isNotEmpty) {
-                                                      DebugPrint.prt("LogIn Method Called $phone");
-                                                      CleverTapPlugin.onUserLogin({
-                                                        'Identity': phone,
-                                                      });
-                                                      context.read<AuthCubit>().sendBothOtp(phone);
-                                                    } else {
-                                                      ScaffoldMessenger.of(context).showSnackBar(
-                                                        const SnackBar(content: Text("Enter phone number")),
-                                                      );
-                                                    }
-                                                  }
-                                                },
-                                                text: "Get OTP",
-                                                fontSize: FontConstants.f16,
-                                                fontWeight: FontConstants.w700,
-                                                fontFamily: FontConstants.fontFamily,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
+                                validator: validateMobileNumber,
+                                onEditingComplete: () {
+                                  FocusScope.of(context).unfocus(); // hide keyboard
+                                  mobileNumberToPass = mobileController.text.trim();
+                                },
                               ),
                             ),
-                          ),
+                          ],
+                        ),
 
-                          /// Button pinned at bottom
-                          Image.asset(
-                              ImageConstants.rotLogInBoyImage
-                          )
-                        ],
-                      ),
+                        SizedBox(height: 24.0),
+                        consentBoxUI(context),
+                        SizedBox(height: 24.0),
+
+                        BlocBuilder<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            final authCubit = context.read<AuthCubit>();
+                            bool checked = authCubit.isPermissionGiven;
+
+                            if (state is PermissionCheckboxState) {
+                              checked = state.isChecked;
+                            }
+
+                            return Center(
+                              child: SizedBox(
+                                width: 265,
+                                child: Loan112Button(
+                                  onPressed: () {
+                                    if (!checked) {
+                                      openSnackBar(context, "Please accept our Terms & Conditions and Privacy Policy.");
+                                    } else if (_formKey.currentState!.validate()) {
+                                      mobileNumberToPass = mobileController.text.trim();
+                                      final phone = mobileController.text.trim();
+                                      if (phone.isNotEmpty) {
+                                        DebugPrint.prt("LogIn Method Called $phone");
+                                        CleverTapPlugin.onUserLogin({'Identity': phone});
+                                        context.read<AuthCubit>().sendBothOtp(phone);
+                                      }
+                                    }
+                                  },
+                                  text: "Get OTP",
+                                  fontSize: FontConstants.f16,
+                                  fontWeight: FontConstants.w700,
+                                  fontFamily: FontConstants.fontFamily,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 40), // 👈 add some spacing at bottom of scrollable
+                      ],
                     ),
                   ),
+                ),
+
+                /// 👇 Image pinned at bottom
+                Image.asset(
+                  ImageConstants.rotLogInBoyImage,
+                  fit: BoxFit.contain,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width,
                 ),
               ],
             ),
           ),
-          bottomNavigationBar: Container(
-            height: 10,
-            color: ColorConstant.whiteColor,
-          ),
+        ),
       ),
     );
   }
