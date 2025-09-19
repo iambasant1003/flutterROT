@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rupeeontime/Constant/ColorConst/ColorConstant.dart';
 import 'package:rupeeontime/Constant/ImageConstant/ImageConstants.dart';
 
 class CircularProgressWithText extends StatelessWidget {
@@ -23,7 +24,7 @@ class CircularProgressWithText extends StatelessWidget {
               value: progress,
               strokeWidth: 10,
               backgroundColor: Colors.lightBlue.shade100,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue.shade700),
+              valueColor: AlwaysStoppedAnimation<Color>(ColorConstant.appThemeColor),
             ),
           ),
           if(isDrawer)...[
@@ -50,7 +51,7 @@ class CircularProgressWithText extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue.shade700,
+                  color: ColorConstant.appThemeColor,
                 ),
               ),
             )

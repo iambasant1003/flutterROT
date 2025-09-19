@@ -119,10 +119,10 @@ class _LogInPageState extends State<LogInPage> {
                                       Text(
                                         "Please enter your Mobile number",
                                         style: TextStyle(
-                                          color: ColorConstant.greyTextColor,
+                                          color: ColorConstant.appThemeColor,
                                           fontSize: FontConstants.f16,
                                           fontFamily: FontConstants.fontFamily,
-                                          fontWeight: FontConstants.w600,
+                                          fontWeight: FontConstants.w500,
                                         ),
                                       ),
                                       SizedBox(height: 24.0),
@@ -131,8 +131,15 @@ class _LogInPageState extends State<LogInPage> {
                                         children: [
                                           Expanded(
                                             child: CommonTextField(
+                                              hintStyle: TextStyle(
+                                                fontSize: FontConstants.f20,
+                                                fontWeight: FontWeight.w200,
+                                                color: Color(0xffAEAEAE),
+                                                letterSpacing: 6
+                                              ),
+
                                               controller: mobileController,
-                                              hintText: "Enter your Mobile number",
+                                              hintText: "XXXXXXXXXX",
                                               maxLength: 10,
                                               //keyboardType: TextInputType.phone,
                                               //textInputAction: TextInputAction.done,
@@ -307,16 +314,16 @@ class _LogInPageState extends State<LogInPage> {
                     color: ColorConstant.greyTextColor,
                     fontSize: FontConstants.f12,
                     fontFamily: FontConstants.fontFamily,
-                    fontWeight: FontConstants.w500,
+                    fontWeight: FontConstants.w600,
                   ),
                   children: [
                     TextSpan(
                       text: 'Terms & Conditions',
                       style: TextStyle(
                         color: ColorConstant.appThemeColor,
-                        fontSize: FontConstants.f12,
+                        fontSize: FontConstants.f14,
                         fontFamily: FontConstants.fontFamily,
-                        fontWeight: FontConstants.w500,
+                        fontWeight: FontConstants.w800,
                       ),
                       recognizer:
                       TapGestureRecognizer()
@@ -330,16 +337,16 @@ class _LogInPageState extends State<LogInPage> {
                         color: ColorConstant.greyTextColor,
                         fontSize: FontConstants.f12,
                         fontFamily: FontConstants.fontFamily,
-                        fontWeight: FontConstants.w500,
+                        fontWeight: FontConstants.w600,
                       ),
                     ),
                     TextSpan(
                       text: 'Privacy Policy',
                       style: TextStyle(
                         color: ColorConstant.appThemeColor,
-                        fontSize: FontConstants.f12,
+                        fontSize: FontConstants.f14,
                         fontFamily: FontConstants.fontFamily,
-                        fontWeight: FontConstants.w500,
+                        fontWeight: FontConstants.w800,
                       ),
                       recognizer:
                       TapGestureRecognizer()
@@ -354,7 +361,7 @@ class _LogInPageState extends State<LogInPage> {
                         color: ColorConstant.greyTextColor,
                         fontSize: FontConstants.f12,
                         fontFamily: FontConstants.fontFamily,
-                        fontWeight: FontConstants.w500,
+                        fontWeight: FontConstants.w600,
                       ),
                     ),
                   ],

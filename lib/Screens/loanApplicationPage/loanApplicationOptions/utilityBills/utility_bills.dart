@@ -200,9 +200,7 @@ class _UtilityBillScreen extends State<UtilityBillScreen>{
                 openSnackBar(context, state.message);
               }
             });
-          }
-
-          else if (state is UploadUtilityDocSuccess) {
+          } else if (state is UploadUtilityDocSuccess) {
             EasyLoading.dismiss();
             CleverTapLogger.logEvent(CleverTapEventsName.DOCUMENTATION, isSuccess: true);
             DebugPrint.prt("Final Result On utility Success ${state.uploadUtilityDocTypeModel.data?.finalResult}");

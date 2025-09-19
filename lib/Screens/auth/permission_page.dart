@@ -110,6 +110,7 @@ class _PermissionPage extends State<PermissionPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween, // 👈 pushes bottom section down
                             children: [
+                              SizedBox(height: 24.0,),
                               Padding(
                                 padding: EdgeInsets.only(
                                   top: FontConstants.horizontalPadding,
@@ -166,6 +167,7 @@ class _PermissionPage extends State<PermissionPage> {
                     );
                   },
                 ),
+                const SizedBox(height: 24.0),
               ],
             ),
           ),
@@ -210,8 +212,10 @@ class _PermissionPage extends State<PermissionPage> {
           margin: const EdgeInsets.all(16),
           decoration: ShapeDecoration(
             shape: DashedBorder(
-                width: 0.5,
-                color: ColorConstant.greyTextColor
+                width: 2.8,
+                color: Colors.black12,
+              dashSize: 2.8,
+              radius: 10
             ),
           ),
           child: Padding(
@@ -227,9 +231,9 @@ class _PermissionPage extends State<PermissionPage> {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: FontConstants.f16,
+                    fontSize: FontConstants.f18,
                     fontFamily: FontConstants.fontFamily,
-                    fontWeight: FontConstants.w700,
+                    fontWeight: FontConstants.w800,
                     color: ColorConstant.blackTextColor,
                   ),
                 ),
@@ -241,8 +245,9 @@ class _PermissionPage extends State<PermissionPage> {
                         subtitle,
                         style: TextStyle(
                           fontFamily: FontConstants.fontFamily,
-                          fontSize: FontConstants.f12,
+                          fontSize: FontConstants.f14,
                           fontWeight: FontConstants.w500,
+                          color: ColorConstant.appThemeColor
                         ),
                       ),
                     ),
@@ -269,8 +274,8 @@ class _PermissionPage extends State<PermissionPage> {
           child: Text(
             "Enable Permissions",
             style: TextStyle(
-              fontSize: FontConstants.f20,
-              fontWeight: FontConstants.w700,
+              fontSize: FontConstants.f24,
+              fontWeight: FontConstants.w800,
               color: ColorConstant.permissionPageTextColor,
             ),
           ),
@@ -372,7 +377,7 @@ class _PermissionPage extends State<PermissionPage> {
                         color: ColorConstant.appThemeColor,
                         fontSize: FontConstants.f12,
                         fontFamily: FontConstants.fontFamily,
-                        fontWeight: FontConstants.w500,
+                        fontWeight: FontConstants.w800,
                       ),
                       recognizer:
                       TapGestureRecognizer()
@@ -395,7 +400,7 @@ class _PermissionPage extends State<PermissionPage> {
                         color: ColorConstant.appThemeColor,
                         fontSize: FontConstants.f12,
                         fontFamily: FontConstants.fontFamily,
-                        fontWeight: FontConstants.w500,
+                        fontWeight: FontConstants.w800,
                       ),
                       recognizer:
                       TapGestureRecognizer()
@@ -411,6 +416,7 @@ class _PermissionPage extends State<PermissionPage> {
                         fontSize: FontConstants.f12,
                         fontFamily: FontConstants.fontFamily,
                         fontWeight: FontConstants.w500,
+
                       ),
                     ),
                   ],

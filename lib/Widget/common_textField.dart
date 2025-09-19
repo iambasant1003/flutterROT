@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rupeeontime/Constant/FontConstant/FontConstant.dart';
 import '../Constant/ColorConst/ColorConstant.dart';
 
 class CommonTextField extends StatelessWidget {
@@ -70,8 +71,8 @@ class CommonTextField extends StatelessWidget {
       obscureText: obscureText,
       onTap: onTap,
       enableInteractiveSelection: enableInteractiveSelection,
-      style: const TextStyle(
-        fontFamily: 'Manrope',
+      style:  TextStyle(
+        fontFamily: FontConstants.fontFamily,
         fontWeight: FontWeight.w500,
         fontSize: 14,
         height: 1.2,
@@ -105,7 +106,6 @@ class CommonTextField extends StatelessWidget {
           height: 1.2,
           color: errorBorderColor,
         ),
-
         // 👇 Leading widget support
         prefixIcon: leadingWidget != null
             ? GestureDetector(
