@@ -106,9 +106,11 @@ final GoRouter appRouter = GoRouter(
       var  dataPassed = state.extra as Map<String,dynamic>;
       var loanDetails = dataPassed['loanData'];
       var amount = dataPassed['amount'];
+      var iRazorPay = dataPassed['isRazorpay'];
       return PaymentOptionScreen(
           getLoanHistoryModel: loanDetails,
-          partAmount: amount
+          partAmount: amount,
+          isRezorPay: iRazorPay,
       );
     }),
     GoRoute(path: AppRouterName.customerSupport,builder: (context,state){

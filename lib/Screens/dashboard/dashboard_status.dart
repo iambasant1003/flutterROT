@@ -98,6 +98,7 @@ class _DashboardStatusScreen extends State<DashboardStatusScreen> {
             children: [
               Image.asset(
                 ImageConstants.rotStatusPageBackground,
+                fit: BoxFit.fitHeight, // ensures it stretches nicely
               ),
               Padding(
                 padding: EdgeInsets.only(top: 70.0,left: 44.0,right: 44.0),

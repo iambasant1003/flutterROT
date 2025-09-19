@@ -22,11 +22,13 @@ import '../../Widget/app_bar.dart';
 class PaymentOptionScreen extends StatefulWidget {
   final getLoanHistoryModel;
   final partAmount;
+  final isRezorPay;
 
   const PaymentOptionScreen({
     super.key,
     required this.getLoanHistoryModel,
     required this.partAmount,
+    required this.isRezorPay
   });
 
   @override
@@ -323,31 +325,7 @@ class _PaymentOptionScreen extends State<PaymentOptionScreen> {
                   SizedBox(height: 24),
                   Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Radio(
-                            value: 0,
-                            groupValue: choosePaymentMethod,
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            // removes extra padding
-                            visualDensity: VisualDensity.compact,
-                            // makes the radio even tighter
-                            onChanged: (val) {
-                              setState(() {
-                                choosePaymentMethod = val!;
-                              });
-                            },
-                          ),
-                          SizedBox(width: 12.0),
-                          Image.asset(
-                            ImageConstants.cashFreeImage,
-                            width: 113,
-                            height: 35,
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 20),
+                      widget.isRezorPay?
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -371,7 +349,31 @@ class _PaymentOptionScreen extends State<PaymentOptionScreen> {
                             height: 35,
                           ),
                         ],
-                      ),
+                      ):
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Radio(
+                            value: 0,
+                            groupValue: choosePaymentMethod,
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            // removes extra padding
+                            visualDensity: VisualDensity.compact,
+                            // makes the radio even tighter
+                            onChanged: (val) {
+                              setState(() {
+                                choosePaymentMethod = val!;
+                              });
+                            },
+                          ),
+                          SizedBox(width: 12.0),
+                          Image.asset(
+                            ImageConstants.cashFreeImage,
+                            width: 113,
+                            height: 35,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                   SizedBox(

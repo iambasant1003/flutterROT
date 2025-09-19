@@ -393,6 +393,7 @@ class _LoanListPageState extends State<LoanListPage> {
                                 extra: {
                                   'loanData': loanData,
                                   'amount': amountText,
+                                  'isRazorpay': loanData.razorpay
                                 },
                               ).then((val) {
                                 amountController.clear();

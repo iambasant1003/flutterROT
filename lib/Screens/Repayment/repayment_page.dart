@@ -118,7 +118,10 @@ class _RepaymentPage extends State<RepaymentPage>{
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(54.0),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(54.0),
+            topLeft: Radius.circular(54.0)
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
