@@ -269,21 +269,21 @@ class _Loan112Drawer extends State<Loan112Drawer> {
                           DebugPrint.prt("Rate Us Pressed");
                           openPlayStore(context);
                     }),
-                    Divider(
-                      height: 1.0,
-                      color: ColorConstant.greyTextColor,
-                    ),
+                    // Divider(
+                    //   height: 1.0,
+                    //   color: ColorConstant.greyTextColor,
+                    // ),
                   if(widget.dashBoarddataModel?.data?.isAccountDeleteVisibility ?? false)...[
                     Column(
                       children: [
-                        _buildMenuItem(ImageConstants.drawerRateUs, "Delete Account",
-                            onClick: (){
-                              DebugPrint.prt("Rate Us Pressed");
-                            }),
-                        Divider(
-                          height: 1.0,
-                          color: ColorConstant.greyTextColor,
-                        ),
+                        // _buildMenuItem(ImageConstants.drawerRateUs, "Delete Account",
+                        //     onClick: (){
+                        //       showDeleteAccountDialog(context);
+                        //     }),
+                        // Divider(
+                        //   height: 1.0,
+                        //   color: ColorConstant.greyTextColor,
+                        // ),
                       ],
                     )
                   ]

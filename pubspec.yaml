@@ -94,7 +94,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/appIcon/loan112_app_icon.png"
+  image_path: "assets/appIcon/rot_app_icon.png"
 
 
 

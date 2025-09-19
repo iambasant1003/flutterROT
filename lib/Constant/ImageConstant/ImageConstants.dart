@@ -81,4 +81,7 @@ class ImageConstants {
   static const String rotCallUs = "assets/icons/rot_call_us.png";
   static const String rotSessionTimeOut = "assets/rot/images/rot_session_timeout.png";
   static const String rotUploadBankStatement = "assets/rot/icons/rot_upload_bankstatement.png";
+  static const String rotCurrentStep = "assets/rot/icons/ic_arrow_forward_circular_outlined.svg";
+  static const String imgApplicationSubmit = "assets/rot/images/img_application_submit.png";
+
 }

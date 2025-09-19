@@ -35,143 +35,145 @@ class _LoanApplicationSubmit extends State<LoanApplicationSubmit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstant.appThemeColor,
       appBar: Loan112AppBar(
-        backgroundColor: Color(0xffE7F3FF),
         customLeading: InkWell(
-          onTap: () {
-            GoRouter.of(context).push(AppRouterName.dashboardPage);
+          onTap: () async{
+            context.pop();
+            //await getCustomerDetailsApiCall();
           },
-          child: Icon(
-              Icons.arrow_back_ios, color: ColorConstant.blackTextColor),
+          child: Icon(Icons.arrow_back, color: ColorConstant.whiteColor),
+        ),
+        title: Text(
+          "Application submitted",
+          style: TextStyle(
+            fontSize: FontConstants.f20,
+            fontWeight: FontConstants.w800,
+            fontFamily: FontConstants.fontFamily,
+            color: ColorConstant.whiteColor,
+          ),
         ),
       ),
+
       body: SafeArea(
         bottom: true,
         child: Column(
           children: [
+            SizedBox(height: 20),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Loan112ConcaveContainer(height: 150),
-                        Positioned(
-                          left: 10,
-                          right: 10,
-                          bottom: -60,
-                          child: Container(
-                            height: 130,
-                            width: 130,
-                            decoration: BoxDecoration(
-                              color: ColorConstant.whiteColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: SvgPicture.asset(ImageConstants.successIcon),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 65),
-                    Text(
-                      "Thank you!",
-                      style: TextStyle(
-                        fontSize: FontConstants.f22,
-                        fontWeight: FontConstants.w800,
-                        fontFamily: FontConstants.fontFamily,
-                        color: ColorConstant.blackTextColor,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorConstant.whiteColor,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(24),
+                    topLeft: Radius.circular(24)
+                  )
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                     Padding(
+                       padding: const EdgeInsets.all(16.0),
+                       child: Image.asset(
+                         ImageConstants.imgApplicationSubmit
+                       ),
+                     ),
+                      Text(
+                        "Thank you!",
+                        style: TextStyle(
+                          fontSize: FontConstants.f22,
+                          fontWeight: FontConstants.w800,
+                          fontFamily: FontConstants.fontFamily,
+                          color: ColorConstant.appThemeColor,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 12.0),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: FontConstants.horizontalPadding),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Your loan application has been submitted successfully.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: FontConstants.f14,
-                              fontFamily: FontConstants.fontFamily,
-                              fontWeight: FontConstants.w600,
-                              color: Color(0xff4E4F50),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(
-                            "Your application reference number is ",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: FontConstants.f14,
-                              fontFamily: FontConstants.fontFamily,
-                              fontWeight: FontConstants.w600,
-                              color: Color(0xff4E4F50),
-                            ),
-                          ),
-                          const SizedBox(height: 22.0),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: ColorConstant.greenColor,
-                                width: 1.5,
+                      const SizedBox(height: 12.0),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: FontConstants.horizontalPadding),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Your loan application has been submitted successfully.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: FontConstants.f14,
+                                fontFamily: FontConstants.fontFamily,
+                                fontWeight: FontConstants.w600,
+                                color: Color(0xff4E4F50),
                               ),
-                              borderRadius: BorderRadius.circular(8), // rounded corners
-                              color: Colors.transparent, // no fill
                             ),
-                            child:  Center(
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              "Your application reference number is ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: FontConstants.f14,
+                                fontFamily: FontConstants.fontFamily,
+                                fontWeight: FontConstants.w600,
+                                color: Color(0xff4E4F50),
+                              ),
+                            ),
+                            Center(
                               child: Text(
                                 widget.bankAccountPost.reference ?? "",
                                 style: TextStyle(
-                                    color: ColorConstant.greenColor,
-                                    fontSize: FontConstants.f14,
-                                    fontWeight: FontConstants.w700,
+                                    color: ColorConstant.appThemeColor,
+                                    fontSize: FontConstants.f16,
+                                    fontWeight: FontConstants.w800,
                                     fontFamily: FontConstants.fontFamily
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 22.0),
-                          Text(
-                            "We will connect with you soon.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: FontConstants.f16,
-                              fontFamily: FontConstants.fontFamily,
-                              fontWeight: FontConstants.w700,
-                              color: ColorConstant.blackTextColor,
+                            const SizedBox(height: 4.0),
+                            Text(
+                              "We will connect with you soon.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: FontConstants.f16,
+                                fontFamily: FontConstants.fontFamily,
+                                fontWeight: FontConstants.w500,
+                                color: ColorConstant.blackTextColor,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
             // 👇 Buttons pinned to bottom
-            Column(
-              children: [
-                BottomDashLine(),
-                const SizedBox(height: 16.0),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: FontConstants.horizontalPadding),
-                  child:  Loan112Button(
-                    text: "GO TO DASHBOARD",
-                    onPressed: (){
-                      GoRouter.of(context).push(AppRouterName.dashboardPage);
-                    },
+            Container(
+              color: ColorConstant.whiteColor,
+              child: Column(
+                children: [
+                  BottomDashLine(),
+                  const SizedBox(height: 16.0),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: FontConstants.horizontalPadding),
+                    child:  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(24)),
+                        border: Border.all(color: ColorConstant.appThemeColor,width: 1)
+                      ),
+                      child: Loan112Button(
+                        backGroundColor: ColorConstant.whiteColor,
+                        text: "GO TO DASHBOARD",
+                        textColor: ColorConstant.appThemeColor,
+                        onPressed: (){
+                          GoRouter.of(context).push(AppRouterName.dashboardPage);
+                        },
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-              ],
+                  const SizedBox(height: 16.0),
+                ],
+              ),
             ),
           ],
         ),

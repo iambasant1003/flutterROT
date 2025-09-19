@@ -111,7 +111,7 @@ class JourneyStepCard extends StatelessWidget {
         borderColor = Colors.black12;
         bgColor = Colors.white;
         textColor = Colors.black;
-        trailingIcon = const Icon(Icons.pause_circle_filled_outlined, color: Colors.teal);
+        trailingIcon = const Icon(Icons.arrow_circle_right_outlined, color: ColorConstant.appThemeColor);
         break;
       default: // Upcoming
         borderColor = Colors.grey.shade300;
